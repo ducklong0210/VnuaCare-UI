@@ -1,381 +1,287 @@
 import { useState } from 'react'
 import MainLayout from '../../layouts/MainLayout.jsx'
 import {
-  IconRecords,
-  IconAlertTriangle,
-  IconMail,
-  IconPlus,
-  IconRefreshCw,
   IconSearch,
+  IconPlus,
   IconDownload,
-  IconEye,
   IconCheck,
   IconClose,
-  IconTag,
+  IconEye,
+  IconRefreshCw,
 } from '../../components/ui/Icons.jsx'
 import './DashboardPage.css'
 
 /**
  * ==============================================================================
- * COMPONENT: DashboardPage
- * VAI TRÒ: Trang chủ quản lý hồ sơ sức khỏe cán bộ VNUA
- * TÍNH NĂNG ĐẦY ĐỦ:
- *   1. Tìm kiếm cán bộ & Lọc theo Khoa/Viện, Năm khám
- *   2. Nút Xuất file Excel báo cáo y tế
- *   3. Danh sách hồ sơ mẫu thực tế (có hiển thị Tiểu đường, Huyết áp...)
- *   4. Nút bấm Gửi email cảnh báo trực tiếp
- *   5. Popup (Modal) thêm thông tin bệnh lý mới linh hoạt cho cán bộ
+ * TRANG QUẢN TRỊ HỒ SƠ SỨC KHỎE CÁN BỘ (Enterprise Clean Style)
+ * Thiết kế chuẩn phần mềm quản lý nghiệp vụ:
+ *   - Không văn vẻ giải thích, không banner quảng cáo kiểu AI
+ *   - Bố cục chặt chẽ, mật độ thông tin cao, tập trung vào thao tác thực tế
  * ==============================================================================
  */
 export default function DashboardPage() {
-  // Danh sách hồ sơ cán bộ (Khởi tạo rỗng, sẵn sàng nạp dữ liệu từ API thật)
+  // Danh sách hồ sơ cán bộ (Khởi tạo rỗng để nạp API thật)
   const [records, setRecords] = useState([])
 
-  // State tìm kiếm và lọc
-  const [searchQuery, setSearchQuery] = useState('')
-  const [selectedDept, setSelectedDept] = useState('ALL')
-  const [activeTab, setActiveTab] = useState('all')
+  // Bộ lọc tìm kiếm
+  const [search, setSearch] = useState('')
+  const [department, setDepartment] = useState('ALL')
+  const [year, setYear] = useState('2026')
+  const [healthType, setHealthType] = useState('ALL')
+  const [alertFilter, setAlertFilter] = useState('ALL')
 
-  // State quản lý Modal thêm bệnh lý mới
-  const [selectedRecordForCondition, setSelectedRecordForCondition] = useState(null)
-  const [newConditionName, setNewConditionName] = useState('Tiểu đường Type 2')
-  const [successToast, setSuccessToast] = useState('')
+  // Modal thêm thông tin bệnh lý mới
+  const [activeModal, setActiveModal] = useState(null)
+  const [conditionInput, setConditionInput] = useState('')
+  const [toast, setToast] = useState('')
 
-  // Hàm xử lý gửi email cảnh báo cho cán bộ
-  const handleSendEmail = (recordId, staffName) => {
-    setRecords((prev) =>
-      prev.map((r) => (r.id === recordId ? { ...r, alertStatus: 'sent' } : r))
-    )
-    showToast(`Đã gửi email cảnh báo sức khỏe thành công đến cán bộ: ${staffName}`)
-  }
-
-  // Hàm mở popup để thêm bệnh lý mới
-  const handleOpenAddCondition = (record) => {
-    setSelectedRecordForCondition(record)
-    setNewConditionName('Tiểu đường Type 2')
-  }
-
-  // Hàm lưu bệnh lý mới vào hồ sơ của cán bộ
-  const handleSaveCondition = () => {
-    if (!selectedRecordForCondition || !newConditionName.trim()) return
-
-    setRecords((prev) =>
-      prev.map((r) => {
-        if (r.id === selectedRecordForCondition.id) {
-          // Xóa chữ "Bình thường" nếu có, và thêm bệnh lý mới vào
-          const filtered = r.conditions.filter((c) => c !== 'Bình thường')
-          if (!filtered.includes(newConditionName.trim())) {
-            filtered.push(newConditionName.trim())
-          }
-          return {
-            ...r,
-            conditions: filtered,
-            alertStatus: 'pending', // Phát hiện bệnh lý mới -> kích hoạt cảnh báo
-            classification: 'Loại III',
-          }
-        }
-        return r
-      })
-    )
-
-    showToast(`Đã bổ sung ghi nhận "${newConditionName}" vào hồ sơ năm 2026 của ${selectedRecordForCondition.fullname}!`)
-    setSelectedRecordForCondition(null)
-  }
-
-  // Hiển thị thông báo góc màn hình
   const showToast = (msg) => {
-    setSuccessToast(msg)
-    setTimeout(() => setSuccessToast(''), 4000)
+    setToast(msg)
+    setTimeout(() => setToast(''), 3000)
   }
 
-  // Lọc danh sách theo ô tìm kiếm, Khoa/Viện và Tab
-  const filteredRecords = records.filter((r) => {
+  // Lọc dữ liệu theo các tiêu chí trên thanh công cụ
+  const filteredList = records.filter((item) => {
     const matchSearch =
-      r.fullname.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      r.id.toLowerCase().includes(searchQuery.toLowerCase())
+      item.fullname.toLowerCase().includes(search.toLowerCase()) ||
+      item.id.toLowerCase().includes(search.toLowerCase())
+    const matchDept = department === 'ALL' || item.department === department
+    const matchHealth = healthType === 'ALL' || item.classification === healthType
+    const matchAlert =
+      alertFilter === 'ALL' ||
+      (alertFilter === 'ALERT' && item.alertStatus === 'pending') ||
+      (alertFilter === 'SENT' && item.alertStatus === 'sent')
 
-    const matchDept = selectedDept === 'ALL' || r.department === selectedDept
-
-    if (activeTab === 'warning') {
-      return matchSearch && matchDept && r.alertStatus === 'pending'
-    }
-    return matchSearch && matchDept
+    return matchSearch && matchDept && matchHealth && matchAlert
   })
+
+  // Đếm nhanh các chỉ số
+  const totalCount = records.length
+  const alertCount = records.filter((r) => r.alertStatus === 'pending').length
+  const chronicCount = records.filter((r) => r.conditions && r.conditions.some((c) => c !== 'Bình thường')).length
 
   return (
     <MainLayout activeTab="dashboard">
-      <div className="health-dashboard">
-
-        {/* Thông báo thao tác thành công (Toast) */}
-        {successToast && (
-          <div className="toast-notification">
-            <IconCheck size={18} />
-            <span>{successToast}</span>
+      <div className="admin-page-container">
+        
+        {/* Thông báo thao tác góc phải */}
+        {toast && (
+          <div className="admin-toast">
+            <IconCheck size={16} />
+            <span>{toast}</span>
           </div>
         )}
 
-        {/* 1. DÃY 3 CARD TỔNG QUAN HÀNH ĐỘNG CHÍNH */}
-        <section className="dashboard-summary-cards">
-          {/* Card 1: Quản lý hồ sơ & Đợt khám hàng năm */}
-          <div className="summary-card">
-            <div className="card-badge primary">
-              <IconRecords size={16} />
-              <span>HỒ SƠ CÁN BỘ</span>
-            </div>
-            <div className="summary-content">
-              <h3>Hồ sơ & Đợt khám hàng năm</h3>
-              <p>Theo dõi lịch sử khám định kỳ các năm: 2024, 2025, 2026</p>
-            </div>
-            <div className="card-actions">
-              <button type="button" className="action-pill-btn primary">
-                <IconPlus size={15} />
-                <span>Thêm hồ sơ mới</span>
-              </button>
-              <button type="button" className="action-pill-btn outline">
-                <IconRefreshCw size={15} />
-                <span>Đợt khám 2026</span>
-              </button>
-            </div>
+        {/* 1. THANH TIÊU ĐỀ TRANG & NÚT HÀNH ĐỘNG CHÍNH */}
+        <div className="page-header-row">
+          <div>
+            <h2 className="main-title">Quản lý hồ sơ sức khỏe cán bộ</h2>
+            <span className="main-desc">Đợt khám sức khỏe định kỳ năm {year} — Học viện Nông nghiệp Việt Nam</span>
+          </div>
+          <div className="header-btn-group">
+            <button
+              type="button"
+              className="btn btn-outline"
+              onClick={() => showToast('Đang kết xuất danh sách hồ sơ ra file Excel...')}
+            >
+              <IconDownload size={15} />
+              <span>Xuất Excel</span>
+            </button>
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => showToast('Mở form thêm hồ sơ cán bộ mới...')}
+            >
+              <IconPlus size={15} />
+              <span>Thêm hồ sơ mới</span>
+            </button>
+          </div>
+        </div>
+
+        {/* 2. DÃY CHỈ SỐ NHANH (METRICS STRIP - THIẾT KẾ GỌN GÀNG, KHÔNG VĂN VẺ) */}
+        <div className="metrics-strip">
+          <div className="metric-box">
+            <span className="metric-label">TỔNG SỐ HỒ SƠ</span>
+            <div className="metric-num">{totalCount}</div>
+            <span className="metric-note">Đã đăng ký năm {year}</span>
           </div>
 
-          {/* Card 2: Cảnh báo bất thường & Gửi Email */}
-          <div className="summary-card warning-border">
-            <div className="card-badge warning">
-              <IconAlertTriangle size={16} />
-              <span>CẢNH BÁO BẤT THƯỜNG</span>
-            </div>
-            <div className="summary-content">
-              <h3>Chỉ số bất thường & Gửi Email</h3>
-              <p>Phát hiện bệnh lý mới và gửi email khuyến nghị đến cán bộ</p>
-            </div>
-            <div className="card-actions">
-              <button
-                type="button"
-                className="action-pill-btn warning"
-                onClick={() => setActiveTab('warning')}
-              >
-                <IconMail size={15} />
-                <span>Xem ca cần gửi email</span>
-              </button>
-            </div>
+          <div className="metric-box warning-box">
+            <span className="metric-label">CẦN GỬI EMAIL CẢNH BÁO</span>
+            <div className="metric-num text-danger">{alertCount}</div>
+            <span className="metric-note">Chỉ số khám bất thường</span>
           </div>
 
-          {/* Card 3: Cơ chế thêm thông tin bệnh lý linh hoạt */}
-          <div className="summary-card info-border">
-            <div className="card-badge info">
-              <IconTag size={16} />
-              <span>THÔNG TIN MỞ RỘNG</span>
-            </div>
-            <div className="summary-content">
-              <h3>Ghi nhận bệnh lý linh hoạt</h3>
-              <p>Dễ dàng bổ sung bệnh lý mới: Tiểu đường, Tim mạch, Mỡ máu...</p>
-            </div>
-            <div className="card-actions">
-              <button
-                type="button"
-                className="action-pill-btn outline"
-                onClick={() => {
-                  if (records.length > 0) {
-                    handleOpenAddCondition(records[0])
-                  } else {
-                    showToast('Bảng chưa có hồ sơ cán bộ nào. Cần nạp dữ liệu từ API hoặc tạo hồ sơ trước.')
-                  }
-                }}
-              >
-                <IconPlus size={15} />
-                <span>Thêm loại bệnh lý</span>
-              </button>
-            </div>
+          <div className="metric-box">
+            <span className="metric-label">PHÁT HIỆN BỆNH LÝ MẠN TÍNH</span>
+            <div className="metric-num">{chronicCount}</div>
+            <span className="metric-note">Tiểu đường, Huyết áp, Mỡ máu...</span>
           </div>
-        </section>
 
-        {/* 2. KHU VỰC BẢNG QUẢN LÝ TRUNG TÂM VỚI THANH TÌM KIẾM & BỘ LỌC */}
-        <section className="records-table-container">
+          <div className="metric-box">
+            <span className="metric-label">TRẠNG THÁI HỆ THỐNG</span>
+            <div className="metric-status-row">
+              <span className="online-dot"></span>
+              <span className="status-text">Sẵn sàng nhận dữ liệu API</span>
+            </div>
+            <span className="metric-note">/api/v1/healthcheckuprecords</span>
+          </div>
+        </div>
+
+        {/* 3. BẢNG DỮ LIỆU & BỘ LỌC CHUYÊN NGHIỆP */}
+        <div className="panel-card">
           
-          {/* Thanh công cụ tìm kiếm, lọc theo Khoa và Xuất Excel */}
-          <div className="table-toolbar">
-            <div className="toolbar-search-wrap">
-              <div className="search-input-box">
-                <IconSearch size={16} className="search-icon" />
-                <input
-                  type="text"
-                  placeholder="Tìm theo họ tên hoặc mã cán bộ (VD: CB0142, Bình...)"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-
-              {/* Dropdown lọc theo Khoa / Phòng ban */}
-              <select
-                className="filter-select"
-                value={selectedDept}
-                onChange={(e) => setSelectedDept(e.target.value)}
-              >
-                <option value="ALL">Tất cả Khoa / Đơn vị VNUA</option>
-                <option value="Khoa Công nghệ thông tin">Khoa Công nghệ thông tin</option>
-                <option value="Khoa Thú y">Khoa Thú y</option>
-                <option value="Khoa Nông học">Khoa Nông học</option>
-                <option value="Khoa Kinh tế & PTNT">Khoa Kinh tế & PTNT</option>
-              </select>
-
-              {/* Dropdown chọn năm khám */}
-              <select className="filter-select year-select" defaultValue="2026">
-                <option value="2026">Năm 2026 (Hiện tại)</option>
-                <option value="2025">Năm 2025</option>
-                <option value="2024">Năm 2024</option>
-              </select>
+          {/* Thanh bộ lọc 1 hàng tiêu chuẩn phần mềm */}
+          <div className="filter-toolbar">
+            <div className="search-field">
+              <IconSearch size={15} className="search-icon" />
+              <input
+                type="text"
+                placeholder="Tìm mã cán bộ, họ tên..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+              />
             </div>
 
-            {/* Nút Xuất file Excel báo cáo */}
-            <div className="toolbar-actions">
-              <button
-                type="button"
-                className="btn-export-excel"
-                onClick={() => showToast('Đang xuất danh sách hồ sơ cán bộ năm 2026 ra file Excel...')}
-              >
-                <IconDownload size={16} />
-                <span>Xuất Excel</span>
-              </button>
-            </div>
-          </div>
+            <select
+              className="form-select"
+              value={department}
+              onChange={(e) => setDepartment(e.target.value)}
+            >
+              <option value="ALL">Tất cả đơn vị / Khoa</option>
+              <option value="Khoa Công nghệ thông tin">Khoa Công nghệ thông tin</option>
+              <option value="Khoa Thú y">Khoa Thú y</option>
+              <option value="Khoa Nông học">Khoa Nông học</option>
+              <option value="Khoa Kinh tế & PTNT">Khoa Kinh tế & PTNT</option>
+              <option value="Ban Giám hiệu - Phòng ban">Ban Giám hiệu - Phòng ban</option>
+            </select>
 
-          {/* Tab lọc trạng thái */}
-          <div className="table-filter-tabs">
+            <select
+              className="form-select select-year"
+              value={year}
+              onChange={(e) => setYear(e.target.value)}
+            >
+              <option value="2026">Năm 2026</option>
+              <option value="2025">Năm 2025</option>
+              <option value="2024">Năm 2024</option>
+            </select>
+
+            <select
+              className="form-select"
+              value={healthType}
+              onChange={(e) => setHealthType(e.target.value)}
+            >
+              <option value="ALL">Phân loại sức khỏe: Tất cả</option>
+              <option value="Loại I">Loại I (Tốt)</option>
+              <option value="Loại II">Loại II (Trung bình)</option>
+              <option value="Loại III">Loại III (Cần theo dõi)</option>
+              <option value="Loại IV">Loại IV (Kém)</option>
+            </select>
+
+            <select
+              className="form-select"
+              value={alertFilter}
+              onChange={(e) => setAlertFilter(e.target.value)}
+            >
+              <option value="ALL">Trạng thái: Tất cả</option>
+              <option value="ALERT">Chưa gửi email cảnh báo</option>
+              <option value="SENT">Đã gửi email</option>
+            </select>
+
             <button
               type="button"
-              className={`filter-tab ${activeTab === 'all' ? 'active' : ''}`}
-              onClick={() => setActiveTab('all')}
+              className="btn-reset"
+              onClick={() => {
+                setSearch('')
+                setDepartment('ALL')
+                setHealthType('ALL')
+                setAlertFilter('ALL')
+              }}
+              title="Đặt lại bộ lọc"
             >
-              Tất cả cán bộ ({records.length})
-            </button>
-            <button
-              type="button"
-              className={`filter-tab ${activeTab === 'warning' ? 'active' : ''}`}
-              onClick={() => setActiveTab('warning')}
-            >
-              Cần gửi email cảnh báo ({records.filter((r) => r.alertStatus === 'pending').length})
+              <IconRefreshCw size={14} />
+              <span>Đặt lại</span>
             </button>
           </div>
 
-          {/* Bảng dữ liệu hồ sơ cán bộ */}
-          <div className="table-responsive">
-            <table className="medical-table">
+          {/* Bảng dữ liệu chính */}
+          <div className="table-wrapper">
+            <table className="admin-table">
               <thead>
                 <tr>
-                  <th style={{ width: '100px' }}>Mã CB</th>
-                  <th style={{ width: '220px' }}>Họ và tên cán bộ</th>
-                  <th style={{ width: '180px' }}>Khoa / Phòng ban</th>
-                  <th style={{ width: '100px' }}>Năm khám</th>
+                  <th style={{ width: '90px' }}>Mã CB</th>
+                  <th style={{ width: '220px' }}>Họ và tên</th>
+                  <th style={{ width: '190px' }}>Đơn vị công tác</th>
+                  <th style={{ width: '90px' }}>Năm</th>
                   <th style={{ width: '120px' }}>Phân loại</th>
-                  <th>Bệnh lý ghi nhận (Có thể thêm mới)</th>
-                  <th style={{ width: '160px' }}>Trạng thái cảnh báo</th>
+                  <th>Bệnh lý ghi nhận (Thêm linh hoạt)</th>
+                  <th style={{ width: '160px' }}>Cảnh báo Email</th>
                   <th style={{ width: '100px', textAlign: 'center' }}>Thao tác</th>
                 </tr>
               </thead>
               <tbody>
-                {filteredRecords.length === 0 ? (
+                {filteredList.length === 0 ? (
                   <tr>
-                    <td colSpan={8} style={{ textAlign: 'center', padding: '52px 20px', color: '#64748b' }}>
-                      <div className="empty-state-box">
-                        <IconRecords size={36} className="empty-icon" />
-                        <h4>Chưa có dữ liệu hồ sơ cán bộ</h4>
-                        <p>
-                          Bảng sẵn sàng hiển thị dữ liệu từ các API backend:
-                          <code>POST /api/v1/staffs/filter</code> và <code>POST /api/v1/healthcheckuprecords/filter</code>
+                    <td colSpan={8} className="empty-cell">
+                      <div className="empty-wrap">
+                        <span className="empty-title">Không có dữ liệu hồ sơ nào</span>
+                        <p className="empty-desc">
+                          Bảng sẵn sàng nhận dữ liệu khi kết nối với API: <code>POST /api/v1/healthcheckuprecords/filter</code>
                         </p>
                       </div>
                     </td>
                   </tr>
                 ) : (
-                  filteredRecords.map((r) => (
+                  filteredList.map((r) => (
                     <tr key={r.id}>
-                      {/* Mã cán bộ */}
+                      <td className="code-font">{r.id}</td>
                       <td>
-                        <span className="code-badge">{r.id}</span>
-                      </td>
-
-                      {/* Họ tên */}
-                      <td>
-                        <div className="staff-meta">
-                          <strong className="staff-name">{r.fullname}</strong>
-                          <span className="staff-sub">{r.gender} • Sinh năm {r.birthYear}</span>
+                        <div className="cell-staff">
+                          <strong>{r.fullname}</strong>
+                          <span>{r.gender} • {r.birthYear}</span>
                         </div>
                       </td>
-
-                      {/* Khoa phòng */}
+                      <td>{r.department}</td>
+                      <td>{r.lastYear}</td>
                       <td>
-                        <span className="dept-text">{r.department}</span>
-                      </td>
-
-                      {/* Năm khám gần nhất */}
-                      <td>
-                        <span className="year-badge">{r.lastYear}</span>
-                      </td>
-
-                      {/* Phân loại sức khỏe theo Bộ Y tế */}
-                      <td>
-                        <span className={`classification-badge ${r.classification === 'Loại I' ? 'grade-1' : r.classification === 'Loại II' ? 'grade-2' : 'grade-3'}`}>
+                        <span className={`tag-badge grade-${r.classification}`}>
                           {r.classification}
                         </span>
                       </td>
-
-                      {/* Cột bệnh lý linh hoạt (Có nút + Thêm bệnh lý mới trực tiếp) */}
                       <td>
-                        <div className="conditions-wrap">
-                          {r.conditions.map((cond, idx) => (
-                            <span
-                              key={idx}
-                              className={`condition-chip ${cond.includes('Tiểu đường') ? 'chip-red' : cond.includes('huyết áp') ? 'chip-orange' : cond.includes('Mỡ máu') ? 'chip-purple' : 'chip-neutral'}`}
-                            >
-                              {cond}
-                            </span>
+                        <div className="cell-conditions">
+                          {r.conditions.map((c, i) => (
+                            <span key={i} className="chip-condition">{c}</span>
                           ))}
-                          {/* Nút bấm để thêm bệnh lý mới cho cán bộ này */}
                           <button
                             type="button"
-                            className="btn-add-condition-inline"
-                            title="Thêm bệnh lý mới phát sinh cho cán bộ này"
-                            onClick={() => handleOpenAddCondition(r)}
+                            className="btn-inline-add"
+                            onClick={() => {
+                              setActiveModal(r)
+                              setConditionInput('')
+                            }}
                           >
                             + Thêm
                           </button>
                         </div>
                       </td>
-
-                      {/* Cảnh báo Email */}
                       <td>
-                        {r.alertStatus === 'pending' && (
-                          <div className="alert-action-group">
-                            <span className="status-badge-red">⚠ Chưa gửi mail</span>
-                            <button
-                              type="button"
-                              className="btn-send-mail-now"
-                              onClick={() => handleSendEmail(r.id, r.fullname)}
-                              title="Gửi email cảnh báo khuyến nghị y tế ngay"
-                            >
-                              Gửi mail
-                            </button>
-                          </div>
-                        )}
-                        {r.alertStatus === 'sent' && (
-                          <span className="status-badge-green">
-                            <IconCheck size={14} /> Đã gửi email
-                          </span>
-                        )}
-                        {r.alertStatus === 'none' && (
-                          <span className="status-badge-gray">Bình thường</span>
+                        {r.alertStatus === 'pending' ? (
+                          <span className="alert-tag danger">⚠ Cần gửi email</span>
+                        ) : r.alertStatus === 'sent' ? (
+                          <span className="alert-tag success">✓ Đã gửi mail</span>
+                        ) : (
+                          <span className="alert-tag muted">Bình thường</span>
                         )}
                       </td>
-
-                      {/* Nút xem chi tiết hồ sơ */}
                       <td style={{ textAlign: 'center' }}>
                         <button
                           type="button"
-                          className="btn-view-detail"
-                          title="Xem toàn bộ phiếu khám sức khỏe"
-                          onClick={() => showToast(`Mở chi tiết phiếu khám của ${r.fullname}`)}
+                          className="btn-icon"
+                          title="Xem chi tiết phiếu khám"
+                          onClick={() => showToast(`Xem hồ sơ của ${r.fullname}`)}
                         >
-                          <IconEye size={16} />
+                          <IconEye size={15} />
                         </button>
                       </td>
                     </tr>
@@ -384,76 +290,101 @@ export default function DashboardPage() {
               </tbody>
             </table>
           </div>
-        </section>
 
-        {/* 3. MODAL POPUP: THÊM THÔNG TIN BỆNH LÝ MỚI LINH HOẠT */}
-        {selectedRecordForCondition && (
-          <div className="modal-overlay">
-            <div className="modal-dialog">
-              <div className="modal-header">
-                <div>
-                  <h3 className="modal-title">Ghi nhận bệnh lý mới</h3>
-                  <span className="modal-subtitle">
-                    Hồ sơ: <strong>{selectedRecordForCondition.fullname}</strong> ({selectedRecordForCondition.id})
-                  </span>
-                </div>
+          {/* Chân bảng: Phân trang & Thống kê */}
+          <div className="table-pagination">
+            <span className="pagination-text">
+              Hiển thị <strong>{filteredList.length}</strong> / <strong>{totalCount}</strong> hồ sơ cán bộ
+            </span>
+            <div className="pagination-buttons">
+              <button type="button" disabled className="btn-page">Trước</button>
+              <button type="button" className="btn-page active">1</button>
+              <button type="button" disabled className="btn-page">Sau</button>
+            </div>
+          </div>
+
+        </div>
+
+        {/* 4. MODAL NHẬP BỆNH LÝ MỚI (CHỈ MỞ KHI BẤM THAO TÁC) */}
+        {activeModal && (
+          <div className="modal-backdrop">
+            <div className="modal-card">
+              <div className="modal-head">
+                <span className="modal-title-text">Bổ sung bệnh lý vào hồ sơ</span>
                 <button
                   type="button"
-                  className="modal-close-btn"
-                  onClick={() => setSelectedRecordForCondition(null)}
+                  className="modal-x"
+                  onClick={() => setActiveModal(null)}
                 >
-                  <IconClose size={18} />
+                  <IconClose size={16} />
                 </button>
               </div>
 
-              <div className="modal-body">
-                <p className="modal-instruction">
-                  Chọn hoặc nhập tình trạng sức khỏe mới phát hiện trong đợt khám năm 2026. Thông tin này sẽ được gắn vào hồ sơ và tự động đề xuất gửi email cảnh báo:
-                </p>
+              <div className="modal-content">
+                <div className="modal-info-strip">
+                  <span>Cán bộ: <strong>{activeModal.fullname}</strong> ({activeModal.id})</span>
+                  <span>Đợt khám: <strong>Năm {year}</strong></span>
+                </div>
 
-                <div className="form-group-field">
-                  <label>Chọn bệnh lý phổ biến:</label>
-                  <div className="quick-condition-pills">
-                    {['Tiểu đường Type 2', 'Tăng huyết áp', 'Rối loạn lipid máu', 'Gan nhiễm mỡ', 'Axit uric cao / Gout'].map((item) => (
+                <div className="form-item">
+                  <label className="field-label">Chọn nhanh bệnh lý phát hiện:</label>
+                  <div className="select-chips">
+                    {['Tiểu đường Type 2', 'Tăng huyết áp', 'Rối loạn mỡ máu', 'Gan nhiễm mỡ', 'Axit uric cao / Gout'].map((opt) => (
                       <button
-                        key={item}
+                        key={opt}
                         type="button"
-                        className={`condition-select-pill ${newConditionName === item ? 'selected' : ''}`}
-                        onClick={() => setNewConditionName(item)}
+                        className={`chip-btn ${conditionInput === opt ? 'active' : ''}`}
+                        onClick={() => setConditionInput(opt)}
                       >
-                        {item}
+                        {opt}
                       </button>
                     ))}
                   </div>
                 </div>
 
-                <div className="form-group-field">
-                  <label htmlFor="custom-condition">Hoặc nhập tên bệnh lý / ghi chú khác:</label>
+                <div className="form-item">
+                  <label htmlFor="input-cond" className="field-label">Hoặc gõ tên bệnh lý mới:</label>
                   <input
-                    id="custom-condition"
+                    id="input-cond"
                     type="text"
-                    className="modal-input"
-                    value={newConditionName}
-                    onChange={(e) => setNewConditionName(e.target.value)}
-                    placeholder="VD: Thoái hóa đốt sống cổ, Viêm dạ dày..."
+                    className="text-input"
+                    placeholder="Nhập bệnh lý hoặc kết luận của bác sĩ..."
+                    value={conditionInput}
+                    onChange={(e) => setConditionInput(e.target.value)}
                   />
                 </div>
               </div>
 
-              <div className="modal-footer">
+              <div className="modal-foot">
                 <button
                   type="button"
-                  className="btn-modal-cancel"
-                  onClick={() => setSelectedRecordForCondition(null)}
+                  className="btn btn-outline"
+                  onClick={() => setActiveModal(null)}
                 >
-                  Hủy bỏ
+                  Đóng
                 </button>
                 <button
                   type="button"
-                  className="btn-modal-save"
-                  onClick={handleSaveCondition}
+                  className="btn btn-primary"
+                  onClick={() => {
+                    if (!conditionInput.trim()) return
+                    setRecords((prev) =>
+                      prev.map((r) =>
+                        r.id === activeModal.id
+                          ? {
+                              ...r,
+                              conditions: [...r.conditions.filter((c) => c !== 'Bình thường'), conditionInput.trim()],
+                              alertStatus: 'pending',
+                              classification: 'Loại III',
+                            }
+                          : r
+                      )
+                    )
+                    showToast(`Đã thêm ghi nhận "${conditionInput}" vào hồ sơ!`)
+                    setActiveModal(null)
+                  }}
                 >
-                  Lưu vào hồ sơ năm 2026
+                  Lưu vào hồ sơ
                 </button>
               </div>
             </div>
