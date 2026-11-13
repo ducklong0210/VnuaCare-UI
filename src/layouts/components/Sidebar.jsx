@@ -1,35 +1,20 @@
 import { useAuth } from '../../features/auth/hooks/useAuth.js'
-import {
-  IconDashboard,
-  IconUsers,
-  IconStaffs,
-  IconDoctors,
-  IconCampaigns,
-  IconRecords,
-  IconLogout,
-} from '../../components/ui/Icons.jsx'
+import { IconLogout } from '../../components/ui/Icons.jsx'
+import { MENU_ITEMS } from '../../components/data/menuNavData.js'
+// Import component Tabs vừa tạo
+import Tabs from '../../components/ui/Tabs.jsx'
 
 /**
  * ==============================================================================
  * COMPONENT: Sidebar (Thanh điều hướng bên trái / Nav)
  * VAI TRÒ: 
  *   - Hiển thị logo thương hiệu VNUA Care
- *   - Danh sách menu điều hướng các chức năng quản trị
+ *   - Danh sách menu điều hướng sử dụng component Tabs
  *   - Thông tin tài khoản đang đăng nhập và nút Đăng xuất
  * ==============================================================================
  */
 export default function Sidebar({ activeTab = 'dashboard' }) {
   const { user, logout } = useAuth()
-
-  // Danh mục menu chuẩn theo các nhóm nghiệp vụ
-  const menuItems = [
-    { id: 'dashboard', label: 'Bảng điều khiển', Icon: IconDashboard },
-    { id: 'records', label: 'Hồ sơ khám cán bộ', Icon: IconRecords },
-    { id: 'staffs', label: 'Quản lý nhân viên', Icon: IconStaffs },
-    { id: 'doctors', label: 'Quản lý bác sĩ', Icon: IconDoctors },
-    { id: 'campaigns', label: 'Đợt khám sức khỏe', Icon: IconCampaigns },
-    { id: 'users', label: 'Quản lý người dùng', Icon: IconUsers },
-  ]
 
   // Lấy chữ cái đầu của tên làm avatar
   const userInitial = (user?.fullname || user?.username || 'U')[0].toUpperCase()
@@ -47,25 +32,29 @@ export default function Sidebar({ activeTab = 'dashboard' }) {
         </div>
       </div>
 
-      {/* 2. Danh sách Menu điều hướng (Nav List) */}
+      {/* 2. Danh sách Menu điều hướng (Tích hợp component Tabs) */}
       <nav className="sidebar-nav">
         <span className="nav-section-label">CHỨC NĂNG HỆ THỐNG</span>
-        <ul className="nav-list">
-          {menuItems.map(({ id, label, Icon }) => {
-            const isActive = activeTab === id
-            return (
-              <li key={id}>
-                <button
-                  type="button"
-                  className={`nav-link ${isActive ? 'active' : ''}`}
-                >
-                  <Icon className="nav-icon" size={19} />
-                  <span className="nav-text">{label}</span>
-                </button>
-              </li>
-            )
-          })}
-        </ul>
+        <Tabs
+          ButtonsContainer="ul"
+          buttonsClassName="nav-list"
+          buttons={
+            MENU_ITEMS.map(({ id, label, Icon }) => {
+              const isActive = activeTab === id
+              return (
+                <li key={id}>
+                  <button
+                    type="button"
+                    className={`nav-link ${isActive ? 'active' : ''}`}
+                  >
+                    <Icon className="nav-icon" size={19} />
+                    <span className="nav-text">{label}</span>
+                  </button>
+                </li>
+              )
+            })
+          }
+        />
       </nav>
 
       {/* 3. Phần chân Sidebar: Thông tin tài khoản & Nút Đăng xuất */}
@@ -97,4 +86,3 @@ export default function Sidebar({ activeTab = 'dashboard' }) {
     </aside>
   )
 }
-
