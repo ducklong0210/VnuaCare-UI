@@ -1,38 +1,44 @@
-import Sidebar from './components/Sidebar.jsx'
 import Header from './components/Header.jsx'
+import Sidebar from './components/Sidebar.jsx'
 import Footer from './components/Footer.jsx'
 import './MainLayout.css'
 
 /**
  * ==============================================================================
  * COMPONENT: MainLayout
- * VAI TRÒ: 
- *   - "Nhạc trưởng" lắp ghép các thành phần bố cục chung của trang web:
- *     1. Sidebar (Thanh menu bên trái / Nav)
- *     2. Header (Thanh tiêu đề trên cùng)
- *     3. Main (Vùng hiển thị nội dung từng trang - children)
- *     4. Footer (Chân trang hệ thống)
+ * VAI TRÒ: Khung sườn tổng thể chuẩn cấu trúc website quản trị:
+ * 
+ *   +-----------------------------------------------------------------------+
+ *   | HEADER (100% chiều ngang ở trên cùng: Logo, Thông báo, Tài khoản)    |
+ *   +-----------------------+-----------------------------------------------+
+ *   | NAV (Sidebar bên trái)| NỘI DUNG CHÍNH (Main Content bên phải)        |
+ *   | - Bảng điều khiển     |                                               |
+ *   | - Hồ sơ khám          | Quản lý hồ sơ sức khỏe cán bộ...              |
+ *   | - Quản lý nhân viên   | [Bộ lọc] [Bảng dữ liệu]                       |
+ *   +-----------------------+-----------------------------------------------+
+ *   | FOOTER (Chân trang ở dưới cùng: Bản quyền VNUA)                       |
+ *   +-----------------------------------------------------------------------+
  * ==============================================================================
  */
 export default function MainLayout({ children, activeTab = 'dashboard' }) {
   return (
-    <div className="admin-root">
-      {/* 1. Thanh điều hướng bên trái (Nav / Sidebar) */}
-      <Sidebar activeTab={activeTab} />
+    <div className="app-layout">
+      {/* 1. HEADER Ở TRÊN CÙNG (100% CHIỀU RỘNG) */}
+      <Header />
 
-      {/* 2. Vùng hiển thị nội dung chính bên phải */}
-      <div className="admin-body">
-        {/* Header trên cùng */}
-        <Header activeTab={activeTab} />
+      {/* 2. THÂN WEBSITE: BÊN TRÁI LÀ NAV, BÊN PHẢI LÀ NỘI DUNG */}
+      <div className="app-body">
+        {/* Thanh Menu điều hướng bên trái (Nav) */}
+        <Sidebar activeTab={activeTab} />
 
-        {/* Nội dung cụ thể của trang */}
-        <main className="admin-main">
+        {/* Vùng hiển thị nội dung chính của từng trang */}
+        <main className="app-main">
           {children}
         </main>
-
-        {/* Chân trang */}
-        <Footer />
       </div>
+
+      {/* 3. FOOTER Ở DƯỚI CÙNG */}
+      <Footer />
     </div>
   )
 }

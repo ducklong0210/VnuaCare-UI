@@ -1,55 +1,42 @@
-import { IconBell } from '../../components/ui/Icons.jsx'
+import { useAuth } from '../../features/auth/hooks/useAuth.js'
+import { IconBell, IconLogout } from '../../components/ui/Icons.jsx'
 
 /**
  * ==============================================================================
- * COMPONENT: Header (Thanh đầu trang trên cùng)
- * VAI TRÒ:
- *   - Hiển thị tiêu đề và mô tả của trang hiện tại
- *   - Chuông thông báo y tế
- *   - Trạng thái kết nối máy chủ API
+ * COMPONENT: Header (Thanh đầu trang trên cùng — Trải dài 100% chiều ngang)
+ * VỊ TRÍ: Nằm ở trên đỉnh cao nhất của toàn bộ website
+ * THÀNH PHẦN:
+ *   - Bên trái: Logo VNUACARE và tên Cổng Y Tế
+ *   - Bên phải: Trạng thái API, Chuông thông báo, Avatar + Tên cán bộ và nút Đăng xuất
  * ==============================================================================
  */
-export default function Header({ activeTab = 'dashboard' }) {
-  // Bản đồ tiêu đề theo tab đang chọn
-  const tabTitles = {
-    dashboard: {
-      title: 'Bảng điều khiển',
-      subtitle: 'Cổng quản lý hồ sơ sức khỏe cán bộ Học viện Nông nghiệp Việt Nam',
-    },
-    records: {
-      title: 'Hồ sơ khám cán bộ',
-      subtitle: 'Danh sách và lịch sử khám sức khỏe định kỳ theo năm',
-    },
-    staffs: {
-      title: 'Quản lý nhân viên',
-      subtitle: 'Danh mục cán bộ, giảng viên thuộc Học viện',
-    },
-    doctors: {
-      title: 'Quản lý bác sĩ',
-      subtitle: 'Danh sách bác sĩ và chuyên khoa y tế',
-    },
-    campaigns: {
-      title: 'Đợt khám sức khỏe',
-      subtitle: 'Các chiến dịch khám định kỳ hàng năm',
-    },
-    users: {
-      title: 'Quản lý người dùng',
-      subtitle: 'Tài khoản hệ thống và phân quyền vai trò',
-    },
-  }
+export default function Header() {
+  const { user, logout } = useAuth()
 
-  const currentMeta = tabTitles[activeTab] || tabTitles.dashboard
+  // Chữ cái đầu tên user làm avatar
+  const userInitial = (user?.fullname || user?.username || 'U')[0].toUpperCase()
 
   return (
-    <header className="admin-header">
-      {/* Tiêu đề trang bên trái */}
-      <div>
-        <h1 className="header-title">{currentMeta.title}</h1>
-        <p className="header-subtitle">{currentMeta.subtitle}</p>
+    <header className="top-header">
+      {/* 1. GÓC TRÁI: LOGO THƯƠNG HIỆU */}
+      <div className="header-brand">
+        <div className="brand-badge">
+          <span className="brand-cross">+</span>
+        </div>
+        <div className="brand-meta">
+          <span className="brand-title">VNUACARE</span>
+          <span className="brand-subtitle">Cổng Quản Lý Y Tế VNUA</span>
+        </div>
       </div>
 
-      {/* Các công cụ thao tác nhanh bên phải */}
-      <div className="header-actions">
+      {/* 2. GÓC PHẢI: TRẠNG THÁI, THÔNG BÁO, TÀI KHOẢN & ĐĂNG XUẤT */}
+      <div className="header-right-tools">
+        {/* Nhãn trạng thái kết nối máy chủ */}
+        <span className="status-badge">
+          <span className="status-dot"></span>
+          Đang kết nối: VNUA API
+        </span>
+
         {/* Nút Chuông thông báo y tế */}
         <button
           type="button"
@@ -59,13 +46,34 @@ export default function Header({ activeTab = 'dashboard' }) {
           <IconBell size={18} />
         </button>
 
-        {/* Trạng thái kết nối máy chủ */}
-        <span className="status-badge">
-          <span className="status-dot"></span>
-          Đang kết nối: VNUA API
-        </span>
+        <div className="header-divider"></div>
+
+        {/* Khối thông tin tài khoản đang đăng nhập */}
+        <div className="header-user-profile">
+          <div className="user-avatar-circle">
+            {userInitial}
+          </div>
+          <div className="user-details">
+            <span className="user-fullname" title={user?.fullname || user?.username}>
+              {user?.fullname || user?.username || 'Cán bộ y tế'}
+            </span>
+            <span className="user-role">
+              {user?.role || 'Quản trị viên'}
+            </span>
+          </div>
+        </div>
+
+        {/* Nút Đăng xuất ở góc trên cùng */}
+        <button
+          type="button"
+          className="btn-header-logout"
+          onClick={logout}
+          title="Đăng xuất khỏi hệ thống"
+        >
+          <IconLogout size={16} />
+          <span>Đăng xuất</span>
+        </button>
       </div>
     </header>
   )
 }
-

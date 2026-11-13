@@ -1,51 +1,53 @@
 /* ==============================================================================
-   LAYOUT STYLESHEET (Clean Enterprise Medical Admin)
+   CẤU TRÚC BỐ CỤC CHUẨN:
+   1. HEADER TRÊN CÙNG (100% CHIỀU RỘNG)
+   2. BÊN DƯỚI: SIDEBAR (NAV TRÁI) + MAIN (NỘI DUNG PHẢI)
+   3. FOOTER DƯỚI CÙNG
    ============================================================================== */
 
-.admin-root {
+.app-layout {
   display: flex;
+  flex-direction: column;
   min-height: 100vh;
   width: 100%;
   background-color: #f8fafc;
   color: #0f172a;
 }
 
-/* 1. SIDEBAR */
-.admin-sidebar {
-  width: 250px;
-  min-width: 250px;
+/* 1. HEADER Ở TRÊN CÙNG (100% CHIỀU NGANG) */
+.top-header {
+  height: 60px;
+  width: 100%;
   background-color: #ffffff;
-  border-right: 1px solid #e2e8f0;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  position: sticky;
-  top: 0;
-  z-index: 50;
-}
-
-/* Brand header */
-.sidebar-header {
-  height: 68px;
+  border-bottom: 1px solid #e2e8f0;
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 0 20px;
-  border-bottom: 1px solid #f1f5f9;
+  justify-content: space-between;
+  padding: 0 24px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+/* Logo góc trái Header */
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .brand-badge {
-  width: 34px;
-  height: 34px;
+  width: 32px;
+  height: 32px;
   background-color: #0f766e;
   color: #ffffff;
-  border-radius: 8px;
+  border-radius: 6px;
   display: grid;
   place-items: center;
   font-weight: 800;
-  font-size: 20px;
+  font-size: 18px;
   line-height: 1;
-  flex-shrink: 0;
 }
 
 .brand-meta {
@@ -54,7 +56,7 @@
 }
 
 .brand-title {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 800;
   letter-spacing: 0.5px;
   color: #0f172a;
@@ -62,23 +64,151 @@
 }
 
 .brand-subtitle {
-  font-size: 11px;
+  font-size: 10.5px;
   color: #64748b;
   font-weight: 500;
   line-height: 1;
-  margin-top: 2px;
+  margin-top: 1px;
 }
 
-/* Nav */
-.sidebar-nav {
+/* Công cụ góc phải Header */
+.header-right-tools {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 9999px;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: #15803d;
+}
+
+.status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #22c55e;
+}
+
+.notification-bell-btn {
+  width: 34px;
+  height: 34px;
+  border-radius: 6px;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  color: #475569;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+
+.notification-bell-btn:hover {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+.header-divider {
+  width: 1px;
+  height: 24px;
+  background-color: #e2e8f0;
+}
+
+/* User profile trên Header */
+.header-user-profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-avatar-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #0f766e;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  font-size: 12px;
+  flex-shrink: 0;
+}
+
+.user-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-fullname {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.user-role {
+  font-size: 10.5px;
+  color: #64748b;
+  margin-top: 1px;
+}
+
+.btn-header-logout {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 32px;
+  padding: 0 10px;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  color: #dc2626;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 120ms ease;
+}
+
+.btn-header-logout:hover {
+  background-color: #fef2f2;
+  border-color: #fecaca;
+}
+
+/* 2. THÂN WEBSITE (BODY) */
+.app-body {
+  display: flex;
   flex: 1;
-  padding: 20px 12px;
+  min-height: calc(100vh - 60px - 45px);
+}
+
+/* Thanh điều hướng bên trái (Nav / Sidebar) */
+.left-sidebar {
+  width: 240px;
+  min-width: 240px;
+  background-color: #ffffff;
+  border-right: 1px solid #e2e8f0;
+  padding: 18px 12px;
+  position: sticky;
+  top: 60px;
+  height: calc(100vh - 60px);
   overflow-y: auto;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
 }
 
 .nav-section-label {
   display: block;
-  font-size: 11px;
+  font-size: 10.5px;
   font-weight: 700;
   color: #94a3b8;
   letter-spacing: 0.5px;
@@ -99,16 +229,16 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px 14px;
+  padding: 9px 12px;
   background: transparent;
   border: 0;
   border-radius: 6px;
   color: #475569;
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 500;
   cursor: pointer;
   text-align: left;
-  transition: all 140ms ease;
+  transition: all 120ms ease;
 }
 
 .nav-link:hover {
@@ -131,191 +261,27 @@
   flex: 1;
 }
 
-/* Footer: User & Logout */
-.sidebar-footer {
-  padding: 16px 14px;
-  border-top: 1px solid #f1f5f9;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  background-color: #fafafa;
-}
-
-.user-card {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 4px 6px;
-}
-
-.user-avatar-circle {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  background-color: #0f766e;
-  color: #ffffff;
-  display: grid;
-  place-items: center;
-  font-weight: 700;
-  font-size: 13px;
-  flex-shrink: 0;
-}
-
-.user-details {
-  min-width: 0;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.user-fullname {
-  font-size: 13px;
-  font-weight: 600;
-  color: #0f172a;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.user-role {
-  font-size: 11px;
-  color: #64748b;
-  margin-top: 1px;
-}
-
-.btn-logout {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
-  padding: 8px 12px;
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 6px;
-  color: #dc2626;
-  font-size: 12.5px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 140ms ease;
-}
-
-.btn-logout:hover {
-  background-color: #fef2f2;
-  border-color: #fecaca;
-}
-
-/* 2. MAIN BODY */
-.admin-body {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.admin-header {
-  height: 68px;
-  background-color: #ffffff;
-  border-bottom: 1px solid #e2e8f0;
-  padding: 0 32px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.header-title {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 700;
-  color: #0f172a;
-  line-height: 1.2;
-}
-
-.header-subtitle {
-  margin: 2px 0 0;
-  font-size: 12px;
-  color: #64748b;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.notification-bell-btn {
-  position: relative;
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  border: 1px solid #e2e8f0;
-  background-color: #ffffff;
-  color: #475569;
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  transition: all 140ms ease;
-}
-
-.notification-bell-btn:hover {
-  background-color: #f1f5f9;
-  color: #0f172a;
-}
-
-.notification-badge {
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  background-color: #ef4444;
-  color: #ffffff;
-  font-size: 10px;
-  font-weight: 700;
-  width: 17px;
-  height: 17px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  border: 2px solid #ffffff;
-}
-
-.status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  background-color: #f0fdf4;
-  border: 1px solid #bbf7d0;
-  border-radius: 9999px;
-  font-size: 12px;
-  font-weight: 500;
-  color: #15803d;
-}
-
-.status-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: #22c55e;
-}
-
-.admin-main {
+/* Vùng nội dung chính (Main Content) */
+.app-main {
   flex: 1;
   padding: 24px 32px;
+  background-color: #f8fafc;
   overflow-y: auto;
+  min-width: 0;
 }
 
 /* 3. CHÂN TRANG (FOOTER) */
 .admin-footer {
-  padding: 14px 32px;
+  height: 45px;
   background-color: #ffffff;
   border-top: 1px solid #e2e8f0;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0 24px;
   font-size: 12px;
   color: #64748b;
-  flex-wrap: wrap;
-  gap: 10px;
+  flex-shrink: 0;
 }
 
 .footer-left strong {
