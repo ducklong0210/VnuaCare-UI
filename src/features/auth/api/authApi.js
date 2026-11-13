@@ -1,10 +1,12 @@
+import { authorizationRouter } from '../../../utils/api-router.js'
+
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ''
 
 // '{ loginIdentifier, password }': Tên 2 trường đúng 100% theo tài liệu Swagger của backend
 export async function loginRequest({ loginIdentifier, password }) {
 
-  // Đường dẫn đăng nhập chính xác trên Swagger: /api/v1/authorization/login
-  const endpoint = `${API_BASE_URL}/api/v1/authorization/login`
+  // Lấy đường dẫn đăng nhập từ từ điển api-router.js
+  const endpoint = `${API_BASE_URL}${authorizationRouter.login}`
 
   // 'fetch(...)': Gửi yêu cầu đăng nhập đến backend
   // 'await': Đợi phản hồi từ máy chủ trả về

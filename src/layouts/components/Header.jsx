@@ -1,15 +1,7 @@
 import { useAuth } from '../../features/auth/hooks/useAuth.js'
 import { IconBell, IconLogout } from '../../components/ui/Icons.jsx'
 
-/**
- * ==============================================================================
- * COMPONENT: Header (Thanh đầu trang trên cùng — Trải dài 100% chiều ngang)
- * VỊ TRÍ: Nằm ở trên đỉnh cao nhất của toàn bộ website
- * THÀNH PHẦN:
- *   - Bên trái: Logo VNUACARE và tên Cổng Y Tế
- *   - Bên phải: Trạng thái API, Chuông thông báo, Avatar + Tên cán bộ và nút Đăng xuất
- * ==============================================================================
- */
+
 export default function Header() {
   const { user, logout } = useAuth()
 
@@ -18,7 +10,7 @@ export default function Header() {
 
   return (
     <header className="top-header">
-      {/* 1. GÓC TRÁI: LOGO THƯƠNG HIỆU */}
+      {/*  LOGO */}
       <div className="header-brand">
         <div className="brand-badge">
           <span className="brand-cross">+</span>
@@ -29,7 +21,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* 2. GÓC PHẢI: TRẠNG THÁI, THÔNG BÁO, TÀI KHOẢN & ĐĂNG XUẤT */}
+      {/* TRẠNG THÁI, THÔNG BÁO, TÀI KHOẢN & ĐĂNG XUẤT */}
       <div className="header-right-tools">
         {/* Nhãn trạng thái kết nối máy chủ */}
         <span className="status-badge">
