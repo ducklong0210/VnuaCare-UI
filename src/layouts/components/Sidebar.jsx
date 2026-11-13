@@ -97,3 +97,4 @@ export default function Sidebar({ activeTab = 'dashboard' }) {
     </aside>
   )
 }
+
