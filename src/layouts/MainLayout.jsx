@@ -2,9 +2,9 @@ import Header from './components/Header.jsx'
 import Sidebar from './components/Sidebar.jsx'
 import Footer from './components/Footer.jsx'
 import './MainLayout.css'
+import '../styles/admin.css'
 
-
-export default function MainLayout({ children, activeTab = 'dashboard' }) {
+export default function MainLayout({ children, activeTab }) {
   return (
     <div className="app-layout">
       {/* 1. HEADER Ở TRÊN CÙNG (100% CHIỀU RỘNG) */}
