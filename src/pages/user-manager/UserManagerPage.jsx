@@ -1,6 +1,28 @@
+import {useEffect, useState } from 'react'
 import MainLayout from '../../layouts/MainLayout.jsx'
+import { getUserFilterApi } from '../../features/user-manager/api/userApi.js'
+
 
 export default function UserManagerPage() {
+
+  const [users, setUsers] = useState([])
+const [loading, setLoading ] = useState(false)
+const [error, setError] = useState(null)
+
+useEffect(() => {
+  async function loadData(){
+    try{
+      setLoading(true)
+      setError(null)
+      const data = await getUserFilterApi({})
+      setUsers(data)
+    }catch(error){
+      setError(error)
+    }
+  }
+  loadData
+}, [])
+
   return (
     <MainLayout activeTab="users">
       <div className="admin-page-container">
