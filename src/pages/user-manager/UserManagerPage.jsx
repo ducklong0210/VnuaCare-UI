@@ -81,8 +81,8 @@ export default function UserManagerPage() {
               onChange={(e) => setRole(e.target.value)}
             >
               <option value="ALL">Tất cả vai trò</option>
-              <option value="SUPER_ADMIN">SUPER_ADMIN</option>
-              <option value="HEALTH_ADMIN">HEALTH_ADMIN</option>
+              <option value="SUPER_ADMIN">SUPER ADMIN</option>
+              <option value="HEALTH_ADMIN">HEALTH ADMIN</option>
               <option value="DOCTOR">DOCTOR</option>
               <option value="STAFF">STAFF</option>
             </select>
@@ -137,7 +137,7 @@ export default function UserManagerPage() {
                   <tr>
                     <td colSpan={6} className="empty-cell">
                       <div className="empty-wrap">
-                        <span className="empty-title">Không có tài khoản người dùng nào</span>
+                        <span className="empty-title">Không có dữ liệu người dùng</span>
                         <p className="empty-desc">
                           Hệ thống chưa tìm thấy dữ liệu phù hợp với bộ lọc hiện tại.
                         </p>
