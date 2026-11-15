@@ -1,9 +1,8 @@
 import { userManagerRouter } from '../../../utils/api-router.js'
 
-// Lấy địa chỉ máy chủ API từ biến môi trường
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ''
 
-// 1. Hàm lấy Token đăng nhập để gửi kèm cho Backend nhận diện người dùng
+// Header xác thực kèm Bearer token
 function getAuthHeaders() {
   const token = localStorage.getItem('accessToken')
 
@@ -13,7 +12,7 @@ function getAuthHeaders() {
   }
 }
 
-// 2. Hàm lấy danh sách người dùng (dùng chung cho cả hiển thị ban đầu và khi tìm kiếm/lọc)
+// Lọc và phân trang danh sách người dùng
 export async function getUserFilterApi({
   textSearch = '',
   role = '',
@@ -34,7 +33,6 @@ export async function getUserFilterApi({
     }),
   })
 
-  // Bắt lỗi nếu tài khoản chưa đăng nhập hoặc token hết hạn
   if (response.status === 401) {
     throw new Error('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!')
   }
@@ -44,12 +42,10 @@ export async function getUserFilterApi({
   }
 
   const result = await response.json()
-
-  // Mảng danh sách người dùng thực sự nằm trong result.data.data
   return result?.data?.data || []
 }
 
-// 3. Hàm xem chi tiết 1 người dùng theo ID
+// Lấy thông tin chi tiết người dùng theo ID
 export async function getUserByIdApi(id) {
   const endpoint = `${API_BASE_URL}${userManagerRouter.getById(id)}`
 
