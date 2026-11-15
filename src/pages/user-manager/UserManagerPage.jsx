@@ -1,15 +1,53 @@
 import { useEffect, useState } from 'react'
 import MainLayout from '../../layouts/MainLayout.jsx'
-import { getUserFilterApi } from '../../features/user-manager/api/userApi.js'
-import { IconSearch, IconRefreshCw } from '../../components/ui/Icons.jsx'
+import {
+  getUserFilterApi,
+  createUserApi,
+  updateUserApi,
+  deleteUserApi,
+} from '../../features/user-manager/api/userApi.js'
+import {
+  IconSearch,
+  IconRefreshCw,
+  IconPlus,
+  IconEdit,
+  IconTrash,
+  IconClose,
+  IconCheck,
+} from '../../components/ui/Icons.jsx'
 
 export default function UserManagerPage() {
+  // Dữ liệu danh sách người dùng
   const [users, setUsers] = useState([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState(null)
+
+  // Bộ lọc tìm kiếm
   const [search, setSearch] = useState('')
   const [role, setRole] = useState('ALL')
+  const [refreshKey, setRefreshKey] = useState(0)
 
+  // Thông báo toast
+  const [toast, setToast] = useState('')
+  const showToast = (message) => {
+    setToast(message)
+    setTimeout(() => setToast(''), 3000)
+  }
+
+  // Quản lý Modal (Thêm / Sửa)
+  const [modalMode, setModalMode] = useState(null) // null | 'CREATE' | 'EDIT'
+  const [submitting, setSubmitting] = useState(false)
+  const [modalError, setModalError] = useState('')
+  const [formData, setFormData] = useState({
+    userId: null,
+    username: '',
+    password: '',
+    email: '',
+    role: 'STAFF',
+    isActive: true,
+  })
+
+  // Tải danh sách người dùng mỗi khi bộ lọc thay đổi hoặc sau khi thêm/sửa/xóa
   useEffect(() => {
     let isCancelled = false
 
@@ -41,8 +79,92 @@ export default function UserManagerPage() {
     return () => {
       isCancelled = true
     }
-  }, [search, role])
+  }, [search, role, refreshKey])
 
+  // Mở form thêm mới
+  const handleOpenCreate = () => {
+    setFormData({
+      userId: null,
+      username: '',
+      password: '',
+      email: '',
+      role: 'STAFF',
+      isActive: true,
+    })
+    setModalError('')
+    setModalMode('CREATE')
+  }
+
+  // Mở form chỉnh sửa
+  const handleOpenEdit = (user) => {
+    setFormData({
+      userId: user.userId,
+      username: user.username,
+      password: '',
+      email: user.email || '',
+      role: user.role || 'STAFF',
+      isActive: user.isActive,
+    })
+    setModalError('')
+    setModalMode('EDIT')
+  }
+
+  // Đóng modal
+  const handleCloseModal = () => {
+    setModalMode(null)
+    setModalError('')
+  }
+
+  // Xử lý lưu form (Thêm hoặc Sửa)
+  const handleSubmitForm = async (e) => {
+    e.preventDefault()
+    setSubmitting(true)
+    setModalError('')
+
+    try {
+      if (modalMode === 'CREATE') {
+        await createUserApi({
+          username: formData.username.trim(),
+          password: formData.password,
+          email: formData.email.trim(),
+          role: formData.role,
+          isActive: formData.isActive,
+        })
+        showToast('Tạo tài khoản người dùng thành công!')
+      } else if (modalMode === 'EDIT') {
+        await updateUserApi({
+          userId: formData.userId,
+          email: formData.email.trim(),
+          role: formData.role,
+          isActive: formData.isActive,
+        })
+        showToast('Cập nhật tài khoản thành công!')
+      }
+
+      handleCloseModal()
+      setRefreshKey((prev) => prev + 1) // Kích hoạt tải lại dữ liệu mới
+    } catch (err) {
+      setModalError(err.message || 'Có lỗi xảy ra, vui lòng thử lại!')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  // Xử lý xóa người dùng
+  const handleDeleteUser = async (id, username) => {
+    const isConfirmed = window.confirm(`Bạn có chắc chắn muốn xóa tài khoản "${username}" không?`)
+    if (!isConfirmed) return
+
+    try {
+      await deleteUserApi(id)
+      showToast(`Đã xóa tài khoản "${username}" thành công!`)
+      setRefreshKey((prev) => prev + 1)
+    } catch (err) {
+      alert(err.message || 'Không thể xóa tài khoản này')
+    }
+  }
+
+  // Đặt lại bộ lọc
   const handleResetFilter = () => {
     setSearch('')
     setRole('ALL')
@@ -52,11 +174,29 @@ export default function UserManagerPage() {
     <MainLayout activeTab="users">
       <div className="admin-page-container">
         
-        {/* Tiêu đề trang */}
+        {/* Thông báo Toast góc phải */}
+        {toast && (
+          <div className="admin-toast">
+            <IconCheck size={16} />
+            <span>{toast}</span>
+          </div>
+        )}
+
+        {/* Tiêu đề trang & Nút thêm tài khoản */}
         <div className="page-header-row">
           <div>
             <h2 className="main-title">Quản lý người dùng</h2>
             <span className="main-desc">Danh sách tài khoản và phân quyền hệ thống</span>
+          </div>
+          <div className="header-btn-group">
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={handleOpenCreate}
+            >
+              <IconPlus size={16} />
+              <span>Thêm tài khoản</span>
+            </button>
           </div>
         </div>
 
@@ -108,7 +248,7 @@ export default function UserManagerPage() {
                   <th style={{ width: '160px' }}>Vai trò</th>
                   <th style={{ width: '140px' }}>Trạng thái</th>
                   <th style={{ width: '160px' }}>Ngày tạo</th>
-                  <th style={{ width: '100px', textAlign: 'center' }}>Thao tác</th>
+                  <th style={{ width: '120px', textAlign: 'center' }}>Thao tác</th>
                 </tr>
               </thead>
               <tbody>
@@ -166,7 +306,24 @@ export default function UserManagerPage() {
                           ? new Date(u.createdAt).toLocaleDateString('vi-VN')
                           : '—'}
                       </td>
-                      <td style={{ textAlign: 'center' }}>...</td>
+                      <td style={{ textAlign: 'center' }}>
+                        <button
+                          type="button"
+                          className="btn-icon"
+                          title="Sửa thông tin"
+                          onClick={() => handleOpenEdit(u)}
+                        >
+                          <IconEdit size={14} />
+                        </button>
+                        <button
+                          type="button"
+                          className="btn-icon btn-danger"
+                          title="Xóa tài khoản"
+                          onClick={() => handleDeleteUser(u.userId, u.username)}
+                        >
+                          <IconTrash size={14} />
+                        </button>
+                      </td>
                     </tr>
                   ))
                 )}
@@ -175,6 +332,120 @@ export default function UserManagerPage() {
           </div>
 
         </div>
+
+        {/* Modal Thêm / Sửa người dùng */}
+        {modalMode && (
+          <div className="modal-backdrop">
+            <div className="modal-card">
+              <div className="modal-head">
+                <span className="modal-title-text">
+                  {modalMode === 'CREATE' ? 'Thêm mới tài khoản người dùng' : 'Cập nhật tài khoản người dùng'}
+                </span>
+                <button
+                  type="button"
+                  className="modal-x"
+                  onClick={handleCloseModal}
+                >
+                  <IconClose size={16} />
+                </button>
+              </div>
+
+              <form onSubmit={handleSubmitForm}>
+                <div className="modal-content">
+                  {modalError && (
+                    <div className="alert-tag danger" style={{ padding: '8px 12px', width: '100%' }}>
+                      {modalError}
+                    </div>
+                  )}
+
+                  <div className="form-item">
+                    <label className="field-label">Tên đăng nhập *</label>
+                    <input
+                      type="text"
+                      className="text-input"
+                      placeholder="Ví dụ: nva_staff"
+                      value={formData.username}
+                      onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+                      disabled={modalMode === 'EDIT'}
+                      required
+                    />
+                  </div>
+
+                  {modalMode === 'CREATE' && (
+                    <div className="form-item">
+                      <label className="field-label">Mật khẩu *</label>
+                      <input
+                        type="password"
+                        className="text-input"
+                        placeholder="Nhập mật khẩu..."
+                        value={formData.password}
+                        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                        required
+                      />
+                    </div>
+                  )}
+
+                  <div className="form-item">
+                    <label className="field-label">Email *</label>
+                    <input
+                      type="email"
+                      className="text-input"
+                      placeholder="Ví dụ: nva@vnua.edu.vn"
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      required
+                    />
+                  </div>
+
+                  <div className="form-item">
+                    <label className="field-label">Vai trò</label>
+                    <select
+                      className="form-select"
+                      value={formData.role}
+                      onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                    >
+                      <option value="STAFF">STAFF (Cán bộ)</option>
+                      <option value="DOCTOR">DOCTOR (Bác sĩ)</option>
+                      <option value="HEALTH_ADMIN">HEALTH ADMIN (Quản trị y tế)</option>
+                      <option value="SUPER_ADMIN">SUPER ADMIN (Quản trị cấp cao)</option>
+                    </select>
+                  </div>
+
+                  {modalMode === 'EDIT' && (
+                    <div className="form-item">
+                      <label className="field-label">Trạng thái tài khoản</label>
+                      <select
+                        className="form-select"
+                        value={formData.isActive ? 'ACTIVE' : 'LOCKED'}
+                        onChange={(e) => setFormData({ ...formData, isActive: e.target.value === 'ACTIVE' })}
+                      >
+                        <option value="ACTIVE">Hoạt động</option>
+                        <option value="LOCKED">Đã khóa</option>
+                      </select>
+                    </div>
+                  )}
+                </div>
+
+                <div className="modal-foot">
+                  <button
+                    type="button"
+                    className="btn btn-outline"
+                    onClick={handleCloseModal}
+                  >
+                    Hủy
+                  </button>
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    disabled={submitting}
+                  >
+                    {submitting ? 'Đang xử lý...' : modalMode === 'CREATE' ? 'Tạo tài khoản' : 'Lưu thay đổi'}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
 
       </div>
     </MainLayout>
