@@ -19,7 +19,7 @@ export default function UserManagerPage() {
 
       try {
         const data = await getUserFilterApi({
-          keyword: search.trim(),
+          textSearch: search.trim(),
           role: role === 'ALL' ? '' : role,
         })
         if (!isCancelled) {
@@ -69,7 +69,7 @@ export default function UserManagerPage() {
               <IconSearch size={15} className="search-icon" />
               <input
                 type="text"
-                placeholder="Tìm tên đăng nhập, họ tên, email..."
+                placeholder="Tìm tên đăng nhập, email..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -82,7 +82,7 @@ export default function UserManagerPage() {
             >
               <option value="ALL">Tất cả vai trò</option>
               <option value="SUPER_ADMIN">SUPER_ADMIN</option>
-              <option value="ADMIN">ADMIN</option>
+              <option value="HEALTH_ADMIN">HEALTH_ADMIN</option>
               <option value="DOCTOR">DOCTOR</option>
               <option value="STAFF">STAFF</option>
             </select>
@@ -98,16 +98,16 @@ export default function UserManagerPage() {
             </button>
           </div>
 
-          {/* Bảng danh sách người dùng */}
+          {/* Bảng danh sách tài khoản người dùng */}
           <div className="table-wrapper">
             <table className="admin-table">
               <thead>
                 <tr>
-                  <th style={{ width: '140px' }}>Tên đăng nhập</th>
-                  <th style={{ width: '220px' }}>Họ và tên</th>
-                  <th style={{ width: '220px' }}>Email</th>
-                  <th style={{ width: '140px' }}>Vai trò</th>
-                  <th style={{ width: '120px' }}>Trạng thái</th>
+                  <th style={{ width: '180px' }}>Tên đăng nhập</th>
+                  <th style={{ width: '260px' }}>Email</th>
+                  <th style={{ width: '160px' }}>Vai trò</th>
+                  <th style={{ width: '140px' }}>Trạng thái</th>
+                  <th style={{ width: '160px' }}>Ngày tạo</th>
                   <th style={{ width: '100px', textAlign: 'center' }}>Thao tác</th>
                 </tr>
               </thead>
@@ -137,9 +137,9 @@ export default function UserManagerPage() {
                   <tr>
                     <td colSpan={6} className="empty-cell">
                       <div className="empty-wrap">
-                        <span className="empty-title">Không có dữ liệu người dùng</span>
+                        <span className="empty-title">Không có tài khoản người dùng nào</span>
                         <p className="empty-desc">
-                          Sẵn sàng nạp dữ liệu khi gọi API: <code>POST /api/v1/users/filter</code>
+                          Hệ thống chưa tìm thấy dữ liệu phù hợp với bộ lọc hiện tại.
                         </p>
                       </div>
                     </td>
@@ -148,12 +148,24 @@ export default function UserManagerPage() {
 
                 {!loading && !error && users.length > 0 && (
                   users.map((u) => (
-                    <tr key={u.id || u.username}>
+                    <tr key={u.userId || u.username}>
                       <td className="code-font">{u.username}</td>
-                      <td><strong>{u.fullname || u.fullName}</strong></td>
                       <td>{u.email || '—'}</td>
-                      <td><span className="tag-badge">{u.role}</span></td>
-                      <td><span className="alert-tag success">{u.status || 'ACTIVE'}</span></td>
+                      <td>
+                        <span className="tag-badge">{u.role}</span>
+                      </td>
+                      <td>
+                        {u.isActive ? (
+                          <span className="alert-tag success">Hoạt động</span>
+                        ) : (
+                          <span className="alert-tag danger">Đã khóa</span>
+                        )}
+                      </td>
+                      <td>
+                        {u.createdAt
+                          ? new Date(u.createdAt).toLocaleDateString('vi-VN')
+                          : '—'}
+                      </td>
                       <td style={{ textAlign: 'center' }}>...</td>
                     </tr>
                   ))
