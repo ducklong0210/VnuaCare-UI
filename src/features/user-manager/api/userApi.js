@@ -61,3 +61,56 @@ export async function getUserByIdApi(id) {
   const result = await response.json()
   return result?.data || null
 }
+
+// Tạo mới người dùng
+export async function createUserApi(data) {
+  const endpoint = `${API_BASE_URL}${userManagerRouter.create}`
+
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers: getAuthHeaders(),
+    body: JSON.stringify(data),
+  })
+
+  const result = await response.json()
+  if (!response.ok) {
+    throw new Error(result.message || 'Lỗi khi tạo người dùng')
+  }
+
+  return result?.data ?? result
+}
+
+// Cập nhật thông tin người dùng
+export async function updateUserApi(data) {
+  const endpoint = `${API_BASE_URL}${userManagerRouter.update}`
+
+  const response = await fetch(endpoint, {
+    method: 'PUT',
+    headers: getAuthHeaders(),
+    body: JSON.stringify(data),
+  })
+
+  const result = await response.json()
+  if (!response.ok) {
+    throw new Error(result.message || 'Lỗi khi cập nhật người dùng')
+  }
+
+  return result?.data ?? result
+}
+
+// Xóa hoặc khóa tài khoản người dùng
+export async function deleteUserApi(id) {
+  const endpoint = `${API_BASE_URL}${userManagerRouter.delete(id)}`
+
+  const response = await fetch(endpoint, {
+    method: 'DELETE',
+    headers: getAuthHeaders(),
+  })
+
+  const result = await response.json()
+  if (!response.ok) {
+    throw new Error(result.message || 'Lỗi khi xóa người dùng')
+  }
+
+  return result?.data ?? result
+}

@@ -8,6 +8,7 @@ export const authorizationRouter = {
 }
 
 export const userManagerRouter = {
+  create: '/api/v1/users/add',
   getFilter: '/api/v1/users/filter',
   getSelect: '/api/v1/users/select',
   getRoles: '/api/v1/users/roles',
