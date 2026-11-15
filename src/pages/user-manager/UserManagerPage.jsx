@@ -47,6 +47,10 @@ export default function UserManagerPage() {
     isActive: true,
   })
 
+  // Quản lý Modal xác nhận xóa
+  const [deletingUser, setDeletingUser] = useState(null) // null | { userId, username }
+  const [deleteLoading, setDeleteLoading] = useState(false)
+
   // Tải danh sách người dùng mỗi khi bộ lọc thay đổi hoặc sau khi thêm/sửa/xóa
   useEffect(() => {
     let isCancelled = false
@@ -150,17 +154,25 @@ export default function UserManagerPage() {
     }
   }
 
-  // Xử lý xóa người dùng
-  const handleDeleteUser = async (id, username) => {
-    const isConfirmed = window.confirm(`Bạn có chắc chắn muốn xóa tài khoản "${username}" không?`)
-    if (!isConfirmed) return
+  // Mở hộp thoại xác nhận xóa trên màn hình
+  const handleOpenDelete = (user) => {
+    setDeletingUser({ userId: user.userId, username: user.username })
+  }
+
+  // Thực hiện xóa sau khi xác nhận
+  const handleConfirmDelete = async () => {
+    if (!deletingUser) return
+    setDeleteLoading(true)
 
     try {
-      await deleteUserApi(id)
-      showToast(`Đã xóa tài khoản "${username}" thành công!`)
+      await deleteUserApi(deletingUser.userId)
+      showToast(`Đã xóa tài khoản "${deletingUser.username}" thành công!`)
+      setDeletingUser(null)
       setRefreshKey((prev) => prev + 1)
     } catch (err) {
-      alert(err.message || 'Không thể xóa tài khoản này')
+      showToast(err.message || 'Không thể xóa tài khoản này')
+    } finally {
+      setDeleteLoading(false)
     }
   }
 
@@ -319,7 +331,7 @@ export default function UserManagerPage() {
                           type="button"
                           className="btn-icon btn-danger"
                           title="Xóa tài khoản"
-                          onClick={() => handleDeleteUser(u.userId, u.username)}
+                          onClick={() => handleOpenDelete(u)}
                         >
                           <IconTrash size={14} />
                         </button>
@@ -443,6 +455,59 @@ export default function UserManagerPage() {
                   </button>
                 </div>
               </form>
+            </div>
+          </div>
+        )}
+
+        {/* Modal Xác nhận Xóa tài khoản trên màn hình */}
+        {deletingUser && (
+          <div className="modal-backdrop">
+            <div className="modal-card" style={{ maxWidth: '420px' }}>
+              <div className="modal-head">
+                <span className="modal-title-text" style={{ color: '#dc2626' }}>
+                  Xác nhận xóa tài khoản
+                </span>
+                <button
+                  type="button"
+                  className="modal-x"
+                  onClick={() => setDeletingUser(null)}
+                >
+                  <IconClose size={16} />
+                </button>
+              </div>
+
+              <div className="modal-content">
+                <p style={{ margin: 0, fontSize: '13.5px', color: '#334155', lineHeight: 1.5 }}>
+                  Bạn có chắc chắn muốn xóa tài khoản <strong>"{deletingUser.username}"</strong> không?
+                </p>
+                <p style={{ margin: '6px 0 0', fontSize: '12px', color: '#dc2626' }}>
+                  ⚠ Hành động này sẽ khóa vĩnh viễn tài khoản người dùng này trong hệ thống.
+                </p>
+              </div>
+
+              <div className="modal-foot">
+                <button
+                  type="button"
+                  className="btn btn-outline"
+                  onClick={() => setDeletingUser(null)}
+                  disabled={deleteLoading}
+                >
+                  Hủy
+                </button>
+                <button
+                  type="button"
+                  className="btn"
+                  style={{
+                    backgroundColor: '#dc2626',
+                    color: '#ffffff',
+                    borderColor: '#dc2626',
+                  }}
+                  onClick={handleConfirmDelete}
+                  disabled={deleteLoading}
+                >
+                  {deleteLoading ? 'Đang xóa...' : 'Xác nhận xóa'}
+                </button>
+              </div>
             </div>
           </div>
         )}
