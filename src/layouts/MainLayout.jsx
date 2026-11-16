@@ -1,8 +1,8 @@
-import Header from './components/Header.jsx'
-import Sidebar from './components/Sidebar.jsx'
-import Footer from './components/Footer.jsx'
-import './MainLayout.css'
-import '../styles/admin.css'
+import Header from './components/Header.jsx';
+import Sidebar from './components/Sidebar.jsx';
+import Footer from './components/Footer.jsx';
+import './MainLayout.css';
+import '../styles/admin.css';
 
 export default function MainLayout({ children, activeTab }) {
   return (
@@ -16,13 +16,11 @@ export default function MainLayout({ children, activeTab }) {
         <Sidebar activeTab={activeTab} />
 
         {/* Vùng hiển thị nội dung chính của từng trang */}
-        <main className="app-main">
-          {children}
-        </main>
+        <main className="app-main">{children}</main>
       </div>
 
       {/* 3. FOOTER Ở DƯỚI CÙNG */}
       <Footer />
     </div>
-  )
+  );
 }

@@ -1,49 +1,48 @@
-import { useState } from 'react'
+import { useState } from 'react';
 // Import hàm gọi API đăng nhập vừa viết từ thư mục api
-import { loginRequest } from '../api/authApi.js'
+import { loginRequest } from '../api/authApi.js';
 // Import useAuth để báo cho toàn bộ ứng dụng biết người dùng đã đăng nhập thành công
-import { useAuth } from '../hooks/useAuth.js'
+import { useAuth } from '../hooks/useAuth.js';
 
 function LoginForm() {
   // Lấy hàm login từ AuthContext
-  const { login } = useAuth()
+  const { login } = useAuth();
 
   // Các state lưu giá trị người dùng nhập vào ô input
-  const [loginIdentifier, setLoginIdentifier] = useState('')
-  const [password, setPassword] = useState('')
-  const [remember, setRemember] = useState(true)
-  const [showPassword, setShowPassword] = useState(false)
+  const [loginIdentifier, setLoginIdentifier] = useState('');
+  const [password, setPassword] = useState('');
+  const [remember, setRemember] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
 
   // State quản lý trạng thái khi bấm nút
-  const [isLoading, setIsLoading] = useState(false)
-  const [errorMessage, setErrorMessage] = useState('')
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   // Hàm xử lý sự kiện khi người dùng bấm nút 'Đăng nhập'
   const handleSubmit = async (event) => {
     // Ngăn trình duyệt tự ý tải lại trang
-    event.preventDefault()
+    event.preventDefault();
 
-    setIsLoading(true)
-    setErrorMessage('')
+    setIsLoading(true);
+    setErrorMessage('');
 
     try {
       // 1. Gọi API gửi tài khoản & mật khẩu đến máy chủ
       const data = await loginRequest({
         loginIdentifier: loginIdentifier,
         password: password,
-      })
+      });
 
       // 2. Lưu thông tin đăng nhập vào AuthContext
       // Khi hàm login() này chạy, AppRouter sẽ tự động chuyển sang trang Dashboard!
-      login(data)
-
+      login(data);
     } catch (error) {
       // Nếu có lỗi: Lưu câu lỗi để hiển thị lên màn hình
-      setErrorMessage(error.message)
+      setErrorMessage(error.message);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <form className="login-form" onSubmit={handleSubmit}>
@@ -55,11 +54,11 @@ function LoginForm() {
       )}
 
       <div className="form-field">
-        <label htmlFor="login-identifier">
-          Email công vụ hoặc Mã số cán bộ VNUA
-        </label>
+        <label htmlFor="login-identifier">Email công vụ hoặc Mã số cán bộ VNUA</label>
         <div className="text-field-input-wrap">
-          <span className="text-field-icon" aria-hidden="true">✉</span>
+          <span className="text-field-icon" aria-hidden="true">
+            ✉
+          </span>
           <input
             id="login-identifier"
             name="loginIdentifier"
@@ -76,10 +75,14 @@ function LoginForm() {
       <div className="password-field">
         <div className="password-label-row">
           <label htmlFor="password">Mật khẩu tài khoản</label>
-          <button className="text-button" type="button">Quên mật khẩu?</button>
+          <button className="text-button" type="button">
+            Quên mật khẩu?
+          </button>
         </div>
         <div className="password-input-wrap">
-          <span className="password-icon" aria-hidden="true">♙</span>
+          <span className="password-icon" aria-hidden="true">
+            ♙
+          </span>
           <input
             id="password"
             name="password"
@@ -103,11 +106,7 @@ function LoginForm() {
       </div>
 
       <label className="remember-row">
-        <input
-          type="checkbox"
-          checked={remember}
-          onChange={(event) => setRemember(event.target.checked)}
-        />
+        <input type="checkbox" checked={remember} onChange={(event) => setRemember(event.target.checked)} />
         <span>Duy trì đăng nhập trên thiết bị này</span>
       </label>
 
@@ -117,7 +116,7 @@ function LoginForm() {
         <span aria-hidden="true">→</span>
       </button>
     </form>
-  )
+  );
 }
 
-export default LoginForm
+export default LoginForm;

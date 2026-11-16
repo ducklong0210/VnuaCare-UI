@@ -1,4 +1,3 @@
-import { createContext } from 'react'
+import { createContext } from 'react';
 
-export const NavigationContext = createContext(null)
-
+export const NavigationContext = createContext(null);

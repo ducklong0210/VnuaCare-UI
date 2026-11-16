@@ -1,0 +1,319 @@
+/* ==============================================================================
+   STAFF MANAGER PAGE STYLESHEET
+   Quản lý nhân viên / cán bộ - VnuaCare
+   ============================================================================== */
+
+/* Ảnh đại diện cán bộ trên bảng danh sách */
+.staff-table-avatar-cell {
+  text-align: center;
+}
+
+.staff-table-avatar-img {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #e2e8f0;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.staff-table-avatar-fallback {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #ccfbf1;
+  color: #0f766e;
+  font-weight: 700;
+  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #99f6e4;
+  margin: 0 auto;
+}
+
+/* Cột header bảng cán bộ */
+.staff-th-avatar {
+  width: 56px;
+  text-align: center;
+}
+
+.staff-th-code {
+  width: 110px;
+}
+
+.staff-th-name {
+  width: 220px;
+}
+
+.staff-th-gender {
+  width: 80px;
+}
+
+.staff-th-dept {
+  width: 200px;
+}
+
+.staff-th-title {
+  width: 160px;
+}
+
+.staff-th-phone {
+  width: 130px;
+}
+
+.staff-th-action {
+  width: 100px;
+  text-align: center;
+}
+
+/* Ô thao tác (edit/delete) trong bảng */
+.staff-action-cell {
+  text-align: center;
+}
+
+/* Thanh điều hướng phân trang */
+.staff-pagination-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.staff-page-size-selector {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.staff-page-size-select {
+  width: 80px;
+  height: 28px;
+  padding: 0 4px;
+  font-size: 12px;
+}
+
+.staff-pagination-page-item {
+  display: inline-flex;
+  align-items: center;
+}
+
+.staff-pagination-ellipsis {
+  padding: 0 4px;
+  color: #94a3b8;
+}
+
+/* Modal Thêm & Cập nhật Cán bộ */
+.staff-modal-card {
+  max-width: 540px;
+}
+
+.staff-modal-body {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.staff-modal-alert {
+  padding: 8px 12px;
+  width: 100%;
+}
+
+.staff-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* Khu vực chọn Ảnh đại diện trong Modal */
+.staff-avatar-picker-section {
+  border: 1px solid #e2e8f0;
+  padding: 12px;
+  border-radius: 8px;
+  background-color: #f8fafc;
+}
+
+.staff-avatar-picker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.staff-avatar-picker-title {
+  margin: 0;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.staff-avatar-clear-btn {
+  background: none;
+  border: none;
+  color: #ef4444;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+  text-decoration: underline;
+}
+
+.staff-avatar-clear-btn:hover {
+  color: #dc2626;
+}
+
+.staff-avatar-picker-body {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.staff-avatar-preview-box {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  border: 2px solid #0f766e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.staff-avatar-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.staff-avatar-preview-fallback {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f766e;
+}
+
+.staff-avatar-presets-col {
+  flex: 1;
+}
+
+.staff-avatar-presets-title {
+  font-size: 12px;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+.staff-avatar-presets-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.staff-avatar-preset-btn {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  padding: 2px;
+  border: 1.5px solid #cbd5e1;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.staff-avatar-preset-btn:hover {
+  border-color: #0f766e;
+  transform: translateY(-1px);
+}
+
+.staff-avatar-preset-btn.selected {
+  border: 2.5px solid #0f766e;
+  background-color: #ccfbf1;
+  box-shadow: 0 0 0 2px rgba(15, 118, 110, 0.2);
+}
+
+.staff-avatar-preset-thumb {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.staff-avatar-check-badge {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #0f766e;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  font-weight: bold;
+}
+
+.staff-avatar-custom-input {
+  height: 32px;
+  font-size: 12px;
+  width: 100%;
+}
+
+/* Khu vực liên kết tài khoản User */
+.staff-user-link-section {
+  border-top: 1px solid #e2e8f0;
+  padding-top: 12px;
+  margin-top: 4px;
+}
+
+.staff-user-link-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0f766e;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.staff-user-warning {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #b45309;
+}
+
+/* Modal Xác nhận Xóa cán bộ */
+.staff-delete-modal-card {
+  max-width: 420px;
+}
+
+.staff-delete-modal-title {
+  color: #dc2626;
+}
+
+.staff-delete-modal-text {
+  margin: 0;
+  font-size: 13.5px;
+  color: #334155;
+  line-height: 1.5;
+}
+
+.staff-delete-modal-warn {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: #dc2626;
+}
+
+.staff-delete-confirm-btn {
+  background-color: #dc2626;
+  color: #ffffff;
+  border-color: #dc2626;
+}
+
+.staff-delete-confirm-btn:hover {
+  background-color: #b91c1c;
+}

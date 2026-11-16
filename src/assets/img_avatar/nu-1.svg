@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="50" fill="#ec4899"/>
+  <!-- Hair behind -->
+  <circle cx="50" cy="22" r="10" fill="#18181b"/>
+  <!-- Body -->
+  <path d="M24 88 C24 72 34 64 50 64 C66 64 76 72 76 88 Z" fill="#831843"/>
+  <!-- Blouse -->
+  <path d="M43 64 L50 74 L57 64 Z" fill="#fdf2f8"/>
+  <!-- Head -->
+  <circle cx="50" cy="40" r="17" fill="#fed7aa"/>
+  <!-- Hair front -->
+  <path d="M33 40 C33 24 40 18 50 18 C60 18 67 24 67 40 C62 30 54 26 50 26 C46 26 38 30 33 40 Z" fill="#18181b"/>
+  <!-- Earrings -->
+  <circle cx="33" cy="44" r="2.5" fill="#facc15"/>
+  <circle cx="67" cy="44" r="2.5" fill="#facc15"/>
+  <!-- Eyes -->
+  <circle cx="44" cy="39" r="2" fill="#0f172a"/>
+  <circle cx="56" cy="39" r="2" fill="#0f172a"/>
+  <!-- Smile -->
+  <path d="M45 47 Q50 51 55 47" fill="none" stroke="#be185d" stroke-width="1.8" stroke-linecap="round"/>
+</svg>

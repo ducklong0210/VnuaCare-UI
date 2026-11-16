@@ -1,11 +1,4 @@
-import {
-  IconDashboard,
-  IconUsers,
-  IconStaffs,
-  IconDoctors,
-  IconCampaigns,
-  IconRecords,
-} from '../ui/Icons.jsx'
+import { IconDashboard, IconUsers, IconStaffs, IconDoctors, IconCampaigns, IconRecords } from '../ui/Icons.jsx';
 
 /**
  * Danh mục các chức năng quản trị trên thanh Menu bên trái (Sidebar Nav)
@@ -18,4 +11,4 @@ export const MENU_ITEMS = [
   { id: 'doctors', label: 'Quản lý bác sĩ', Icon: IconDoctors },
   { id: 'campaigns', label: 'Đợt khám sức khỏe', Icon: IconCampaigns },
   { id: 'users', label: 'Quản lý người dùng', Icon: IconUsers },
-]
+];

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="50" fill="#3b82f6"/>
+  <!-- Body -->
+  <path d="M22 88 C22 72 32 64 50 64 C68 64 78 72 78 88 Z" fill="#1e3a8a"/>
+  <!-- Suit & Tie -->
+  <path d="M42 64 L50 78 L58 64 Z" fill="#ffffff"/>
+  <polygon points="48,65 52,65 53,74 50,77 47,74" fill="#dc2626"/>
+  <!-- Head -->
+  <circle cx="50" cy="40" r="18" fill="#fde68a"/>
+  <!-- Hair side part -->
+  <path d="M32 38 C32 22 42 16 52 16 C62 16 68 24 68 36 C62 26 52 24 40 28 Z" fill="#451a03"/>
+  <!-- Eyes -->
+  <circle cx="44" cy="40" r="2.2" fill="#0f172a"/>
+  <circle cx="56" cy="40" r="2.2" fill="#0f172a"/>
+  <!-- Smile -->
+  <path d="M45 48 Q50 53 55 48" fill="none" stroke="#78350f" stroke-width="1.8" stroke-linecap="round"/>
+</svg>

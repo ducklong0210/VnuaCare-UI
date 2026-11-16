@@ -1,11 +1,10 @@
-import { useContext } from 'react'
-import { NavigationContext } from './navigationContext.js'
+import { useContext } from 'react';
+import { NavigationContext } from './navigationContext.js';
 
 export function useNavigation() {
-  const context = useContext(NavigationContext)
+  const context = useContext(NavigationContext);
   if (!context) {
-    throw new Error('useNavigation must be used within a NavigationProvider')
+    throw new Error('useNavigation must be used within a NavigationProvider');
   }
-  return context
+  return context;
 }
-

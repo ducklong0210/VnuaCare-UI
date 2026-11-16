@@ -1,12 +1,12 @@
-import { useAuth } from '../features/auth/hooks/useAuth.js'
-import { useNavigation } from '../routers/useNavigation.js'
-import LoginPage from '../pages/auth/LoginPage.jsx'
-import DashboardPage from '../pages/dashboard/DashboardPage.jsx'
-import DoctorManagerPage from '../pages/doctor-manager/DoctorManagerPage.jsx'
-import UserManagerPage from '../pages/user-manager/UserManagerPage.jsx'
-import ProfileManagerPage from '../pages/profile-manager/ProfileManagerPage.jsx'
-import StaffManagerPage from '../pages/staff-manager/StaffManagerPage.jsx'
-import MainLayout from '../layouts/MainLayout.jsx'
+import { useAuth } from '../features/auth/hooks/useAuth.js';
+import { useNavigation } from '../routers/useNavigation.js';
+import LoginPage from '../pages/auth/LoginPage.jsx';
+import DashboardPage from '../pages/dashboard/DashboardPage.jsx';
+import DoctorManagerPage from '../pages/doctor-manager/DoctorManagerPage.jsx';
+import UserManagerPage from '../pages/user-manager/UserManagerPage.jsx';
+import ProfileManagerPage from '../pages/profile-manager/ProfileManagerPage.jsx';
+import StaffManagerPage from '../pages/staff-manager/StaffManagerPage.jsx';
+import MainLayout from '../layouts/MainLayout.jsx';
 
 function PlaceholderPage({ tabId, title, apiRoute }) {
   return (
@@ -30,40 +30,34 @@ function PlaceholderPage({ tabId, title, apiRoute }) {
         </div>
       </div>
     </MainLayout>
-  )
+  );
 }
 
 function AppRouter() {
-  const { user } = useAuth()
-  const { activeTab } = useNavigation()
+  const { user } = useAuth();
+  const { activeTab } = useNavigation();
 
   // 1. Chưa đăng nhập -> Trả về trang Đăng nhập
   if (!user) {
-    return <LoginPage />
+    return <LoginPage />;
   }
 
   // 2. Điều hướng màn hình theo tab đang được chọn
   switch (activeTab) {
     case 'doctors':
-      return <DoctorManagerPage />
+      return <DoctorManagerPage />;
     case 'users':
-      return <UserManagerPage />
+      return <UserManagerPage />;
     case 'records':
-      return <ProfileManagerPage />
+      return <ProfileManagerPage />;
     case 'staffs':
-      return <StaffManagerPage />
+      return <StaffManagerPage />;
     case 'campaigns':
-      return (
-        <PlaceholderPage
-          tabId="campaigns"
-          title="Đợt khám sức khỏe"
-          apiRoute="POST /api/v1/campaigns/filter"
-        />
-      )
+      return <PlaceholderPage tabId="campaigns" title="Đợt khám sức khỏe" apiRoute="POST /api/v1/campaigns/filter" />;
     case 'dashboard':
     default:
-      return <DashboardPage />
+      return <DashboardPage />;
   }
 }
 
-export default AppRouter
+export default AppRouter;

@@ -1,4 +1,4 @@
-import MainLayout from '../../layouts/MainLayout.jsx'
+import MainLayout from '../../layouts/MainLayout.jsx';
 
 export default function DoctorManagerPage() {
   return (
@@ -21,5 +21,5 @@ export default function DoctorManagerPage() {
         </div>
       </div>
     </MainLayout>
-  )
+  );
 }

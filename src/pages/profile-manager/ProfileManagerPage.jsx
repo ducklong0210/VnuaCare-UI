@@ -1,4 +1,4 @@
-import MainLayout from '../../layouts/MainLayout.jsx'
+import MainLayout from '../../layouts/MainLayout.jsx';
 
 export default function ProfileManagerPage() {
   return (
@@ -21,5 +21,5 @@ export default function ProfileManagerPage() {
         </div>
       </div>
     </MainLayout>
-  )
+  );
 }

@@ -1,18 +1,10 @@
-
-export default function Tabs({
-  buttons,
-  children,
-  ButtonsContainer = 'menu',
-  buttonsClassName = '',
-}) {
-  const Container = ButtonsContainer
+export default function Tabs({ buttons, children, ButtonsContainer = 'menu', buttonsClassName = '' }) {
+  const Container = ButtonsContainer;
 
   return (
     <>
-      <Container className={buttonsClassName}>
-        {buttons}
-      </Container>
+      <Container className={buttonsClassName}>{buttons}</Container>
       {children}
     </>
-  )
+  );
 }

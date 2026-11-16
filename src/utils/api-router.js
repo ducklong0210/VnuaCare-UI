@@ -5,7 +5,7 @@ export const authorizationRouter = {
   checkToken: '/api/v1/authorization/check-token',
   forgotPassword: '/api/v1/authorization/forgot-password',
   resetPassword: '/api/v1/authorization/reset-password',
-}
+};
 
 export const userManagerRouter = {
   create: '/api/v1/users/add',
@@ -19,7 +19,7 @@ export const userManagerRouter = {
   update: '/api/v1/users/update',
   delete: (id) => `/api/v1/users/${id}`,
   resetPasswordById: (id) => `/api/v1/users/${id}/reset-password`,
-}
+};
 
 export const staffRouter = {
   create: '/api/v1/staffs/add',
@@ -30,7 +30,7 @@ export const staffRouter = {
   getSelect: '/api/v1/staffs/select',
   getDepartments: '/api/v1/staffs/departments',
   importBatch: '/api/v1/staffs/import-batch',
-}
+};
 
 export const doctorRouter = {
   create: '/api/v1/doctors/add',
@@ -40,7 +40,7 @@ export const doctorRouter = {
   getFilter: '/api/v1/doctors/filter',
   getSelect: '/api/v1/doctors/select',
   getSpecialties: '/api/v1/doctors/specialties',
-}
+};
 
 export const campaignRouter = {
   create: '/api/v1/campaigns/add',
@@ -49,7 +49,7 @@ export const campaignRouter = {
   delete: (id) => `/api/v1/campaigns/${id}`,
   getFilter: '/api/v1/campaigns/filter',
   getSelect: '/api/v1/campaigns/select',
-}
+};
 
 export const healthRecordRouter = {
   create: '/api/v1/healthcheckuprecords/add',
@@ -65,4 +65,4 @@ export const healthRecordRouter = {
   getDepartments: '/api/v1/healthcheckuprecords/departments',
   saveInternalMedicineExam: '/api/v1/healthcheckuprecords/internal-medicine-exam',
   getInternalMedicineExam: (recordId) => `/api/v1/healthcheckuprecords/${recordId}/internal-medicine-exam`,
-}
+};
