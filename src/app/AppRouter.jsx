@@ -5,6 +5,7 @@ import DashboardPage from '../pages/dashboard/DashboardPage.jsx'
 import DoctorManagerPage from '../pages/doctor-manager/DoctorManagerPage.jsx'
 import UserManagerPage from '../pages/user-manager/UserManagerPage.jsx'
 import ProfileManagerPage from '../pages/profile-manager/ProfileManagerPage.jsx'
+import StaffManagerPage from '../pages/staff-manager/StaffManagerPage.jsx'
 import MainLayout from '../layouts/MainLayout.jsx'
 
 function PlaceholderPage({ tabId, title, apiRoute }) {
@@ -50,13 +51,7 @@ function AppRouter() {
     case 'records':
       return <ProfileManagerPage />
     case 'staffs':
-      return (
-        <PlaceholderPage
-          tabId="staffs"
-          title="Quản lý nhân viên cán bộ"
-          apiRoute="POST /api/v1/staffs/filter"
-        />
-      )
+      return <StaffManagerPage />
     case 'campaigns':
       return (
         <PlaceholderPage
