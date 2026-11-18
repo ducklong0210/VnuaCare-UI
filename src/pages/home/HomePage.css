@@ -1,0 +1,516 @@
+/* Style cho Trang chủ VnuaCare (HomePage) */
+/* Cổng Tra Cứu Thông Tin & Xem Kết Quả Khám Sức Khỏe Cán Bộ VNUA */
+
+.home-container {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #f8fafc;
+  color: #1e293b;
+  font-family: inherit;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+/* ========================================================== */
+/* 1. THANH ĐIỀU HƯỚNG TRÊN CÙNG (NAVBAR)                     */
+/* ========================================================== */
+
+.home-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.85);
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04);
+}
+
+.home-nav-inner {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.home-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.home-brand-logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(15, 118, 110, 0.3);
+}
+
+.home-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.home-brand-title {
+  font-size: 18px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.home-brand-sub {
+  font-size: 9px;
+  font-weight: 700;
+  color: #0f766e;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 2px;
+}
+
+.home-nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.home-btn-primary {
+  height: 38px;
+  padding: 0 16px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+  color: #ffffff;
+  font-size: 13.5px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.25);
+  transition: all 0.2s ease;
+}
+
+.home-btn-primary:hover {
+  background: linear-gradient(135deg, #0f766e 0%, #115e59 100%);
+  box-shadow: 0 6px 16px rgba(15, 118, 110, 0.35);
+  transform: translateY(-1px);
+}
+
+/* ========================================================== */
+/* 2. BANNER GIỚI THIỆU CHÍNH (HERO SECTION)                  */
+/* ========================================================== */
+
+.home-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 64px 20px 48px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(15, 118, 110, 0.12) 0%, rgba(240, 253, 250, 0) 65%),
+    #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.home-hero-glow {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 600px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(20, 184, 166, 0.08) 0%, transparent 70%);
+  filter: blur(50px);
+  pointer-events: none;
+}
+
+.home-hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.home-hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: #f0fdfa;
+  border: 1px solid #ccfbf1;
+  color: #0f766e;
+  font-size: 12.5px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+.hero-badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #0d9488;
+  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.2);
+}
+
+.home-hero-title {
+  margin: 0 0 16px;
+  font-size: 38px;
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+  color: #0f172a;
+}
+
+.home-hero-desc {
+  margin: 0 0 32px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #475569;
+  max-width: 680px;
+}
+
+.home-hero-btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.home-btn-hero-primary {
+  height: 48px;
+  padding: 0 26px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+  color: #ffffff;
+  font-size: 14.5px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  box-shadow: 0 8px 18px -3px rgba(15, 118, 110, 0.35);
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.home-btn-hero-primary:hover {
+  background: linear-gradient(135deg, #0f766e 0%, #115e59 100%);
+  box-shadow: 0 12px 24px -3px rgba(15, 118, 110, 0.45);
+  transform: translateY(-2px);
+}
+
+/* ========================================================== */
+/* 3. KHỐI NỘI DUNG CHUNG (SECTIONS)                           */
+/* ========================================================== */
+
+.home-section {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 56px 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.home-section-header {
+  text-align: center;
+  max-width: 650px;
+  margin: 0 auto 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.section-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: #f0fdfa;
+  border: 1px solid #ccfbf1;
+  color: #0f766e;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.section-title {
+  margin: 0 0 10px;
+  font-size: 28px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+}
+
+.section-desc {
+  margin: 0;
+  font-size: 14.5px;
+  color: #64748b;
+  line-height: 1.55;
+}
+
+/* ========================================================== */
+/* 4. LƯỚI THẺ THÔNG TIN (INFO CARDS GRID)                    */
+/* ========================================================== */
+
+.home-info-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.info-card {
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid #e2e8f0;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.02);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-4px);
+  border-color: #0f766e;
+  box-shadow: 0 12px 20px -4px rgba(15, 23, 42, 0.08);
+}
+
+.info-card-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.info-card-title {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1e293b;
+  line-height: 1.35;
+}
+
+.info-card-desc {
+  margin: 0;
+  font-size: 13.5px;
+  color: #64748b;
+  line-height: 1.55;
+}
+
+/* ========================================================== */
+/* 5. KHỐI HƯỚNG DẪN TRA CỨU ĐƠN GIẢN                         */
+/* ========================================================== */
+
+.home-guide-box {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  padding: 32px 30px;
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.02);
+}
+
+.guide-title {
+  margin: 0 0 24px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  text-align: center;
+}
+
+.guide-steps-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.guide-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.step-circle {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #0f766e;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.guide-step strong {
+  display: block;
+  font-size: 14.5px;
+  color: #0f172a;
+  margin-bottom: 4px;
+}
+
+.guide-step p {
+  margin: 0;
+  font-size: 13px;
+  color: #64748b;
+  line-height: 1.45;
+}
+
+/* ========================================================== */
+/* 6. THÔNG TIN LIÊN HỆ ĐƠN GIẢN                             */
+/* ========================================================== */
+
+.home-simple-contact {
+  background: #ffffff;
+  border-radius: 20px;
+  border: 1px solid #e2e8f0;
+  padding: 32px 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 30px;
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.02);
+}
+
+.contact-title-clean {
+  margin: 8px 0 6px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.contact-sub-clean {
+  margin: 0 0 16px;
+  font-size: 13.5px;
+  color: #64748b;
+}
+
+.simple-contact-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13.5px;
+  color: #334155;
+}
+
+.simple-contact-right {
+  flex-shrink: 0;
+}
+
+/* ========================================================== */
+/* 7. CHÂN TRANG (FOOTER)                                     */
+/* ========================================================== */
+
+.home-footer {
+  margin-top: auto;
+  background: #0f172a;
+  color: #94a3b8;
+  border-top: 1px solid #1e293b;
+  padding: 24px 20px;
+}
+
+.home-footer-inner {
+  max-width: 1140px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-brand-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.footer-copyright {
+  margin: 4px 0 0;
+  font-size: 12.5px;
+  color: #64748b;
+}
+
+.footer-right {
+  font-size: 12px;
+  color: #94a3b8;
+}
+
+/* ========================================================== */
+/* 8. RESPONSIVE DESIGN                                       */
+/* ========================================================== */
+
+@media (max-width: 992px) {
+  .home-hero-title {
+    font-size: 30px;
+  }
+
+  .home-info-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .guide-steps-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .home-simple-contact {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .home-hero {
+    padding: 44px 16px 36px;
+  }
+
+  .home-hero-title {
+    font-size: 24px;
+  }
+
+  .home-hero-desc {
+    font-size: 14px;
+  }
+
+  .home-info-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .section-title {
+    font-size: 22px;
+  }
+
+  .home-section {
+    padding: 40px 16px;
+  }
+
+  .home-guide-box,
+  .home-simple-contact {
+    padding: 24px 18px;
+  }
+}

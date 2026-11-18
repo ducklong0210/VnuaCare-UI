@@ -7,24 +7,27 @@ import { NavigationContext } from './navigationContext.js';
 
 export function NavigationProvider({ children }) {
   const [activeTab, setActiveTab] = useState(() => {
-    const hash = window.location.hash.replace('#/', '').replace('#', '');
-    return hash || 'dashboard';
+    const path = window.location.pathname.replace('/', '').trim();
+    if (path) {
+      return path;
+    }
+    // Nếu chưa có path: nếu đã đăng nhập thì vào dashboard, chưa đăng nhập thì hiển thị homepage
+    const token = localStorage.getItem('accessToken');
+    return token ? 'dashboard' : 'home';
   });
 
   const navigate = (tabId) => {
     setActiveTab(tabId);
-    window.location.hash = `#/${tabId}`;
+    window.history.pushState(null, '', `/${tabId}`);
   };
 
   useEffect(() => {
-    const handleHashChange = () => {
-      const hash = window.location.hash.replace('#/', '').replace('#', '');
-      if (hash) {
-        setActiveTab(hash);
-      }
+    const handlePopState = () => {
+      const path = window.location.pathname.replace('/', '').trim();
+      setActiveTab(path || (localStorage.getItem('accessToken') ? 'dashboard' : 'home'));
     };
-    window.addEventListener('hashchange', handleHashChange);
-    return () => window.removeEventListener('hashchange', handleHashChange);
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
   return <NavigationContext.Provider value={{ activeTab, navigate }}>{children}</NavigationContext.Provider>;

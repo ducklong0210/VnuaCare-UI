@@ -2,8 +2,8 @@
 // Hiển thị danh mục 6 chức năng chính kèm icon nhận diện trực quan từ menuNavData.js
 // Tự động làm nổi bật menu đang được chọn và kích hoạt hàm chuyển trang khi người dùng bấm chuột
 
-import { MENU_ITEMS } from '../../data/menuNavData.js';
-import Tabs from '../../components/Tabs.jsx';
+import { MENU_ITEMS } from '../../../utils/index.js';
+import Tabs from '../../../components/SupportAgent/Tabs.jsx';
 import { useNavigation } from '../../contexts/useNavigation.js';
 
 export default function Sidebar({ activeTab }) {
@@ -26,7 +26,7 @@ export default function Sidebar({ activeTab }) {
                   <Icon className="nav-icon" size={19} />
                   <span className="nav-text">{label}</span>
                 </button>
-               
+
               </li>
             );
           })}

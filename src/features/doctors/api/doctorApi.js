@@ -2,9 +2,9 @@
 // Hỗ trợ tìm kiếm, lọc danh sách bác sĩ theo phân trang và chuyên khoa y tế
 // Cung cấp các thao tác thêm mới hồ sơ bác sĩ, cập nhật thông tin và xóa khỏi hệ thống
 
-import { doctorRouter } from '../../../core/utils/api-router.js';
+import { doctorRouter } from '../../../utils/api-router.js';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ''
 
 // Header xác thực kèm Bearer token
 function getAuthHeaders() {
@@ -131,7 +131,7 @@ export async function deleteDoctorApi(doctorId) {
   const endpoint = `${API_BASE_URL}${doctorRouter.delete(doctorId)}`;
 
   const response = await fetch(endpoint, {
-    method: 'DELETE',
+    method: ModelMode.DELETE,
     headers: getAuthHeaders(),
   });
 

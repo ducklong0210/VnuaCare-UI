@@ -5,7 +5,6 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   plugins: [react()],
   server: {
-    
     // Cấu hình Vite tự chuyển tiếp sang https://localhost:44310/api
     proxy: {
       '/api': {

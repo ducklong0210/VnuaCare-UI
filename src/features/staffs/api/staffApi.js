@@ -2,9 +2,9 @@
 // Hỗ trợ lọc danh sách cán bộ theo từ khóa, đơn vị khoa phòng và tải danh mục phòng ban
 // Cung cấp các chức năng thêm mới cán bộ, chỉnh sửa hồ sơ hành chính và xóa cán bộ
 
-import { staffRouter } from '../../../core/utils/api-router.js';
+import { staffRouter } from '../../../utils/api-router.js';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ''
 
 // Header xác thực kèm Bearer token
 function getAuthHeaders() {
@@ -132,7 +132,7 @@ export async function deleteStaffApi(staffId) {
   const endpoint = `${API_BASE_URL}${staffRouter.delete(staffId)}`;
 
   const response = await fetch(endpoint, {
-    method: 'DELETE',
+    method: ModelMode.DELETE,
     headers: getAuthHeaders(),
   });
 

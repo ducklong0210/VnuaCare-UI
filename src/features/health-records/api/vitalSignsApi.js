@@ -2,9 +2,9 @@
 // Tương tác trực tiếp với endpoint /api/v1/vitalsigns để lấy thông tin theo mã hồ sơ recordId
 // Hỗ trợ các phương thức thêm mới (POST), cập nhật (PUT) và xóa (DELETE) kết quả đo lường
 
-import { vitalSignsRouter } from '../../../core/utils/api-router.js';
+import { vitalSignsRouter } from '../../../utils/api-router.js';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ''
 
 // Header xác thực kèm Bearer token
 function getAuthHeaders() {
@@ -104,7 +104,7 @@ export async function deleteVitalSignsApi(vitalSignId) {
   const endpoint = `${API_BASE_URL}${vitalSignsRouter.delete(vitalSignId)}`;
 
   const response = await fetch(endpoint, {
-    method: 'DELETE',
+    method: ModelMode.DELETE,
     headers: getAuthHeaders(),
   });
 

@@ -15,10 +15,10 @@ import {
   createHealthRecordApi,
   updateHealthRecordApi,
   deleteHealthRecordApi,
-} from '../../features/health-records/api/recordApi.js';
+} from '../../api/recordApi.js';
 import './HealthRecordsPage.css';
-import { IconSearch, IconRefreshCw, IconPlus, IconEdit, IconTrash, IconClose, IconCheck, IconAlertTriangle, IconEye } from '../../core/components/Icons.jsx';
-import RecordDetailModal from '../../features/health-records/components/RecordDetailModal.jsx';
+import { IconSearch, IconRefreshCw, IconPlus, IconEdit, IconTrash, IconClose, IconCheck, IconAlertTriangle, IconEye } from '../../components/SupportAgent/Icons.jsx';
+import RecordDetailModal from '../../components/Admin/HealthRecordManagement/RecordDetailModal.jsx';
 
 // Giá trị mặc định của form hồ sơ khám
 const INITIAL_FORM = {
@@ -146,7 +146,7 @@ export default function HealthRecordsPage() {
   };
 
   // Quản lý Modal Thêm / Sửa hồ sơ
-  const [modalMode, setModalMode] = useState(null); // null | 'CREATE' | 'EDIT'
+  const [modalMode, setModalMode] = useState(null); // null | 'CREATE' | ModelMode.EDIT
   const [submitting, setSubmitting] = useState(false);
   const [modalError, setModalError] = useState('');
   const [formData, setFormData] = useState(INITIAL_FORM);
@@ -246,7 +246,7 @@ export default function HealthRecordsPage() {
       status: 'PENDING',
     });
     setModalError('');
-    setModalMode('CREATE');
+    setModalMode(ModelMode.CREATE);
   };
 
   // Mở modal cập nhật kết luận / thông tin hồ sơ
@@ -271,7 +271,7 @@ export default function HealthRecordsPage() {
       campaignName: rec.campaignName || '',
     });
     setModalError('');
-    setModalMode('EDIT');
+    setModalMode(ModelMode.EDIT);
   };
 
   // Đóng modal thêm / sửa
@@ -287,7 +287,7 @@ export default function HealthRecordsPage() {
     setModalError('');
 
     try {
-      if (modalMode === 'CREATE') {
+      if (modalMode === ModelMode.CREATE) {
         if (!formData.campaignId) {
           setModalError('Vui lòng chọn đợt khám sức khỏe');
           setSubmitting(false);
@@ -322,7 +322,7 @@ export default function HealthRecordsPage() {
         });
 
         showToast('Tạo hồ sơ khám mới thành công!');
-      } else if (modalMode === 'EDIT') {
+      } else if (modalMode === ModelMode.EDIT) {
         if (!formData.sidCode.trim()) {
           setModalError('Mã vạch hồ sơ (SID) không được để trống');
           setSubmitting(false);
@@ -401,7 +401,7 @@ export default function HealthRecordsPage() {
   let submitButtonText = 'Lưu thay đổi';
   if (submitting) {
     submitButtonText = 'Đang xử lý...';
-  } else if (modalMode === 'CREATE') {
+  } else if (modalMode === ModelMode.CREATE) {
     submitButtonText = 'Tạo hồ sơ khám';
   }
 
@@ -656,7 +656,7 @@ export default function HealthRecordsPage() {
           <div className="modal-backdrop">
             <div className="modal-card record-modal-card">
               <div className="modal-head">
-                <span className="modal-title-text">{modalMode === 'CREATE' ? 'Tạo mới hồ sơ khám cán bộ' : 'Cập nhật hồ sơ khám sức khỏe'}</span>
+                <span className="modal-title-text">{modalMode === ModelMode.CREATE ? 'Tạo mới hồ sơ khám cán bộ' : 'Cập nhật hồ sơ khám sức khỏe'}</span>
                 <button type="button" className="modal-x" onClick={handleCloseModal}>
                   <IconClose size={16} />
                 </button>
@@ -666,7 +666,7 @@ export default function HealthRecordsPage() {
                 <div className="modal-content record-modal-body">
                   {modalError && <div className="alert-tag danger record-modal-alert">{modalError}</div>}
 
-                  {modalMode === 'EDIT' && (
+                  {modalMode === ModelMode.EDIT && (
                     <div className="record-info-banner">
                       <strong>Cán bộ: {formData.staffName} ({formData.employeeCode})</strong>
                       <span>Khoa/Phòng: {formData.departmentName || '—'} | Đợt khám: {formData.campaignName || '—'}</span>
@@ -675,7 +675,7 @@ export default function HealthRecordsPage() {
 
                   <div className="record-section-title">Thông tin tiếp nhận</div>
 
-                  {modalMode === 'CREATE' && (
+                  {modalMode === ModelMode.CREATE && (
                     <div className="record-form-grid">
                       <div className="form-item">
                         <label className="field-label">Đợt khám sức khỏe *</label>

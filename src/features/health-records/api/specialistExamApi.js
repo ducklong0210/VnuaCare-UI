@@ -2,9 +2,9 @@
 // Tương tác với endpoint /api/v1/specialistexams theo mã hồ sơ recordId và loại chuyên khoa specialtyType
 // Hỗ trợ lấy kết quả, thêm mới và cập nhật dữ liệu khám Mắt, Tai Mũi Họng, Răng, Da liễu, Ngoại, Phụ khoa
 
-import { specialistExamRouter } from '../../../core/utils/api-router.js';
+import { specialistExamRouter } from '../../../utils/api-router.js';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ''
 
 // Header xác thực kèm Bearer token
 function getAuthHeaders() {
@@ -28,7 +28,10 @@ function parseApiError(result, defaultMsg) {
 
 // Lấy danh sách kết quả khám các chuyên khoa lẻ theo ID hồ sơ
 export async function getSpecialistExamsApi(recordId, specialtyType = null) {
-  const endpoint = `${API_BASE_URL}${specialistExamRouter.getByRecordId(recordId, specialtyType)}`;
+  let endpoint = `${API_BASE_URL}${specialistExamRouter.getByRecordId(recordId)}`;
+  if (specialtyType) {
+    endpoint += `?specialtyType=${encodeURIComponent(specialtyType)}`;
+  }
 
   const response = await fetch(endpoint, {
     method: 'GET',
@@ -104,7 +107,7 @@ export async function deleteSpecialistExamApi(specialistExamId) {
   const endpoint = `${API_BASE_URL}${specialistExamRouter.delete(specialistExamId)}`;
 
   const response = await fetch(endpoint, {
-    method: 'DELETE',
+    method: ModelMode.DELETE,
     headers: getAuthHeaders(),
   });
 

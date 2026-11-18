@@ -3,10 +3,12 @@
 // Hiển thị thông tin tài khoản đang đăng nhập (tên, vai trò) kèm nút đăng xuất khỏi hệ thống
 
 import { useAuth } from '../../contexts/useAuth.js';
-import { IconBell, IconLogout } from '../../components/Icons.jsx';
+import { useNavigation } from '../../contexts/useNavigation.js';
+import { IconBell, IconLogout } from '../../../components/SupportAgent/Icons.jsx';
 
 export default function Header() {
   const { user, logout } = useAuth();
+  const { navigate } = useNavigation();
 
   // Chữ cái đầu tên user làm avatar
   const userInitial = (user?.fullname || user?.username || 'U')[0].toUpperCase();
@@ -14,7 +16,12 @@ export default function Header() {
   return (
     <header className="top-header">
       {/*  LOGO */}
-      <div className="header-brand">
+      <div
+        className="header-brand"
+        onClick={() => navigate('home')}
+        style={{ cursor: 'pointer' }}
+        title="Về Trang chủ VnuaCare"
+      >
         <div className="brand-badge">
           <span className="brand-cross">+</span>
         </div>

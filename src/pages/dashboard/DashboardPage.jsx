@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import MainLayout from '../../core/layouts/MainLayout.jsx';
-import { IconSearch, IconPlus, IconDownload, IconCheck, IconClose, IconEye, IconRefreshCw } from '../../core/components/Icons.jsx';
+import { IconSearch, IconPlus, IconDownload, IconCheck, IconClose, IconEye, IconRefreshCw } from '../../components/SupportAgent/Icons.jsx';
 import './DashboardPage.css';
 
 /**
@@ -312,11 +312,11 @@ export default function DashboardPage() {
                       prev.map((r) =>
                         r.id === activeModal.id
                           ? {
-                              ...r,
-                              conditions: [...r.conditions.filter((c) => c !== 'Bình thường'), conditionInput.trim()],
-                              alertStatus: 'pending',
-                              classification: 'Loại III',
-                            }
+                            ...r,
+                            conditions: [...r.conditions.filter((c) => c !== 'Bình thường'), conditionInput.trim()],
+                            alertStatus: 'pending',
+                            classification: 'Loại III',
+                          }
                           : r,
                       ),
                     );

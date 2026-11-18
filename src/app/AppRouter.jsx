@@ -1,9 +1,10 @@
 // Bộ điều hướng và phân quyền trung tâm của ứng dụng (Routing Guard)
-// Kiểm tra trạng thái đăng nhập: nếu chưa có phiên làm việc thì tự động chuyển hướng về trang Login
+// Quản lý điều hướng giữa Trang chủ (HomePage), Trang Đăng nhập (LoginPage) và Phân hệ Quản trị (Dashboard, Bác sĩ, Nhân viên, Hồ sơ)
 // Đọc activeTab từ NavigationContext để hiển thị màn hình chức năng tương ứng mà không cần reload trang
 
 import { useAuth } from '../core/contexts/useAuth.js';
 import { useNavigation } from '../core/contexts/useNavigation.js';
+import HomePage from '../pages/home/HomePage.jsx';
 import LoginPage from '../pages/auth/LoginPage.jsx';
 import DashboardPage from '../pages/dashboard/DashboardPage.jsx';
 import DoctorManagerPage from '../pages/doctor-manager/DoctorManagerPage.jsx';
@@ -41,13 +42,18 @@ function AppRouter() {
   const { user } = useAuth();
   const { activeTab } = useNavigation();
 
-  // 1. Chưa đăng nhập -> Trả về trang Đăng nhập
+  //  Chưa đăng nhập
   if (!user) {
-    return <LoginPage />;
+    if (activeTab === 'login') {
+      return <LoginPage />;
+    }
+    // Mặc định hoặc tab 'home' hiển thị Trang chủ VnuaCare
+    return <HomePage />;
   }
 
-  // 2. Điều hướng màn hình theo tab đang được chọn
   switch (activeTab) {
+    case 'home':
+      return <HomePage />;
     case 'doctors':
       return <DoctorManagerPage />;
     case 'users':

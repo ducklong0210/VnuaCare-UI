@@ -2,9 +2,9 @@
 // Cung cấp các hàm tải danh mục lựa chọn (Lookups): đợt khám, phòng ban, danh sách bác sĩ và cán bộ
 // Định nghĩa 2 danh mục chuẩn tĩnh: DEFAULT_HEALTH_CLASSIFICATIONS (Bộ Y tế) và DEFAULT_RECORD_STATUSES
 
-import { healthRecordRouter, campaignRouter, doctorRouter } from '../../../core/utils/api-router.js';
+import { healthRecordRouter, campaignRouter, doctorRouter } from '../../../utils/api-router.js';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ''
 
 // Header xác thực kèm Bearer token
 function getAuthHeaders() {
@@ -347,7 +347,7 @@ export async function deleteHealthRecordApi(recordId) {
   const endpoint = `${API_BASE_URL}${healthRecordRouter.delete(recordId)}`;
 
   const response = await fetch(endpoint, {
-    method: 'DELETE',
+    method: ModelMode.DELETE,
     headers: getAuthHeaders(),
   });
 

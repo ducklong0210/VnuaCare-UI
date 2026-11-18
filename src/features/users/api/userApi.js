@@ -2,9 +2,9 @@
 // Cung cấp các chức năng lọc danh sách người dùng, tra cứu danh mục vai trò (ADMIN, DOCTOR, STAFF)
 // Hỗ trợ tạo tài khoản mới, cập nhật phân quyền, đặt lại mật khẩu và khóa/xóa tài khoản
 
-import { userManagerRouter } from '../../../core/utils/api-router.js';
+import { userManagerRouter } from '../../../utils/api-router.js';
 
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || ''
 
 // Header xác thực kèm Bearer token
 function getAuthHeaders() {
@@ -116,7 +116,7 @@ export async function deleteUserApi(id) {
   const endpoint = `${API_BASE_URL}${userManagerRouter.delete(id)}`;
 
   const response = await fetch(endpoint, {
-    method: 'DELETE',
+    method: ModelMode.DELETE,
     headers: getAuthHeaders(),
   });
 
