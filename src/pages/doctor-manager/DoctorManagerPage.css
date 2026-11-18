@@ -1,0 +1,142 @@
+/* ==============================================================================
+   DOCTOR MANAGER PAGE STYLESHEET
+   Quản lý danh sách Bác sĩ - VnuaCare
+   ============================================================================== */
+
+/* Cột header bảng bác sĩ */
+.doctor-th-code {
+  width: 120px;
+}
+
+.doctor-th-name {
+  width: 220px;
+}
+
+.doctor-th-specialty {
+  width: 180px;
+}
+
+.doctor-th-license {
+  width: 160px;
+}
+
+.doctor-th-hospital {
+  width: 240px;
+}
+
+.doctor-th-action {
+  width: 100px;
+  text-align: center;
+}
+
+/* Ô thao tác trong bảng */
+.doctor-action-cell {
+  text-align: center;
+}
+
+/* Phân trang */
+.doctor-pagination-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.doctor-page-size-selector {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.doctor-page-size-select {
+  width: 80px;
+  height: 28px;
+  padding: 0 4px;
+  font-size: 12px;
+}
+
+.doctor-pagination-page-item {
+  display: inline-flex;
+  align-items: center;
+}
+
+.doctor-pagination-ellipsis {
+  padding: 0 4px;
+  color: #94a3b8;
+}
+
+/* Modal Thêm & Cập nhật Bác sĩ */
+.doctor-modal-card {
+  max-width: 540px;
+}
+
+.doctor-modal-body {
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.doctor-modal-alert {
+  padding: 8px 12px;
+  width: 100%;
+}
+
+.doctor-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+/* Khu vực liên kết tài khoản User (Role: DOCTOR) */
+.doctor-user-link-section {
+  border-top: 1px solid #e2e8f0;
+  padding-top: 12px;
+  margin-top: 4px;
+}
+
+.doctor-user-link-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0f766e;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.doctor-user-warning {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #b45309;
+}
+
+/* Modal Xác nhận Xóa bác sĩ */
+.doctor-delete-modal-card {
+  max-width: 420px;
+}
+
+.doctor-delete-modal-title {
+  color: #dc2626;
+}
+
+.doctor-delete-modal-text {
+  margin: 0;
+  font-size: 13.5px;
+  color: #334155;
+  line-height: 1.5;
+}
+
+.doctor-delete-modal-warn {
+  margin: 6px 0 0;
+  font-size: 12px;
+  color: #dc2626;
+}
+
+.doctor-delete-confirm-btn {
+  background-color: #dc2626;
+  color: #ffffff;
+  border-color: #dc2626;
+}
+
+.doctor-delete-confirm-btn:hover {
+  background-color: #b91c1c;
+}
+

@@ -1,12 +1,16 @@
-import { useAuth } from '../features/auth/hooks/useAuth.js';
-import { useNavigation } from '../routers/useNavigation.js';
+// Bộ điều hướng và phân quyền trung tâm của ứng dụng (Routing Guard)
+// Kiểm tra trạng thái đăng nhập: nếu chưa có phiên làm việc thì tự động chuyển hướng về trang Login
+// Đọc activeTab từ NavigationContext để hiển thị màn hình chức năng tương ứng mà không cần reload trang
+
+import { useAuth } from '../core/contexts/useAuth.js';
+import { useNavigation } from '../core/contexts/useNavigation.js';
 import LoginPage from '../pages/auth/LoginPage.jsx';
 import DashboardPage from '../pages/dashboard/DashboardPage.jsx';
 import DoctorManagerPage from '../pages/doctor-manager/DoctorManagerPage.jsx';
 import UserManagerPage from '../pages/user-manager/UserManagerPage.jsx';
-import ProfileManagerPage from '../pages/profile-manager/ProfileManagerPage.jsx';
+import HealthRecordsPage from '../pages/health-records/HealthRecordsPage.jsx';
 import StaffManagerPage from '../pages/staff-manager/StaffManagerPage.jsx';
-import MainLayout from '../layouts/MainLayout.jsx';
+import MainLayout from '../core/layouts/MainLayout.jsx';
 
 function PlaceholderPage({ tabId, title, apiRoute }) {
   return (
@@ -49,7 +53,7 @@ function AppRouter() {
     case 'users':
       return <UserManagerPage />;
     case 'records':
-      return <ProfileManagerPage />;
+      return <HealthRecordsPage />;
     case 'staffs':
       return <StaffManagerPage />;
     case 'campaigns':

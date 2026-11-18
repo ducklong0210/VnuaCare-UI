@@ -2,7 +2,7 @@ import { useState } from 'react';
 // Import hàm gọi API đăng nhập vừa viết từ thư mục api
 import { loginRequest } from '../api/authApi.js';
 // Import useAuth để báo cho toàn bộ ứng dụng biết người dùng đã đăng nhập thành công
-import { useAuth } from '../hooks/useAuth.js';
+import { useAuth } from '../../../core/contexts/useAuth.js';
 
 function LoginForm() {
   // Lấy hàm login từ AuthContext
@@ -48,17 +48,13 @@ function LoginForm() {
     <form className="login-form" onSubmit={handleSubmit}>
       {/* Khối hiển thị thông báo lỗi (chỉ hiện khi có lỗi) */}
       {errorMessage && (
-        <div className="form-error" role="alert">
-          ⚠ {errorMessage}
-        </div>
+        <div className="form-error" role="alert">⚠ {errorMessage}</div>
       )}
 
       <div className="form-field">
         <label htmlFor="login-identifier">Email công vụ hoặc Mã số cán bộ VNUA</label>
         <div className="text-field-input-wrap">
-          <span className="text-field-icon" aria-hidden="true">
-            ✉
-          </span>
+          <span className="text-field-icon" aria-hidden="true">✉</span>
           <input
             id="login-identifier"
             name="loginIdentifier"
@@ -75,14 +71,10 @@ function LoginForm() {
       <div className="password-field">
         <div className="password-label-row">
           <label htmlFor="password">Mật khẩu tài khoản</label>
-          <button className="text-button" type="button">
-            Quên mật khẩu?
-          </button>
+          <button className="text-button" type="button">Quên mật khẩu?</button>
         </div>
         <div className="password-input-wrap">
-          <span className="password-icon" aria-hidden="true">
-            ♙
-          </span>
+          <span className="password-icon" aria-hidden="true">♙</span>
           <input
             id="password"
             name="password"

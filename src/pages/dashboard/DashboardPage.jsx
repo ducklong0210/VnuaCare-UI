@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import MainLayout from '../../layouts/MainLayout.jsx';
-import { IconSearch, IconPlus, IconDownload, IconCheck, IconClose, IconEye, IconRefreshCw } from '../../components/ui/Icons.jsx';
+import MainLayout from '../../core/layouts/MainLayout.jsx';
+import { IconSearch, IconPlus, IconDownload, IconCheck, IconClose, IconEye, IconRefreshCw } from '../../core/components/Icons.jsx';
 import './DashboardPage.css';
 
 /**
@@ -166,12 +166,12 @@ export default function DashboardPage() {
             <table className="admin-table">
               <thead>
                 <tr>
-                  <th style={{ width: '90px' }}>Mã CB</th>
+                  <th style={{ width: '90px' }}>Mã Cán Bộ</th>
                   <th style={{ width: '220px' }}>Họ và tên</th>
                   <th style={{ width: '190px' }}>Đơn vị công tác</th>
                   <th style={{ width: '90px' }}>Năm</th>
                   <th style={{ width: '120px' }}>Phân loại</th>
-                  <th>Bệnh lý ghi nhận (Thêm linh hoạt)</th>
+                  <th>Bệnh lý ghi nhận</th>
                   <th style={{ width: '160px' }}>Cảnh báo Email</th>
                   <th style={{ width: '100px', textAlign: 'center' }}>Thao tác</th>
                 </tr>
@@ -195,9 +195,7 @@ export default function DashboardPage() {
                       <td>
                         <div className="cell-staff">
                           <strong>{r.fullname}</strong>
-                          <span>
-                            {r.gender} • {r.birthYear}
-                          </span>
+                          <span>{r.gender} • {r.birthYear}</span>
                         </div>
                       </td>
                       <td>{r.department}</td>
@@ -208,9 +206,7 @@ export default function DashboardPage() {
                       <td>
                         <div className="cell-conditions">
                           {r.conditions.map((c, i) => (
-                            <span key={i} className="chip-condition">
-                              {c}
-                            </span>
+                            <span key={i} className="chip-condition">{c}</span>
                           ))}
                           <button
                             type="button"
@@ -251,15 +247,9 @@ export default function DashboardPage() {
               Hiển thị <strong>{filteredList.length}</strong> / <strong>{totalCount}</strong> hồ sơ cán bộ
             </span>
             <div className="pagination-buttons">
-              <button type="button" disabled className="btn-page">
-                Trước
-              </button>
-              <button type="button" className="btn-page active">
-                1
-              </button>
-              <button type="button" disabled className="btn-page">
-                Sau
-              </button>
+              <button type="button" disabled className="btn-page">Trước</button>
+              <button type="button" className="btn-page active">1</button>
+              <button type="button" disabled className="btn-page">Sau</button>
             </div>
           </div>
         </div>
@@ -297,9 +287,7 @@ export default function DashboardPage() {
                 </div>
 
                 <div className="form-item">
-                  <label htmlFor="input-cond" className="field-label">
-                    Hoặc gõ tên bệnh lý mới:
-                  </label>
+                  <label htmlFor="input-cond" className="field-label">Hoặc gõ tên bệnh lý mới:</label>
                   <input
                     id="input-cond"
                     type="text"

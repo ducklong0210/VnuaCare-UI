@@ -1,0 +1,126 @@
+/* ==============================================================================
+   RECORD DETAIL MODAL STYLESHEET
+   Quản lý khung cửa sổ modal chi tiết hồ sơ bệnh nhân - VnuaCare
+   ============================================================================== */
+
+/* Khung modal chi tiết phiếu khám */
+.record-detail-modal-card {
+  max-width: 980px;
+  width: 96%;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header chi tiết hồ sơ bệnh nhân */
+.record-detail-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f8fafc;
+}
+
+.patient-info-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.patient-avatar-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #0f766e;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.patient-details h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.patient-details-meta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  color: #64748b;
+  margin-top: 3px;
+}
+
+.patient-sid-tag {
+  background-color: #f0fdfa;
+  border: 1px solid #99f6e4;
+  color: #0f766e;
+  font-family: monospace;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+/* Thanh Tabs chuyên môn */
+.record-tabs-bar {
+  display: flex;
+  background-color: #fff;
+  border-bottom: 1px solid #e2e8f0;
+  padding: 0 16px;
+  gap: 8px;
+  overflow-x: auto;
+}
+
+.record-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s ease-in-out;
+}
+
+.record-tab-btn:hover {
+  color: #0f766e;
+}
+
+.record-tab-btn.active {
+  color: #0f766e;
+  border-bottom-color: #0f766e;
+}
+
+/* Thân nội dung Tab */
+.record-detail-body {
+  flex: 1;
+  overflow-y: auto;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Hiệu ứng xoay của biểu tượng loading */
+.spinning-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

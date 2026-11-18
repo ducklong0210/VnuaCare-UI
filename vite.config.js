@@ -5,8 +5,8 @@ import { defineConfig } from 'vite'
 export default defineConfig({
   plugins: [react()],
   server: {
-    // Cấu hình Proxy để giải quyết triệt để lỗi CORS khi phát triển trên máy local:
-    // Trình duyệt gọi đến http://localhost:5173/api -> Vite tự chuyển tiếp sang https://localhost:44310/api
+    
+    // Cấu hình Vite tự chuyển tiếp sang https://localhost:44310/api
     proxy: {
       '/api': {
         target: 'https://localhost:44310',

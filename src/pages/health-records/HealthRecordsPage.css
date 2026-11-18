@@ -1,0 +1,259 @@
+/* ==============================================================================
+   PROFILE MANAGER PAGE STYLESHEET
+   Quản lý Hồ sơ khám sức khỏe cán bộ - VnuaCare
+   ============================================================================== */
+
+/* Cột header bảng hồ sơ khám */
+.record-th-sid {
+  width: 130px;
+}
+
+.record-th-staff {
+  width: 220px;
+}
+
+.record-th-campaign {
+  width: 170px;
+}
+
+.record-th-date {
+  width: 110px;
+}
+
+.record-th-grade {
+  width: 130px;
+}
+
+.record-th-doctor {
+  width: 160px;
+}
+
+.record-th-status {
+  width: 130px;
+}
+
+.record-th-action {
+  width: 125px;
+  text-align: center;
+}
+
+/* Ô thao tác trong bảng */
+.record-action-cell {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.btn-detail {
+  color: #0f766e;
+}
+
+.btn-detail:hover {
+  background-color: #f0fdfa;
+  border-color: #99f6e4;
+}
+
+/* Badge Mã SID */
+.record-sid-badge {
+  display: inline-block;
+  font-family: monospace;
+  font-size: 12px;
+  font-weight: 700;
+  color: #0f766e;
+  background-color: #f0fdfa;
+  border: 1px solid #ccfbf1;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+/* Badge Xếp loại sức khỏe Bộ Y tế */
+.grade-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.grade-badge.grade-1 {
+  background-color: #ecfdf5;
+  color: #047857;
+  border: 1px solid #a7f3d0;
+}
+
+.grade-badge.grade-2 {
+  background-color: #f0f9ff;
+  color: #0369a1;
+  border: 1px solid #bae6fd;
+}
+
+.grade-badge.grade-3 {
+  background-color: #fffbeb;
+  color: #b45309;
+  border: 1px solid #fde68a;
+}
+
+.grade-badge.grade-4 {
+  background-color: #fff7ed;
+  color: #c2410c;
+  border: 1px solid #fed7aa;
+}
+
+.grade-badge.grade-5 {
+  background-color: #fef2f2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+}
+
+.grade-badge.grade-none {
+  background-color: #f8fafc;
+  color: #64748b;
+  border: 1px solid #e2e8f0;
+}
+
+/* Badge Trạng thái hồ sơ */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.status-pill.status-pending {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.status-pill.status-in_progress {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+}
+
+.status-pill.status-completed {
+  background-color: #f0fdf4;
+  color: #15803d;
+}
+
+.status-pill.status-cancelled {
+  background-color: #f1f5f9;
+  color: #475569;
+}
+
+/* Phân trang */
+.record-pagination-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.record-page-size-selector {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #64748b;
+}
+
+.record-page-size-select {
+  width: 80px;
+  height: 28px;
+  padding: 0 4px;
+  font-size: 12px;
+}
+
+.record-pagination-page-item {
+  display: inline-flex;
+  align-items: center;
+}
+
+.record-pagination-ellipsis {
+  padding: 0 4px;
+  color: #94a3b8;
+}
+
+/* Modal Thêm & Cập nhật Hồ sơ khám */
+.record-modal-card {
+  max-width: 680px;
+  width: 95%;
+}
+
+.record-modal-body {
+  max-height: 75vh;
+  overflow-y: auto;
+  padding: 20px;
+}
+
+.record-modal-alert {
+  padding: 8px 12px;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.record-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.record-form-full {
+  margin-bottom: 12px;
+}
+
+.record-info-banner {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.record-info-banner strong {
+  color: #0f172a;
+  font-size: 13px;
+}
+
+.record-info-banner span {
+  color: #64748b;
+  font-size: 12px;
+}
+
+.record-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0f766e;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 14px 0 8px 0;
+  border-bottom: 1px dashed #cbd5e1;
+  padding-bottom: 4px;
+}
+
+.record-textarea {
+  width: 100%;
+  min-height: 64px;
+  padding: 8px 10px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 13px;
+  font-family: inherit;
+  resize: vertical;
+  background-color: #fff;
+}
+
+.record-textarea:focus {
+  outline: none;
+  border-color: #0d9488;
+  box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.15);
+}

@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import MainLayout from '../../layouts/MainLayout.jsx';
-import { getStaffFilterApi, getDepartmentsApi, createStaffApi, updateStaffApi, deleteStaffApi } from '../../features/staff-manager/api/staffApi.js';
-import { getUserSelectApi } from '../../features/user-manager/api/userApi.js';
+import MainLayout from '../../core/layouts/MainLayout.jsx';
+import { getStaffFilterApi, getDepartmentsApi, createStaffApi, updateStaffApi, deleteStaffApi } from '../../features/staffs/api/staffApi.js';
+import { getUserSelectApi } from '../../features/users/api/userApi.js';
 import './StaffManagerPage.css';
-import { IconSearch, IconRefreshCw, IconPlus, IconEdit, IconTrash, IconClose, IconCheck } from '../../components/ui/Icons.jsx';
-import { AVATAR_PRESETS } from '../../components/data/avatarData.js';
+import { IconSearch, IconRefreshCw, IconPlus, IconEdit, IconTrash, IconClose, IconCheck } from '../../core/components/Icons.jsx';
+import { AVATAR_PRESETS } from '../../core/data/avatarData.js';
 
 // Giá trị mặc định của form
 const INITIAL_FORM = {
@@ -325,9 +325,7 @@ export default function StaffManagerPage() {
             >
               <option value="ALL">Tất cả đơn vị / Khoa</option>
               {departments.map((dept) => (
-                <option key={dept.departmentId} value={dept.departmentId}>
-                  {dept.departmentName}
-                </option>
+                <option key={dept.departmentId} value={dept.departmentId}>{dept.departmentName}</option>
               ))}
             </select>
 
@@ -567,9 +565,7 @@ export default function StaffManagerPage() {
                     >
                       <option value="">-- Chọn Khoa / Phòng ban --</option>
                       {departments.map((d) => (
-                        <option key={d.departmentId} value={d.departmentId}>
-                          {d.departmentName}
-                        </option>
+                        <option key={d.departmentId} value={d.departmentId}>{d.departmentName}</option>
                       ))}
                     </select>
                   </div>
@@ -720,27 +716,19 @@ export default function StaffManagerPage() {
                           {usersList.map((u) => {
                             const isAssigned = staffs.some((s) => s.userId === u.userId);
                             return (
-                              <option key={u.userId} value={u.userId} disabled={isAssigned}>
-                                {u.username} {u.email ? `(${u.email})` : ''} {isAssigned ? '- [Đã gắn hồ sơ]' : ''}
-                              </option>
+                              <option key={u.userId} value={u.userId} disabled={isAssigned}>{u.username} {u.email ? `(${u.email})` : ''} {isAssigned ? '- [Đã gắn hồ sơ]' : ''}</option>
                             );
                           })}
                         </select>
-                        <span className="staff-user-warning">
-                          * Nếu chưa có tài khoản, vui lòng vào trang &quot;Quản lý người dùng&quot; tạo tài khoản với vai trò Cán bộ (STAFF) trước.
-                        </span>
+                        <span className="staff-user-warning">* Nếu chưa có tài khoản, vui lòng vào trang &quot;Quản lý người dùng&quot; tạo tài khoản với vai trò Cán bộ (STAFF) trước.</span>
                       </div>
                     </div>
                   )}
                 </div>
 
                 <div className="modal-foot">
-                  <button type="button" className="btn btn-outline" onClick={handleCloseModal}>
-                    Hủy
-                  </button>
-                  <button type="submit" className="btn btn-primary" disabled={submitting}>
-                    {submitButtonText}
-                  </button>
+                  <button type="button" className="btn btn-outline" onClick={handleCloseModal}>Hủy</button>
+                  <button type="submit" className="btn btn-primary" disabled={submitting}>{submitButtonText}</button>
                 </div>
               </form>
             </div>
@@ -769,9 +757,7 @@ export default function StaffManagerPage() {
                 <button type="button" className="btn btn-outline" onClick={() => setDeletingStaff(null)} disabled={deleteLoading}>
                   Hủy
                 </button>
-                <button type="button" className="btn staff-delete-confirm-btn" onClick={handleConfirmDelete} disabled={deleteLoading}>
-                  {deleteLoading ? 'Đang xóa...' : 'Xác nhận xóa'}
-                </button>
+                <button type="button" className="btn staff-delete-confirm-btn" onClick={handleConfirmDelete} disabled={deleteLoading}>{deleteLoading ? 'Đang xóa...' : 'Xác nhận xóa'}</button>
               </div>
             </div>
           </div>

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import MainLayout from '../../layouts/MainLayout.jsx';
-import { getUserFilterApi, createUserApi, updateUserApi, deleteUserApi } from '../../features/user-manager/api/userApi.js';
+import MainLayout from '../../core/layouts/MainLayout.jsx';
+import { getUserFilterApi, createUserApi, updateUserApi, deleteUserApi } from '../../features/users/api/userApi.js';
 import './UserManagerPage.css';
-import { IconSearch, IconRefreshCw, IconPlus, IconEdit, IconTrash, IconClose, IconCheck } from '../../components/ui/Icons.jsx';
+import { IconSearch, IconRefreshCw, IconPlus, IconEdit, IconTrash, IconClose, IconCheck } from '../../core/components/Icons.jsx';
 
 export default function UserManagerPage() {
   // Dữ liệu danh sách người dùng
@@ -384,9 +384,7 @@ export default function UserManagerPage() {
               <form onSubmit={handleSubmitForm}>
                 <div className="modal-content">
                   {modalError && (
-                    <div className="alert-tag danger" style={{ padding: '8px 12px', width: '100%' }}>
-                      {modalError}
-                    </div>
+                    <div className="alert-tag danger" style={{ padding: '8px 12px', width: '100%' }}>{modalError}</div>
                   )}
 
                   <div className="form-item">
@@ -431,10 +429,10 @@ export default function UserManagerPage() {
                   <div className="form-item">
                     <label className="field-label">Vai trò</label>
                     <select className="form-select" value={formData.role} onChange={(e) => setFormData({ ...formData, role: e.target.value })}>
-                      <option value="STAFF">STAFF (Cán bộ)</option>
-                      <option value="DOCTOR">DOCTOR (Bác sĩ)</option>
-                      <option value="HEALTH_ADMIN">HEALTH ADMIN (Quản trị y tế)</option>
-                      <option value="SUPER_ADMIN">SUPER ADMIN (Quản trị cấp cao)</option>
+                      <option value="STAFF">Cán bộ</option>
+                      <option value="DOCTOR">Bác sĩ</option>
+                      <option value="HEALTH_ADMIN">Quản trị y tế</option>
+                      <option value="SUPER_ADMIN">Quản trị cấp cao</option>
                     </select>
                   </div>
 
@@ -443,28 +441,24 @@ export default function UserManagerPage() {
                       <label className="field-label">Trạng thái tài khoản</label>
                       <select
                         className="form-select"
-                        value={formData.isActive ? 'ACTIVE' : 'LOCKED'}
+                        value={formData.isActive ? '1' : '0'}
                         onChange={(e) =>
                           setFormData({
                             ...formData,
-                            isActive: e.target.value === 'ACTIVE',
+                            isActive: e.target.value === '1',
                           })
                         }
                       >
-                        <option value="ACTIVE">Hoạt động</option>
-                        <option value="LOCKED">Đã khóa</option>
+                        <option value="1">Hoạt động</option>
+                        <option value="0">Đã khóa</option>
                       </select>
                     </div>
                   )}
                 </div>
 
                 <div className="modal-foot">
-                  <button type="button" className="btn btn-outline" onClick={handleCloseModal}>
-                    Hủy
-                  </button>
-                  <button type="submit" className="btn btn-primary" disabled={submitting}>
-                    {submitting ? 'Đang xử lý...' : modalMode === 'CREATE' ? 'Tạo tài khoản' : 'Lưu thay đổi'}
-                  </button>
+                  <button type="button" className="btn btn-outline" onClick={handleCloseModal}>Hủy</button>
+                  <button type="submit" className="btn btn-primary" disabled={submitting}>{submitting ? 'Đang xử lý...' : modalMode === 'CREATE' ? 'Tạo tài khoản' : 'Lưu thay đổi'}</button>
                 </div>
               </form>
             </div>
@@ -493,9 +487,7 @@ export default function UserManagerPage() {
                 <button type="button" className="btn btn-outline" onClick={() => setDeletingUser(null)} disabled={deleteLoading}>
                   Hủy
                 </button>
-                <button type="button" className="btn user-delete-confirm-btn" onClick={handleConfirmDelete} disabled={deleteLoading}>
-                  {deleteLoading ? 'Đang xóa...' : 'Xác nhận xóa'}
-                </button>
+                <button type="button" className="btn user-delete-confirm-btn" onClick={handleConfirmDelete} disabled={deleteLoading}>{deleteLoading ? 'Đang xóa...' : 'Xác nhận xóa'}</button>
               </div>
             </div>
           </div>

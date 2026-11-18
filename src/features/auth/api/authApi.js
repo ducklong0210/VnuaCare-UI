@@ -1,4 +1,8 @@
-import { authorizationRouter } from '../../../utils/api-router.js';
+// Tầng API xử lý xác thực tài khoản người dùng đăng nhập vào hệ thống
+// Gửi thông tin định danh (email/mã cán bộ) và mật khẩu tới endpoint /api/v1/authorization/login
+// Trả về dữ liệu phiên làm việc gồm token truy cập JWT, thông tin vai trò và thông tin cá nhân
+
+import { authorizationRouter } from '../../../core/utils/api-router.js';
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || '';
 
