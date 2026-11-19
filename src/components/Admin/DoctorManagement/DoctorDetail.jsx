@@ -3,7 +3,7 @@
 // Hỗ trợ liên kết tài khoản người dùng tương ứng (Role: DOCTOR) khi tạo mới
 
 import { IconClose } from '../../SupportAgent/Icons.jsx';
-
+import { ModelMode } from '../../../utils/index.js'
 export default function DoctorDetail({
     modalMode,
     formData,

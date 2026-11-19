@@ -56,7 +56,7 @@ export default function Header() {
         </div>
 
         {/* Nút Đăng xuất ở góc trên cùng */}
-        <button type="button" className="btn-header-logout" onClick={logout} title="Đăng xuất khỏi hệ thống">
+        <button type="button" className="btn-header-logout" onClick={() => { logout(); navigate('home'); }} title="Đăng xuất khỏi hệ thống">
           <IconLogout size={16} />
           <span>Đăng xuất</span>
         </button>

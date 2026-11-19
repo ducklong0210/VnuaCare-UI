@@ -163,7 +163,7 @@ export class DiagnosticReportService {
     const endpoint = `${this.baseUrl}${diagnosticReportRouter.delete(reportId)}`;
 
     const response = await fetch(endpoint, {
-      method: ModelMode.DELETE,
+      method: 'DELETE',
       headers: this.getAuthHeaders(),
     });
 

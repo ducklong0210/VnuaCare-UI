@@ -19,6 +19,7 @@ import {
 import './HealthRecordsPage.css';
 import { IconSearch, IconRefreshCw, IconPlus, IconEdit, IconTrash, IconClose, IconCheck, IconAlertTriangle, IconEye } from '../../components/SupportAgent/Icons.jsx';
 import RecordDetailModal from '../../components/Admin/HealthRecordManagement/RecordDetailModal.jsx';
+import { ModelMode } from '../../utils/index.js';
 
 // Giá trị mặc định của form hồ sơ khám
 const INITIAL_FORM = {

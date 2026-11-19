@@ -104,7 +104,7 @@ export async function deleteInternalMedicineExamApi(internalExamId) {
   const endpoint = `${API_BASE_URL}${internalMedicineRouter.delete(internalExamId)}`;
 
   const response = await fetch(endpoint, {
-    method: ModelMode.DELETE,
+    method: 'DELETE',
     headers: getAuthHeaders(),
   });
 

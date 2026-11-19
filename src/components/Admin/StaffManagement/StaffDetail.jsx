@@ -3,7 +3,7 @@
 // Cung cấp chức năng liên kết với tài khoản người dùng tương ứng (Role: STAFF)
 
 import { IconClose } from '../../../components/SupportAgent/Icons.jsx';
-import { AVATAR_PRESETS } from '../../../utils/index.js';
+import { AVATAR_PRESETS, ModelMode } from '../../../utils/index.js';
 
 export default function StaffDetail({
     modalMode,

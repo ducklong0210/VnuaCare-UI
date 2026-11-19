@@ -115,7 +115,7 @@ export async function deleteUserApi(id) {
   const endpoint = `${API_BASE_URL}${userManagerRouter.delete(id)}`;
 
   const response = await fetch(endpoint, {
-    method: ModelMode.DELETE,
+    method: 'DELETE',
     headers: getAuthHeaders(),
   });
 

@@ -347,7 +347,7 @@ export async function deleteHealthRecordApi(recordId) {
   const endpoint = `${API_BASE_URL}${healthRecordRouter.delete(recordId)}`;
 
   const response = await fetch(endpoint, {
-    method: ModelMode.DELETE,
+    method: 'DELETE',
     headers: getAuthHeaders(),
   });
 

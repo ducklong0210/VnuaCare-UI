@@ -107,7 +107,7 @@ export async function deleteSpecialistExamApi(specialistExamId) {
   const endpoint = `${API_BASE_URL}${specialistExamRouter.delete(specialistExamId)}`;
 
   const response = await fetch(endpoint, {
-    method: ModelMode.DELETE,
+    method: 'DELETE',
     headers: getAuthHeaders(),
   });
 

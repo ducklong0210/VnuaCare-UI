@@ -131,7 +131,7 @@ export async function deleteDoctorApi(doctorId) {
   const endpoint = `${API_BASE_URL}${doctorRouter.delete(doctorId)}`;
 
   const response = await fetch(endpoint, {
-    method: ModelMode.DELETE,
+    method: 'DELETE',
     headers: getAuthHeaders(),
   });
 

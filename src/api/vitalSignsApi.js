@@ -104,7 +104,7 @@ export async function deleteVitalSignsApi(recordId) {
   const endpoint = `${API_BASE_URL}${vitalSignsRouter.delete(recordId)}`;
 
   const response = await fetch(endpoint, {
-    method: ModelMode.DELETE,
+    method: 'DELETE',
     headers: getAuthHeaders(),
   });
 

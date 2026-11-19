@@ -1,9 +1,11 @@
 import { useState } from 'react';
 import { loginRequest } from '../../api/authApi.js';
 import { useAuth } from '../../core/contexts/useAuth.js';
+import { useNavigation } from '../../core/contexts/useNavigation.js';
 
 function LoginForm() {
   const { login } = useAuth();
+  const { navigate } = useNavigation();
 
   const [loginIdentifier, setLoginIdentifier] = useState('');
   const [password, setPassword] = useState('');
@@ -26,8 +28,9 @@ function LoginForm() {
         password: password,
       });
 
-      // AppRouter sẽ tự động nhận diện token và điều hướng sang Dashboard
+      // Lưu thông tin đăng nhập rồi chuyển sang Dashboard
       login(data);
+      navigate('dashboard');
     } catch (error) {
       setErrorMessage(error.message || 'Đăng nhập không thành công. Vui lòng kiểm tra lại thông tin.');
     } finally {
