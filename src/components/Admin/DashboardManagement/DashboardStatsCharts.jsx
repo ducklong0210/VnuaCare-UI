@@ -1,9 +1,9 @@
-// Component Bước 2 của Dashboard: Hiển thị 2 khung thống kê dạng thanh ngang trực quan
-//   1. Khung bên trái: Tỷ lệ Phân loại sức khỏe (dùng danh mục DEFAULT_HEALTH_CLASSIFICATIONS từ utils/index.js)
-//   2. Khung bên phải: Tiến độ xử lý hồ sơ khám (dùng RECORD_STATUS & RECORD_STATUS_LABELS từ utils/index.js)
-// Nhận props:
-//   - records : Mảng danh sách hồ sơ khám lấy từ Backend
-//   - loading : Trạng thái đang tải dữ liệu (true/false)
+// Component con của Dashboard: hiển thị hai khung thống kê dạng thanh ngang trực quan
+// - Khung bên trái: Tỷ lệ Phân loại sức khỏe (dùng danh mục DEFAULT_HEALTH_CLASSIFICATIONS từ utils/index.js)
+// - Khung bên phải: Tiến độ xử lý hồ sơ khám (dùng RECORD_STATUS và RECORD_STATUS_LABELS từ utils/index.js)
+// Nhận props từ DashboardManager:
+// - records : Mảng danh sách hồ sơ khám lấy từ Backend
+// - loading : Trạng thái đang tải dữ liệu (true/false)
 
 import {
   DEFAULT_HEALTH_CLASSIFICATIONS,
@@ -12,7 +12,7 @@ import {
   SystemColors,
 } from '../../../utils/index.js';
 
-// Màu thanh ngang tương ứng cho từng phân loại sức khỏe
+// Bảng màu thanh ngang tương ứng cho từng mức phân loại sức khỏe
 const CLASSIFICATION_COLORS = {
   'Loại I': SystemColors.success,
   'Loại II': SystemColors.primary,
@@ -21,18 +21,19 @@ const CLASSIFICATION_COLORS = {
   'Loại V': SystemColors.danger,
 };
 
-// Hàm tính phần trăm: (count / total) * 100, làm tròn số nguyên
+// Hàm tính tỷ lệ phần trăm và làm tròn số nguyên (trả về 0 nếu tổng bằng 0 để tránh chia cho 0)
 function calculatePercent(count, total) {
   if (total === 0) return 0;
   return Math.round((count / total) * 100);
 }
 
-// Hàm kiểm tra chuỗi xếp loại sức khỏe của 1 hồ sơ có khớp loại cần đếm hay không
+// Hàm kiểm tra chuỗi xếp loại sức khỏe của một hồ sơ có khớp nhóm cần đếm hay không
 function matchesClassification(value, targetCode) {
   const normalized = (value || '').trim();
+  // Nhóm chưa xếp loại ứng với các hồ sơ có giá trị rỗng hoặc null
   if (targetCode === 'UNCLASSIFIED') return normalized === '';
 
-  // Với "Loại I" cần loại trừ "Loại II", "Loại III", "Loại IV" vì cùng bắt đầu bằng "Loại I"
+  // Với "Loại I" cần loại trừ "Loại II", "Loại III", "Loại IV", "Loại V" vì cùng chứa chuỗi "Loại I"
   if (targetCode === 'Loại I') {
     return (
       normalized.includes('Loại I') &&
@@ -46,9 +47,9 @@ function matchesClassification(value, targetCode) {
 }
 
 export default function DashboardStatsCharts({ records = [], loading = false }) {
-  const totalRecords = records.length; // Tổng số hồ sơ dùng để tính tỷ lệ phần trăm
+  const totalRecords = records.length; // Tổng số hồ sơ dùng làm mẫu số để tính phần trăm
 
-  // 1. Thống kê Phân loại sức khỏe (tái sử dụng DEFAULT_HEALTH_CLASSIFICATIONS từ utils/index.js)
+  // Gom nhóm và đếm số lượng hồ sơ theo từng mức Phân loại sức khỏe
   const classificationStats = [
     ...DEFAULT_HEALTH_CLASSIFICATIONS.map((item) => ({
       label: item.label,
@@ -62,7 +63,7 @@ export default function DashboardStatsCharts({ records = [], loading = false }) 
     },
   ];
 
-  // 2. Thống kê Trạng thái tiến độ hồ sơ (tái sử dụng RECORD_STATUS & RECORD_STATUS_LABELS từ utils/index.js)
+  // Gom nhóm và đếm số lượng hồ sơ theo từng trạng thái tiến độ khám
   const statusStats = [
     {
       label: RECORD_STATUS_LABELS[RECORD_STATUS.COMPLETED],

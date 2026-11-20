@@ -1,26 +1,26 @@
-// Component Bước 3 của Dashboard: Bảng hiển thị 5 hồ sơ khám gần đây nhất
-// Tái sử dụng hằng số RECORD_STATUS & RECORD_STATUS_LABELS từ utils/index.js
-// Nhận props:
-//   - records   : Mảng danh sách hồ sơ khám lấy từ Backend
-//   - loading   : Trạng thái đang tải dữ liệu (true/false)
-//   - onViewAll : Hàm chuyển nhanh sang trang Quản lý Hồ sơ khám đầy đủ
+// Component con của Dashboard: bảng hiển thị các hồ sơ khám gần đây nhất
+// Tái sử dụng hằng số RECORD_STATUS và RECORD_STATUS_LABELS từ utils/index.js
+// Nhận props từ DashboardManager:
+// - records   : Mảng danh sách hồ sơ khám lấy từ Backend
+// - loading   : Trạng thái đang tải dữ liệu (true/false)
+// - onViewAll : Hàm chuyển nhanh sang trang Quản lý Hồ sơ khám đầy đủ (undefined nếu không có quyền)
 
 import { RECORD_STATUS, RECORD_STATUS_LABELS } from '../../../utils/index.js';
 import { formatDate } from '../../../utils/utils.js';
 
-
 export default function DashboardRecentRecords({ records = [], loading = false, onViewAll }) {
-  // Lấy tối đa 5 hồ sơ đầu tiên để hiển thị gọn trên Dashboard
+  // Cắt lấy tối đa năm hồ sơ đầu tiên để hiển thị gọn trên Dashboard
   const recentRecords = records.slice(0, 5);
 
   return (
     <div className="panel-card">
-      {/* Tiêu đề khối & nút chuyển nhanh sang trang Hồ sơ khám */}
+      {/* Tiêu đề khối và nút chuyển nhanh sang trang Hồ sơ khám */}
       <div className="recent-records-header">
         <div>
           <h3 className="stat-panel-title">Hồ sơ khám gần đây</h3>
         </div>
 
+        {/* Chỉ hiện nút "Xem tất cả hồ sơ" nếu người dùng có quyền mở trang Hồ sơ khám */}
         {onViewAll && (
           <button type="button" className="btn btn-outline" onClick={onViewAll}>
             Xem tất cả hồ sơ &rarr;
@@ -28,7 +28,7 @@ export default function DashboardRecentRecords({ records = [], loading = false, 
         )}
       </div>
 
-      {/* Bảng  hồ sơ gần nhất */}
+      {/* Bảng danh sách hồ sơ gần nhất */}
       <div className="table-wrapper">
         <table className="admin-table">
           <thead>
@@ -42,6 +42,7 @@ export default function DashboardRecentRecords({ records = [], loading = false, 
             </tr>
           </thead>
           <tbody>
+            {/* Trạng thái đang tải dữ liệu từ API */}
             {loading && (
               <tr>
                 <td colSpan={6} className="empty-cell">
@@ -52,6 +53,7 @@ export default function DashboardRecentRecords({ records = [], loading = false, 
               </tr>
             )}
 
+            {/* Trạng thái đã tải xong nhưng chưa có hồ sơ nào */}
             {!loading && recentRecords.length === 0 && (
               <tr>
                 <td colSpan={6} className="empty-cell">
@@ -63,9 +65,12 @@ export default function DashboardRecentRecords({ records = [], loading = false, 
               </tr>
             )}
 
+            {/* Duyệt mảng các hồ sơ gần đây để vẽ từng dòng bảng */}
             {!loading &&
               recentRecords.map((record) => {
+                // Nếu hồ sơ chưa có trạng thái thì mặc định là Chờ khám (PENDING)
                 const statusCode = record.status || RECORD_STATUS.PENDING;
+                // Đổi mã trạng thái tiếng Anh sang nhãn tiếng Việt để hiển thị
                 const statusLabel = RECORD_STATUS_LABELS[statusCode] || RECORD_STATUS_LABELS[RECORD_STATUS.PENDING];
 
                 return (

@@ -1,6 +1,6 @@
 // Tầng API quản lý hồ sơ khám sức khỏe: lọc danh sách, phân trang và các thao tác thêm/sửa/xóa hồ sơ
 // Cung cấp các hàm tải danh mục lựa chọn (Lookups): đợt khám, phòng ban, danh sách bác sĩ và cán bộ
-// Định nghĩa 2 danh mục chuẩn tĩnh: DEFAULT_HEALTH_CLASSIFICATIONS (Bộ Y tế) và DEFAULT_RECORD_STATUSES
+// Dùng chung danh mục tĩnh DEFAULT_HEALTH_CLASSIFICATIONS (Bộ Y tế) và DEFAULT_RECORD_STATUSES từ utils/index.js
 
 import { healthRecordRouter, campaignRouter, doctorRouter } from '../utils/api-router.js';
 import { getAuthHeaders, parseApiError, API_BASE_URL } from './httpClient.js';
@@ -8,22 +8,25 @@ import { DEFAULT_HEALTH_CLASSIFICATIONS, DEFAULT_RECORD_STATUSES, METHODS } from
 
 // Lọc và phân trang danh sách Hồ sơ khám sức khỏe
 export async function getHealthRecordFilterApi({
-  textSearch = '',
-  campaignId = null,
-  departmentId = null,
-  status = '',
-  healthClassification = '',
-  pageNumber = 1,
-  pageSize = 10,
+  textSearch = '', // Từ khóa tìm theo mã SID, tên cán bộ, mã nhân viên
+  campaignId = null, // Mã đợt khám cần lọc (null hoặc 'ALL' là lấy tất cả)
+  departmentId = null, // Mã khoa / phòng ban cần lọc
+  status = '', // Trạng thái hồ sơ (PENDING, IN_PROGRESS, COMPLETED, CANCELLED)
+  healthClassification = '', // Phân loại sức khỏe (Loại I -> Loại V)
+  pageNumber = 1, // Trang hiện tại cần lấy
+  pageSize = 10, // Số dòng dữ liệu trên mỗi trang
 } = {}) {
+  // Ghép địa chỉ máy chủ với đường dẫn API lọc hồ sơ
   const endpoint = `${API_BASE_URL}${healthRecordRouter.getFilter}`;
 
+  // Khởi tạo gói dữ liệu cơ bản luôn phải gửi lên Backend
   const bodyData = {
-    textSearch: textSearch.trim(),
+    textSearch: textSearch.trim(), // Cắt bỏ khoảng trắng thừa đầu cuối từ khóa tìm kiếm
     pageNumber: pageNumber,
     pageSize: pageSize,
   };
 
+  // Chỉ đính kèm các tiêu chí lọc vào body khi người dùng thực sự chọn (tránh gửi chữ 'ALL' gây lỗi ép kiểu số ở Backend)
   if (campaignId && campaignId !== 'ALL') {
     bodyData.campaignId = Number(campaignId);
   }
@@ -40,37 +43,43 @@ export async function getHealthRecordFilterApi({
     bodyData.healthClassification = healthClassification;
   }
 
+  // Gửi yêu cầu POST kèm thẻ JWT và gói điều kiện lọc dạng chuỗi JSON lên Backend
   const response = await fetch(endpoint, {
     method: METHODS.POST,
     headers: getAuthHeaders(),
     body: JSON.stringify(bodyData),
   });
 
+  // Nếu Backend trả mã 401 nghĩa là token hết hạn hoặc chưa đăng nhập
   if (response.status === 401) {
     throw new Error('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!');
   }
 
+  // Nếu mã HTTP không thành công (400, 403, 500...) thì đọc thông báo lỗi từ Backend và ném lỗi lên giao diện
   if (!response.ok) {
     let errorMessage = 'Lỗi khi tải danh sách hồ sơ khám';
     try {
       const err = await response.json();
       errorMessage = parseApiError(err, errorMessage);
     } catch {
-      // Bỏ qua lỗi parse JSON
+      // Bỏ qua nếu phản hồi lỗi từ server không phải định dạng JSON
     }
     throw new Error(errorMessage);
   }
 
+  // Đọc dữ liệu JSON trả về: lớp data ngoài là vỏ bọc ApiResponse, lớp data trong là mảng bản ghi của PagedResult
   const result = await response.json();
+
+  // Chuẩn hóa lại thành object gọn 1 lớp để các component giao diện gọi dùng dễ hiểu hơn
   return {
-    items: result?.data?.data || [],
-    totalCount: result?.data?.totalCount || 0,
-    pageNumber: result?.data?.pageNumber || pageNumber,
-    pageSize: result?.data?.pageSize || pageSize,
+    items: result?.data?.data || [], // Mảng danh sách hồ sơ của trang hiện tại
+    totalCount: result?.data?.totalCount || 0, // Tổng số hồ sơ khớp bộ lọc trong toàn bộ database
+    pageNumber: result?.data?.pageNumber || pageNumber, // Số trang hiện tại
+    pageSize: result?.data?.pageSize || pageSize, // Số dòng trên mỗi trang
   };
 }
 
-// Lấy danh mục Đợt khám sức khỏe cho dropdown
+// Lấy danh mục Đợt khám sức khỏe cho dropdown (API không phân trang nên chỉ có 1 lớp data)
 export async function getCampaignsSelectApi() {
   const endpoint = `${API_BASE_URL}${campaignRouter.getSelect}`;
 
@@ -79,6 +88,7 @@ export async function getCampaignsSelectApi() {
     headers: getAuthHeaders(),
   });
 
+  // Nếu lỗi thì trả mảng rỗng để dropdown không làm sập trang
   if (!response.ok) {
     return [];
   }
@@ -96,6 +106,7 @@ export async function getDepartmentsSelectApi() {
     headers: getAuthHeaders(),
   });
 
+  // Nếu lỗi thì trả mảng rỗng để dropdown vẫn hiển thị an toàn
   if (!response.ok) {
     return [];
   }
@@ -104,21 +115,20 @@ export async function getDepartmentsSelectApi() {
   return result?.data || [];
 }
 
-
-
-// Lấy danh mục Phân loại sức khỏe (chuẩn hóa ở Frontend theo Bộ Y tế)
+// Lấy danh mục Phân loại sức khỏe chuẩn hóa sẵn ở Frontend theo quy định Bộ Y tế
 export async function getClassificationsApi() {
   return DEFAULT_HEALTH_CLASSIFICATIONS;
 }
 
-// Lấy danh mục Trạng thái hồ sơ khám (chuẩn hóa ở Frontend)
+// Lấy danh mục Trạng thái hồ sơ khám chuẩn hóa sẵn ở Frontend
 export async function getStatusesApi() {
   return DEFAULT_RECORD_STATUSES;
 }
 
-// Lấy danh sách Cán bộ phục vụ chọn trong hồ sơ khám
+// Lấy danh sách Cán bộ phục vụ chọn trong biểu mẫu tạo hồ sơ khám (có thể lọc theo phòng ban)
 export async function getStaffsSelectApi(departmentId = null) {
   let endpoint = `${API_BASE_URL}${healthRecordRouter.getStaffs}`;
+  // Nếu có chọn phòng ban cụ thể thì nối thêm tham số query lên URL
   if (departmentId && departmentId !== 'ALL') {
     endpoint += `?departmentId=${departmentId}`;
   }
@@ -136,9 +146,10 @@ export async function getStaffsSelectApi(departmentId = null) {
   return result?.data || [];
 }
 
-// Lấy danh sách Bác sĩ kết luận hồ sơ khám
+// Lấy danh sách Bác sĩ kết luận hồ sơ khám (có thể lọc theo chuyên khoa)
 export async function getDoctorsSelectApi(specialtyId = null) {
   let endpoint = `${API_BASE_URL}${healthRecordRouter.getDoctors}`;
+  // Nếu có chọn chuyên khoa cụ thể thì nối thêm tham số query lên URL
   if (specialtyId && specialtyId !== 'ALL') {
     endpoint += `?specialtyId=${specialtyId}`;
   }
@@ -156,7 +167,7 @@ export async function getDoctorsSelectApi(specialtyId = null) {
   return result?.data || [];
 }
 
-// Lấy danh mục Chuyên khoa y tế
+// Lấy danh mục Chuyên khoa y tế cho dropdown
 export async function getSpecialtiesApi() {
   const endpoint = `${API_BASE_URL}${doctorRouter.getSpecialties}`;
 
@@ -173,7 +184,7 @@ export async function getSpecialtiesApi() {
   return result?.data || [];
 }
 
-// Lấy chi tiết một hồ sơ khám theo ID
+// Lấy chi tiết một hồ sơ khám theo mã ID
 export async function getHealthRecordByIdApi(recordId) {
   const endpoint = `${API_BASE_URL}${healthRecordRouter.getById(recordId)}`;
 
@@ -188,16 +199,17 @@ export async function getHealthRecordByIdApi(recordId) {
       const err = await response.json();
       errorMessage = parseApiError(err, errorMessage);
     } catch {
-      // Bỏ qua lỗi parse JSON
+      // Bỏ qua nếu phản hồi lỗi từ server không phải JSON
     }
     throw new Error(errorMessage);
   }
 
+  // Trả về object chi tiết hồ sơ bên trong lớp data (hoặc null nếu không tìm thấy)
   const result = await response.json();
   return result?.data || null;
 }
 
-// Thêm mới hồ sơ khám sức khỏe
+// Gửi dữ liệu tạo mới hồ sơ khám sức khỏe lên Backend
 export async function createHealthRecordApi(recordData) {
   const endpoint = `${API_BASE_URL}${healthRecordRouter.create}`;
 
@@ -217,15 +229,16 @@ export async function createHealthRecordApi(recordData) {
       const err = await response.json();
       errorMessage = parseApiError(err, errorMessage);
     } catch {
-      // Bỏ qua lỗi parse JSON
+      // Bỏ qua nếu phản hồi lỗi từ server không phải JSON
     }
     throw new Error(errorMessage);
   }
 
+  // Trả nguyên phản hồi JSON từ Backend (gồm success, message và dữ liệu vừa tạo)
   return await response.json();
 }
 
-// Cập nhật kết luận và thông tin hồ sơ khám
+// Gửi dữ liệu cập nhật thông tin và kết luận hồ sơ khám lên Backend
 export async function updateHealthRecordApi(recordData) {
   const endpoint = `${API_BASE_URL}${healthRecordRouter.update}`;
 
@@ -245,15 +258,16 @@ export async function updateHealthRecordApi(recordData) {
       const err = await response.json();
       errorMessage = parseApiError(err, errorMessage);
     } catch {
-      // Bỏ qua lỗi parse JSON
+      // Bỏ qua nếu phản hồi lỗi từ server không phải JSON
     }
     throw new Error(errorMessage);
   }
 
+  // Trả nguyên phản hồi JSON từ Backend để màn hình hiển thị thông báo kết quả
   return await response.json();
 }
 
-// Xóa hồ sơ khám sức khỏe
+// Gửi yêu cầu xóa một hồ sơ khám sức khỏe theo mã ID
 export async function deleteHealthRecordApi(recordId) {
   const endpoint = `${API_BASE_URL}${healthRecordRouter.delete(recordId)}`;
 
@@ -272,10 +286,11 @@ export async function deleteHealthRecordApi(recordId) {
       const err = await response.json();
       errorMessage = parseApiError(err, errorMessage);
     } catch {
-      // Bỏ qua lỗi parse JSON
+      // Bỏ qua nếu phản hồi lỗi từ server không phải JSON
     }
     throw new Error(errorMessage);
   }
 
+  // Trả nguyên phản hồi JSON từ Backend xác nhận đã xóa thành công
   return await response.json();
 }

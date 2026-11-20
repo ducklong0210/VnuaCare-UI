@@ -16,17 +16,7 @@ export default function HomePage() {
       <header className="home-navbar">
         <div className="home-nav-inner">
           <div className="home-brand" onClick={() => navigate('home')}>
-            <div className="home-brand-logo">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                <path d="M12 8v8" />
-                <path d="M8 12h8" />
-              </svg>
-            </div>
-            <div className="home-brand-text">
-              <span className="home-brand-title">VnuaCare</span>
-              <span className="home-brand-sub">HỌC VIỆN NÔNG NGHIỆP VIỆT NAM</span>
-            </div>
+            <img src="/logo.png" alt="Logo VnuaCare" className="home-brand-logo-img" />
           </div>
 
           <div className="home-nav-actions">

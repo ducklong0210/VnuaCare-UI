@@ -36,27 +36,28 @@
 .header-brand {
   display: flex;
   align-items: center;
-  gap: 11px;
+  gap: 12px;
   transition: opacity 150ms ease;
 }
 
-.header-brand:hover .brand-badge {
-  transform: scale(1.04);
+.header-brand:hover .brand-logo-img {
+  transform: scale(1.03);
 }
 
-.brand-badge {
-  width: 36px;
-  height: 36px;
-  background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%);
-  color: #ffffff;
-  border-radius: 10px;
-  display: grid;
-  place-items: center;
-  font-weight: 800;
-  font-size: 20px;
-  line-height: 1;
-  box-shadow: 0 2px 6px rgba(15, 118, 110, 0.25);
+.brand-logo-img {
+  height: 46px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+  flex-shrink: 0;
   transition: transform 150ms ease;
+}
+
+.brand-divider {
+  width: 1px;
+  height: 28px;
+  background-color: #e2e8f0;
+  flex-shrink: 0;
 }
 
 .brand-meta {

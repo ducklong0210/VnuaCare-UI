@@ -84,40 +84,13 @@
   margin-bottom: 24px;
 }
 
-.login-logo-badge {
-  width: 54px;
-  height: 54px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
-  color: #ffffff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 10px 20px -5px rgba(15, 118, 110, 0.38);
-  margin-bottom: 14px;
-}
-
-.login-brand-meta {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.login-app-name {
-  font-size: 22px;
-  font-weight: 800;
-  color: #0f172a;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
-}
-
-.login-app-sub {
-  font-size: 10.5px;
-  font-weight: 700;
-  color: #0f766e;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-top: 3px;
+.login-logo-img {
+  height: 124px;
+  width: auto;
+  max-width: 300px;
+  object-fit: contain;
+  display: block;
+  margin-bottom: 10px;
 }
 
 .login-title {

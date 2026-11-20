@@ -1,7 +1,7 @@
 // Component Container quản lý Bảng điều khiển tổng quan (Dashboard)
-// - Bước 1: 4 thẻ chỉ số tổng quan thật (Cán bộ, Bác sĩ, Hồ sơ khám, Đợt khám)
-// - Bước 2: 2 khung thanh tỷ lệ Phân loại sức khỏe & Tiến độ hồ sơ (DashboardStatsCharts)
-// - Bước 3: Bảng 5 hồ sơ khám gần đây nhất (DashboardRecentRecords)
+// - Hiển thị các thẻ chỉ số tổng quan thật (Cán bộ, Bác sĩ, Hồ sơ khám, Đợt khám)
+// - Hiển thị hai khung thanh tỷ lệ Phân loại sức khỏe và Tiến độ hồ sơ (DashboardStatsCharts)
+// - Hiển thị bảng các hồ sơ khám gần đây nhất (DashboardRecentRecords)
 
 import { useEffect, useState } from 'react';
 import { StaffService } from '../../../services/admin/StaffService.js';
@@ -17,22 +17,22 @@ import {
 } from '../../SupportAgent/Icons.jsx';
 
 export default function DashboardManager() {
-  const { user } = useAuth();
-  const { navigate } = useNavigation();
-  const userRole = (user?.role || '').toUpperCase();
+  const { user } = useAuth(); // Lấy thông tin tài khoản đang đăng nhập từ AuthContext
+  const { navigate } = useNavigation(); // Hàm chuyển trang nội bộ giữa các tab quản trị
+  const userRole = (user?.role || '').toUpperCase(); // Chuẩn hóa mã vai trò sang chữ hoa để đối chiếu phân quyền
 
-  // 4 chỉ số tổng quan thật lấy từ Backend
+  // Các chỉ số tổng quan thật lấy từ Backend
   const [totalStaffs, setTotalStaffs] = useState(0); // Tổng số cán bộ trong hệ thống
   const [totalDoctors, setTotalDoctors] = useState(0); // Tổng số bác sĩ trong hệ thống
   const [totalRecords, setTotalRecords] = useState(0); // Tổng số hồ sơ khám sức khỏe
   const [totalCampaigns, setTotalCampaigns] = useState(0); // Tổng số đợt khám sức khỏe
 
-  // Danh sách hồ sơ khám dùng để tính tỷ lệ cho 2 khung thống kê (Bước 2)
+  // Danh sách hồ sơ khám dùng để tính tỷ lệ cho khung thống kê và bảng hồ sơ gần đây
   const [records, setRecords] = useState([]); // Mảng các hồ sơ khám lấy từ Backend
 
   // Trạng thái tải dữ liệu
   const [loading, setLoading] = useState(false); // Trạng thái đang tải số liệu tổng quan
-  const [refreshKey, setRefreshKey] = useState(0); // Biến đếm tăng thêm 1 mỗi khi bấm nút "Làm mới"
+  const [refreshKey, setRefreshKey] = useState(0); // Biến đếm tăng thêm khi bấm nút "Làm mới" để kích hoạt gọi lại API
 
   // Kiểm tra vai trò hiện tại có quyền mở tab đích khi bấm vào thẻ KPI hay không
   const canNavigateTo = (tabId) => {
@@ -41,14 +41,15 @@ export default function DashboardManager() {
     return item.roles.includes(userRole);
   };
 
-  // Tải số liệu tổng quan từ Backend khi mở trang hoặc khi bấm "Làm mới"
+  // Tự động tải số liệu tổng quan từ Backend khi mở trang hoặc khi refreshKey thay đổi
   useEffect(() => {
+    // Cờ kiểm soát: chuyển thành true nếu người dùng rời trang trước khi API kịp trả về (tránh cập nhật state lên component đã đóng)
     let isCancelled = false;
 
     const loadDashboardStats = async () => {
       setLoading(true);
 
-      // 1. Lấy tổng số Cán bộ
+      // Lấy tổng số Cán bộ (chỉ xin pageSize = 1 cho nhẹ vì chỉ cần đọc trường totalCount)
       try {
         const staffRes = await StaffService.getStaffs({ pageNumber: 1, pageSize: 1 });
         if (!isCancelled) setTotalStaffs(staffRes?.totalCount || 0);
@@ -56,7 +57,7 @@ export default function DashboardManager() {
         if (!isCancelled) setTotalStaffs(0);
       }
 
-      // 2. Lấy tổng số Bác sĩ
+      // Lấy tổng số Bác sĩ (chỉ xin pageSize = 1 cho nhẹ vì chỉ cần đọc trường totalCount)
       try {
         const doctorRes = await DoctorService.getDoctors({ pageNumber: 1, pageSize: 1 });
         if (!isCancelled) setTotalDoctors(doctorRes?.totalCount || 0);
@@ -64,12 +65,12 @@ export default function DashboardManager() {
         if (!isCancelled) setTotalDoctors(0);
       }
 
-      // 3. Lấy danh sách & tổng số Hồ sơ khám (dùng cho cả thẻ KPI và 2 khung thanh tỷ lệ)
+      // Lấy danh sách và tổng số Hồ sơ khám (xin tối đa 200 bản ghi để tính tỷ lệ thống kê và hiện bảng gần đây)
       try {
         const recordRes = await HealthRecordService.getHealthRecords({ pageNumber: 1, pageSize: 200 });
         if (!isCancelled) {
-          setTotalRecords(recordRes?.totalCount || 0);
-          setRecords(recordRes?.items || []);
+          setTotalRecords(recordRes?.totalCount || 0); // Lưu tổng số hồ sơ vào thẻ KPI
+          setRecords(recordRes?.items || []); // Lưu mảng danh sách hồ sơ để truyền xuống component con
         }
       } catch {
         if (!isCancelled) {
@@ -78,7 +79,7 @@ export default function DashboardManager() {
         }
       }
 
-      // 4. Lấy danh sách Đợt khám sức khỏe
+      // Lấy danh sách Đợt khám sức khỏe rồi đếm độ dài mảng để hiển thị tổng số đợt khám
       try {
         const campaignList = await HealthRecordService.getCampaigns();
         if (!isCancelled) setTotalCampaigns(Array.isArray(campaignList) ? campaignList.length : 0);
@@ -92,12 +93,14 @@ export default function DashboardManager() {
     };
 
     loadDashboardStats();
+
+    // Hàm dọn dẹp chạy khi component rời màn hình hoặc chuẩn bị chạy lượt useEffect mới
     return () => {
       isCancelled = true;
     };
   }, [refreshKey]);
 
-  // Ánh xạ số liệu thật theo id của từng thẻ trong STAT_CARDS
+  // Ánh xạ số liệu thật theo id của từng thẻ khai báo trong STAT_CARDS
   const statsById = {
     staffs: totalStaffs,
     doctors: totalDoctors,
@@ -107,7 +110,7 @@ export default function DashboardManager() {
 
   return (
     <div className="admin-page-container dashboard-page">
-      {/* Thanh tiêu đề & nút làm mới số liệu */}
+      {/* Thanh tiêu đề và nút làm mới số liệu */}
       <div className="page-header-row">
         <div>
           <h2 className="main-title">Bảng điều khiển tổng quan</h2>
@@ -130,11 +133,11 @@ export default function DashboardManager() {
         </div>
       </div>
 
-      {/* chỉ số tổng quan thật (KPI Cards) */}
+      {/* Dải thẻ chỉ số tổng quan thật (KPI Cards) */}
       <div className="metrics-strip">
         {STAT_CARDS.map((card) => {
-          const CardIcon = card.Icon;
-          const clickable = card.targetTab && canNavigateTo(card.targetTab);
+          const CardIcon = card.Icon; // Lấy component icon được cấu hình sẵn trong STAT_CARDS
+          const clickable = card.targetTab && canNavigateTo(card.targetTab); // Chỉ cho bấm chuyển trang nếu vai trò hiện tại có quyền
 
           return (
             <div
@@ -158,10 +161,10 @@ export default function DashboardManager() {
         })}
       </div>
 
-      {/* Tỷ lệ Phân loại sức khỏe & Tiến độ hồ sơ */}
+      {/* Khung thanh tỷ lệ Phân loại sức khỏe và Tiến độ hồ sơ */}
       <DashboardStatsCharts records={records} loading={loading} />
 
-      {/* Bảng 5 hồ sơ khám gần đây nhất */}
+      {/* Bảng hiển thị các hồ sơ khám gần đây nhất */}
       <DashboardRecentRecords
         records={records}
         loading={loading}

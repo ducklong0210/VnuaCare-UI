@@ -23,9 +23,8 @@ export default function Header() {
         style={{ cursor: 'pointer' }}
         title="Về Trang chủ VnuaCare"
       >
-        <div className="brand-badge">
-          <span className="brand-cross">+</span>
-        </div>
+        <img src="/logo.png" alt="Logo VnuaCare" className="brand-logo-img" />
+        <div className="brand-divider" aria-hidden="true" />
         <div className="brand-meta">
           <span className="brand-title">VNUACARE</span>
           <span className="brand-subtitle">Cổng Quản Lý Y Tế VNUA</span>
