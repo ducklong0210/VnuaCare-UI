@@ -1,4 +1,4 @@
-import {IconSettings, IconDashboard, IconUsers, IconStaffs, IconDoctors, IconRecords } from '../components/SupportAgent/Icons.jsx';
+import { IconSettings, IconDashboard, IconUsers, IconStaffs, IconDoctors, IconRecords, IconCampaigns } from '../components/SupportAgent/Icons.jsx';
 
 
 
@@ -168,4 +168,40 @@ export const MENU_ITEMS = [
     // { id: 'campaigns', label: 'Đợt khám sức khỏe', Icon: IconCampaigns, roles: [ROLES.SUPER_ADMIN, ROLES.HEALTH_ADMIN] },
     { id: 'users', label: 'Quản lý người dùng', Icon: IconUsers, roles: [ROLES.SUPER_ADMIN] },
     { id: 'settings', label: 'Cài đặt', Icon: IconSettings, roles: [ROLES.SUPER_ADMIN, ROLES.HEALTH_ADMIN, ROLES.DOCTOR] },
+];
+
+// Cấu hình tĩnh cho 4 thẻ KPI tổng quan trên Dashboard 
+export const STAT_CARDS = [
+  {
+    id: 'staffs',
+    label: 'TỔNG SỐ CÁN BỘ',
+    note: 'Cán bộ, giảng viên & nhân viên VNUA',
+    Icon: IconStaffs,
+    accentClass: 'accent-teal',
+    targetTab: 'staffs',
+  },
+  {
+    id: 'doctors',
+    label: 'TỔNG SỐ BÁC SĨ',
+    note: 'Đội ngũ bác sĩ khám chuyên khoa',
+    Icon: IconDoctors,
+    accentClass: 'accent-orange',
+    targetTab: 'doctors',
+  },
+  {
+    id: 'records',
+    label: 'HỒ SƠ KHÁM SỨC KHỎE',
+    note: 'Tổng số hồ sơ đã tiếp nhận',
+    Icon: IconRecords,
+    accentClass: 'accent-blue',
+    targetTab: 'records',
+  },
+  {
+    id: 'campaigns',
+    label: 'ĐỢT KHÁM SỨC KHỎE',
+    note: 'Các đợt khám định kỳ đã cấu hình',
+    Icon: IconCampaigns,
+    accentClass: 'accent-green',
+    targetTab: null,
+  },
 ];

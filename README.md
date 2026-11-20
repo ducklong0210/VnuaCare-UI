@@ -1,16 +1,14 @@
 # VnuaCare UI
 
-Giao diện đăng nhập React/Vite của VnuaCare.
+Hệ thống Quản lý Khám Sức Khỏe Cán bộ, Giảng viên & Nhân viên — Học viện Nông nghiệp Việt Nam (React + Vite).
 
-## Các lệnh
+## Các lệnh thường dùng
 
-```powershell
-npm install
-npm run dev
-npm run build
-npm run lint
+```bash
+npm install     # Cài đặt thư viện
+npm run dev     # Chạy môi trường phát triển (http://localhost:5173)
+npm run build   # Đóng gói bản production
+npm run lint    # Kiểm tra lỗi cú pháp & quy chuẩn code (ESLint)
 ```
 
-## Tài liệu kiến trúc
 
-Xem phân tích chi tiết cấu trúc thư mục tại [docs/PROJECT_STRUCTURE.md](./docs/PROJECT_STRUCTURE.md).

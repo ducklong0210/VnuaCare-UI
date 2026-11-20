@@ -1,6 +1,6 @@
 
 import MainLayout from "../../core/layouts/MainLayout";
-import Settings from "../../components/Admin/Settingmanagerment/Settings";
+import Settings from "../../components/Admin/SettingManagerment/Settings";
 
 
 export default function SettingsAdmin(){
