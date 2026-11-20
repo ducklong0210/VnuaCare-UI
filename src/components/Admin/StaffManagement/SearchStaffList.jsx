@@ -36,7 +36,7 @@ export default function SearchStaffList() {
 
     // Bộ lọc tìm kiếm và phân trang
     const [search, setSearch] = useState('');
-    const [selectedDept, setSelectedDept] = useState('ALL');
+    const [selectedDepartment, setSelectedDepartment] = useState('ALL');
     const [pageNumber, setPageNumber] = useState(1);
     const [pageSize, setPageSize] = useState(10);
     const [totalCount, setTotalCount] = useState(0);
@@ -52,7 +52,7 @@ export default function SearchStaffList() {
     };
 
     // Quản lý Modal Thêm / Sửa cán bộ
-    const [modalMode, setModalMode] = useState(null); // null | 'CREATE' | ModelMode.EDIT
+    const [modalMode, setModalMode] = useState(null); 
     const [submitting, setSubmitting] = useState(false);
     const [modalError, setModalError] = useState('');
     const [formData, setFormData] = useState(INITIAL_FORM);
@@ -67,16 +67,16 @@ export default function SearchStaffList() {
 
         const loadInitialData = async () => {
             try {
-                const [deptRes, userRes] = await Promise.allSettled([
+                const [departmentResponse, userResponse] = await Promise.allSettled([
                     StaffService.getDepartments(),
                     StaffService.getUserSelect('STAFF'),
                 ]);
                 if (!isCancelled) {
-                    if (deptRes.status === 'fulfilled') {
-                        setDepartments(deptRes.value || []);
+                    if (departmentResponse.status === 'fulfilled') {
+                        setDepartments(departmentResponse.value || []);
                     }
-                    if (userRes.status === 'fulfilled') {
-                        setUsersList(userRes.value || []);
+                    if (userResponse.status === 'fulfilled') {
+                        setUsersList(userResponse.value || []);
                     }
                 }
             } catch {
@@ -102,7 +102,7 @@ export default function SearchStaffList() {
             try {
                 const res = await StaffService.getStaffs({
                     textSearch: search.trim(),
-                    departmentId: selectedDept,
+                    departmentId: selectedDepartment,
                     pageNumber: pageNumber,
                     pageSize: pageSize,
                 });
@@ -126,7 +126,7 @@ export default function SearchStaffList() {
         return () => {
             isCancelled = true;
         };
-    }, [search, selectedDept, pageNumber, pageSize, refreshKey]);
+    }, [search, selectedDepartment, pageNumber, pageSize, refreshKey]);
 
     // Mở form thêm mới cán bộ
     const handleOpenCreate = async () => {
@@ -277,7 +277,7 @@ export default function SearchStaffList() {
     // Đặt lại bộ lọc tìm kiếm
     const handleResetFilter = () => {
         setSearch('');
-        setSelectedDept('ALL');
+        setSelectedDepartment('ALL');
         setPageNumber(1);
     };
 
@@ -320,9 +320,9 @@ export default function SearchStaffList() {
                         setSearch(e.target.value);
                         setPageNumber(1);
                     }}
-                    selectedDept={selectedDept}
-                    onDeptChange={(e) => {
-                        setSelectedDept(e.target.value);
+                    selectedDepartment={selectedDepartment}
+                    onDepartmentChange={(e) => {
+                        setSelectedDepartment(e.target.value);
                         setPageNumber(1);
                     }}
                     departments={departments}

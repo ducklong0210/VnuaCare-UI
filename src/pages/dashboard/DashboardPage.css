@@ -1,1 +1,120 @@
 @import '../../styles/admin.css';
+
+/* Tinh chỉnh nhẹ giao diện riêng cho trang Dashboard (không ảnh hưởng các trang khác) */
+.dashboard-page {
+  gap: 18px;
+}
+
+.dashboard-page .page-header-row {
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.dashboard-page .main-title {
+  font-size: 22px;
+  letter-spacing: -0.4px;
+}
+
+.dashboard-page .btn-primary {
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(15, 118, 110, 0.22);
+}
+
+.dashboard-page .btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(15, 118, 110, 0.28);
+}
+
+.dashboard-page .btn-outline {
+  border-radius: 8px;
+}
+
+/* 4 thẻ chỉ số tổng quan */
+.dashboard-page .metrics-strip {
+  gap: 14px;
+}
+
+.dashboard-page .metric-box {
+  border-radius: 10px;
+  padding: 16px 18px;
+  border-left: 3px solid #0f766e;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+  transition: transform 150ms ease, box-shadow 150ms ease;
+}
+
+.dashboard-page .metric-box:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+}
+
+.dashboard-page .metric-box.warning-box {
+  background-color: #fffbf5;
+  border-color: #fed7aa;
+  border-left: 3px solid #ea580c;
+}
+
+.dashboard-page .metric-box:nth-child(3) {
+  border-left-color: #2563eb;
+}
+
+.dashboard-page .metric-box:nth-child(4) {
+  border-left-color: #16a34a;
+}
+
+.dashboard-page .metric-num {
+  font-size: 28px;
+  font-variant-numeric: tabular-nums;
+  margin: 6px 0 4px;
+}
+
+.dashboard-page .online-dot {
+  width: 8px;
+  height: 8px;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.18);
+}
+
+/* Khối bảng & bộ lọc */
+.dashboard-page .panel-card {
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(15, 23, 42, 0.05);
+}
+
+.dashboard-page .filter-toolbar {
+  padding: 14px 16px;
+  background-color: #f8fafc;
+  gap: 10px;
+}
+
+.dashboard-page .search-field input,
+.dashboard-page .form-select,
+.dashboard-page .btn-reset {
+  height: 36px;
+  border-radius: 8px;
+}
+
+.dashboard-page .search-field input:focus,
+.dashboard-page .form-select:focus {
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.12);
+}
+
+.dashboard-page .empty-cell {
+  padding: 48px 16px;
+}
+
+/* Responsive cho màn hình nhỏ hơn */
+@media (max-width: 1024px) {
+  .dashboard-page .metrics-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .dashboard-page .page-header-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .dashboard-page .metrics-strip {
+    grid-template-columns: 1fr;
+  }
+}

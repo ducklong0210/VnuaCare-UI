@@ -129,7 +129,7 @@ export default function HealthRecordsPage() {
   // Bộ lọc tìm kiếm và phân trang
   const [search, setSearch] = useState('');
   const [selectedCampaign, setSelectedCampaign] = useState('ALL');
-  const [selectedDept, setSelectedDept] = useState('ALL');
+  const [selectedDepartment, setSelectedDepartment] = useState('ALL');
   const [selectedClassification, setSelectedClassification] = useState('ALL');
   const [selectedStatus, setSelectedStatus] = useState('ALL');
   const [pageNumber, setPageNumber] = useState(1);
@@ -165,7 +165,14 @@ export default function HealthRecordsPage() {
 
     const loadInitialLookups = async () => {
       try {
-        const [campRes, deptRes, classRes, statRes, staffRes, docRes] = await Promise.allSettled([
+        const [
+          campaignResponse,
+          departmentResponse,
+          classificationResponse,
+          statusResponse,
+          staffResponse,
+          doctorResponse,
+        ] = await Promise.allSettled([
           getCampaignsSelectApi(),
           getDepartmentsSelectApi(),
           getClassificationsApi(),
@@ -175,12 +182,12 @@ export default function HealthRecordsPage() {
         ]);
 
         if (!isCancelled) {
-          if (campRes.status === 'fulfilled') setCampaigns(campRes.value || []);
-          if (deptRes.status === 'fulfilled') setDepartments(deptRes.value || []);
-          if (classRes.status === 'fulfilled') setClassifications(classRes.value || []);
-          if (statRes.status === 'fulfilled') setStatuses(statRes.value || []);
-          if (staffRes.status === 'fulfilled') setStaffsList(staffRes.value || []);
-          if (docRes.status === 'fulfilled') setDoctorsList(docRes.value || []);
+          if (campaignResponse.status === 'fulfilled') setCampaigns(campaignResponse.value || []);
+          if (departmentResponse.status === 'fulfilled') setDepartments(departmentResponse.value || []);
+          if (classificationResponse.status === 'fulfilled') setClassifications(classificationResponse.value || []);
+          if (statusResponse.status === 'fulfilled') setStatuses(statusResponse.value || []);
+          if (staffResponse.status === 'fulfilled') setStaffsList(staffResponse.value || []);
+          if (doctorResponse.status === 'fulfilled') setDoctorsList(doctorResponse.value || []);
         }
       } catch {
         // Bỏ qua lỗi danh mục nếu chưa sẵn sàng
@@ -206,7 +213,7 @@ export default function HealthRecordsPage() {
         const res = await getHealthRecordFilterApi({
           textSearch: search.trim(),
           campaignId: selectedCampaign,
-          departmentId: selectedDept,
+          departmentId: selectedDepartment,
           status: selectedStatus,
           healthClassification: selectedClassification,
           pageNumber: pageNumber,
@@ -233,7 +240,7 @@ export default function HealthRecordsPage() {
     return () => {
       isCancelled = true;
     };
-  }, [search, selectedCampaign, selectedDept, selectedStatus, selectedClassification, pageNumber, pageSize, refreshKey]);
+  }, [search, selectedCampaign, selectedDepartment, selectedStatus, selectedClassification, pageNumber, pageSize, refreshKey]);
 
   // Mở modal thêm mới hồ sơ khám
   const handleOpenCreate = () => {
@@ -387,7 +394,7 @@ export default function HealthRecordsPage() {
   const handleResetFilter = () => {
     setSearch('');
     setSelectedCampaign('ALL');
-    setSelectedDept('ALL');
+    setSelectedDepartment('ALL');
     setSelectedClassification('ALL');
     setSelectedStatus('ALL');
     setPageNumber(1);
@@ -457,22 +464,22 @@ export default function HealthRecordsPage() {
               }}
             >
               <option value="ALL">Tất cả đợt khám</option>
-              {campaigns.map((camp) => (
-                <option key={camp.campaignId} value={camp.campaignId}>{camp.campaignName} ({camp.year})</option>
+              {campaigns.map((campaign) => (
+                <option key={campaign.campaignId} value={campaign.campaignId}>{campaign.campaignName} ({campaign.year})</option>
               ))}
             </select>
 
             <select
               className="form-select"
-              value={selectedDept}
+              value={selectedDepartment}
               onChange={(e) => {
-                setSelectedDept(e.target.value);
+                setSelectedDepartment(e.target.value);
                 setPageNumber(1);
               }}
             >
               <option value="ALL">Tất cả khoa / phòng</option>
-              {departments.map((dept) => (
-                <option key={dept.departmentId} value={dept.departmentId}>{dept.departmentName}</option>
+              {departments.map((department) => (
+                <option key={department.departmentId} value={department.departmentId}>{department.departmentName}</option>
               ))}
             </select>
 

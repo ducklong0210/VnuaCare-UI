@@ -63,16 +63,16 @@ export default function SearchDoctorList() {
 
         const loadInitialData = async () => {
             try {
-                const [specRes, userRes] = await Promise.allSettled([
+                const [specialtyResponse, userResponse] = await Promise.allSettled([
                     DoctorService.getSpecialties(),
                     DoctorService.getUserSelect('DOCTOR'),
                 ]);
                 if (!isCancelled) {
-                    if (specRes.status === 'fulfilled') {
-                        setSpecialties(specRes.value || []);
+                    if (specialtyResponse.status === 'fulfilled') {
+                        setSpecialties(specialtyResponse.value || []);
                     }
-                    if (userRes.status === 'fulfilled') {
-                        setUsersList(userRes.value || []);
+                    if (userResponse.status === 'fulfilled') {
+                        setUsersList(userResponse.value || []);
                     }
                 }
             } catch {

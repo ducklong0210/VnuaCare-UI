@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MainLayout from '../../core/layouts/MainLayout.jsx';
 import { IconSearch, IconPlus, IconDownload, IconCheck, IconClose, IconEye, IconRefreshCw } from '../../components/SupportAgent/Icons.jsx';
 import './DashboardPage.css';
-
+import { FilterDepartment} from '../../components/Admin/StaffManagement/StaffFilter.jsx'
+import { StaffService } from '../../services/admin/StaffService.js';
 /**
  * ==============================================================================
  * TRANG QUẢN TRỊ HỒ SƠ SỨC KHỎE CÁN BỘ (Enterprise Clean Style)
@@ -26,21 +27,25 @@ export default function DashboardPage() {
   const [activeModal, setActiveModal] = useState(null);
   const [conditionInput, setConditionInput] = useState('');
   const [toast, setToast] = useState('');
-
   const showToast = (msg) => {
     setToast(msg);
     setTimeout(() => setToast(''), 3000);
   };
-
+const [departments, setDepartments] = useState([]);
+useEffect(() => {
+  StaffService.getDepartments()
+  .then((data) => setDepartments(data || []))
+  .catch(() => [])
+}, []);
   // Lọc dữ liệu theo các tiêu chí trên thanh công cụ
   const filteredList = records.filter((item) => {
     const matchSearch = item.fullname.toLowerCase().includes(search.toLowerCase()) || item.id.toLowerCase().includes(search.toLowerCase());
-    const matchDept = department === 'ALL' || item.department === department;
+    const matchDepartment = department === 'ALL' || item.department === department;
     const matchHealth = healthType === 'ALL' || item.classification === healthType;
     const matchAlert =
       alertFilter === 'ALL' || (alertFilter === 'ALERT' && item.alertStatus === 'pending') || (alertFilter === 'SENT' && item.alertStatus === 'sent');
 
-    return matchSearch && matchDept && matchHealth && matchAlert;
+    return matchSearch && matchDepartment && matchHealth && matchAlert;
   });
 
   // Đếm nhanh các chỉ số
@@ -50,7 +55,7 @@ export default function DashboardPage() {
 
   return (
     <MainLayout activeTab="dashboard">
-      <div className="admin-page-container">
+      <div className="admin-page-container dashboard-page">
         {/* Thông báo thao tác góc phải */}
         {toast && (
           <div className="admin-toast">
@@ -101,9 +106,9 @@ export default function DashboardPage() {
             <span className="metric-label">TRẠNG THÁI HỆ THỐNG</span>
             <div className="metric-status-row">
               <span className="online-dot"></span>
-              <span className="status-text">Sẵn sàng nhận dữ liệu API</span>
+              <span className="status-text">Đang Phát Triển</span>
             </div>
-            <span className="metric-note">/api/v1/healthcheckuprecords</span>
+            <span className="metric-note"></span>
           </div>
         </div>
 
@@ -116,14 +121,19 @@ export default function DashboardPage() {
               <input type="text" placeholder="Tìm mã cán bộ, họ tên..." value={search} onChange={(e) => setSearch(e.target.value)} />
             </div>
 
-            <select className="form-select" value={department} onChange={(e) => setDepartment(e.target.value)}>
+            <FilterDepartment 
+            selectedDepartment ={department}
+              onChange ={ (e) => setDepartment(e.target.value)}
+              departments={departments}
+              />
+            {/* <select className="form-select" value={department} onChange={(e) => setDepartment(e.target.value)}>
               <option value="ALL">Tất cả đơn vị / Khoa</option>
               <option value="Khoa Công nghệ thông tin">Khoa Công nghệ thông tin</option>
               <option value="Khoa Thú y">Khoa Thú y</option>
               <option value="Khoa Nông học">Khoa Nông học</option>
               <option value="Khoa Kinh tế & PTNT">Khoa Kinh tế & PTNT</option>
               <option value="Ban Giám hiệu - Phòng ban">Ban Giám hiệu - Phòng ban</option>
-            </select>
+            </select> */}
 
             <select className="form-select select-year" value={year} onChange={(e) => setYear(e.target.value)}>
               <option value="2026">Năm 2026</option>
@@ -183,7 +193,7 @@ export default function DashboardPage() {
                       <div className="empty-wrap">
                         <span className="empty-title">Không có dữ liệu hồ sơ nào</span>
                         <p className="empty-desc">
-                          Bảng sẵn sàng nhận dữ liệu khi kết nối với API: <code>POST /api/v1/healthcheckuprecords/filter</code>
+                          Đang Phát Triển
                         </p>
                       </div>
                     </td>

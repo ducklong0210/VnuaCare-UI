@@ -7,8 +7,8 @@ import { IconSearch, IconRefreshCw } from '../../../components/SupportAgent/Icon
 export default function StaffFilter({
     search,
     onSearchChange,
-    selectedDept,
-    onDeptChange,
+    selectedDepartment,
+    onDepartmentChange,
     departments = [],
     onResetFilter,
 }) {
@@ -26,13 +26,13 @@ export default function StaffFilter({
 
             <select
                 className="form-select"
-                value={selectedDept}
-                onChange={onDeptChange}
+                value={selectedDepartment}
+                onChange={onDepartmentChange}
             >
                 <option value="ALL">Tất cả đơn vị / Khoa</option>
-                {departments.map((dept) => (
-                    <option key={dept.departmentId} value={dept.departmentId}>
-                        {dept.departmentName}
+                {departments.map((department) => (
+                    <option key={department.departmentId} value={department.departmentId}>
+                        {department.departmentName}
                     </option>
                 ))}
             </select>
@@ -47,5 +47,27 @@ export default function StaffFilter({
                 <span>Đặt lại</span>
             </button>
         </div>
+    );
+}
+
+export function FilterDepartment({
+    selectedDepartment,
+    onDepartmentChange,
+    departments = [],
+}) {
+    return (
+        <>
+            <select
+                className="form-select"
+                value={selectedDepartment}
+                onChange={onDepartmentChange}>
+                <option value="ALL">Tất cả đơn vị / Khoa</option>
+                {departments.map((department) => (
+                    <option key={department.departmentId} value={department.departmentId}>
+                        {department.departmentName}
+                    </option>
+                ))}
+            </select>
+        </>
     );
 }

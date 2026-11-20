@@ -3,18 +3,10 @@
 // Hỗ trợ tạo tài khoản mới, cập nhật phân quyền, đặt lại mật khẩu và khóa/xóa tài khoản
 
 import { userManagerRouter } from '../utils/api-router.js';
+import { getAuthHeaders, parseApiError, API_BASE_URL } from './httpClient.js';
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
 
-// Header xác thực kèm Bearer token
-function getAuthHeaders() {
-  const token = localStorage.getItem('accessToken');
-  return {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${token}`,
-  };
-}
-
+  
 // Lọc và phân trang danh sách người dùng
 export async function getUserFilterApi({ textSearch = '', role = '', pageNumber = 1, pageSize = 10 } = {}) {
   const endpoint = `${API_BASE_URL}${userManagerRouter.getFilter}`;
@@ -27,7 +19,6 @@ export async function getUserFilterApi({ textSearch = '', role = '', pageNumber 
       role: role === 'ALL' ? '' : role,
       pageNumber: pageNumber,
       pageSize: pageSize,
-      isActive: true,
     }),
   });
 

@@ -16,9 +16,10 @@
 
 /* 1. HEADER Ở TRÊN CÙNG (100% CHIỀU NGANG) */
 .top-header {
-  height: 60px;
+  height: 64px;
   width: 100%;
-  background-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(8px);
   border-bottom: 1px solid #e2e8f0;
   display: flex;
   align-items: center;
@@ -27,27 +28,34 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
 }
 
 /* Logo góc trái Header */
 .header-brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 11px;
+  transition: opacity 150ms ease;
+}
+
+.header-brand:hover .brand-badge {
+  transform: scale(1.04);
 }
 
 .brand-badge {
-  width: 32px;
-  height: 32px;
-  background-color: #0f766e;
+  width: 36px;
+  height: 36px;
+  background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%);
   color: #ffffff;
-  border-radius: 6px;
+  border-radius: 10px;
   display: grid;
   place-items: center;
   font-weight: 800;
-  font-size: 18px;
+  font-size: 20px;
   line-height: 1;
+  box-shadow: 0 2px 6px rgba(15, 118, 110, 0.25);
+  transition: transform 150ms ease;
 }
 
 .brand-meta {
@@ -56,7 +64,7 @@
 }
 
 .brand-title {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 800;
   letter-spacing: 0.5px;
   color: #0f172a;
@@ -64,10 +72,10 @@
 }
 
 .brand-subtitle {
-  font-size: 10.5px;
+  font-size: 11px;
   color: #64748b;
   font-weight: 500;
-  line-height: 1;
+  line-height: 1.2;
   margin-top: 1px;
 }
 
@@ -75,45 +83,47 @@
 .header-right-tools {
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
 }
 
 .status-badge {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 3px 10px;
+  gap: 7px;
+  padding: 5px 12px;
   background-color: #f0fdf4;
   border: 1px solid #bbf7d0;
   border-radius: 9999px;
-  font-size: 11.5px;
+  font-size: 12px;
   font-weight: 500;
   color: #15803d;
 }
 
 .status-dot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background-color: #22c55e;
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
 }
 
 .notification-bell-btn {
-  width: 34px;
-  height: 34px;
-  border-radius: 6px;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
   border: 1px solid #e2e8f0;
   background-color: #ffffff;
   color: #475569;
   display: grid;
   place-items: center;
   cursor: pointer;
-  transition: all 120ms ease;
+  transition: all 140ms ease;
 }
 
 .notification-bell-btn:hover {
-  background-color: #f1f5f9;
-  color: #0f172a;
+  background-color: #f0fdfa;
+  border-color: #99f6e4;
+  color: #0f766e;
 }
 
 .header-divider {
@@ -126,14 +136,18 @@
 .header-user-profile {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 9px;
+  padding: 4px 12px 4px 5px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 9999px;
 }
 
 .user-avatar-circle {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  background-color: #0f766e;
+  background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
   color: #ffffff;
   display: grid;
   place-items: center;
@@ -163,41 +177,42 @@
 .btn-header-logout {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
-  height: 32px;
-  padding: 0 10px;
+  gap: 6px;
+  height: 36px;
+  padding: 0 12px;
   background-color: #ffffff;
   border: 1px solid #e2e8f0;
-  border-radius: 6px;
+  border-radius: 8px;
   color: #dc2626;
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 120ms ease;
+  transition: all 140ms ease;
 }
 
 .btn-header-logout:hover {
   background-color: #fef2f2;
-  border-color: #fecaca;
+  border-color: #fca5a5;
 }
 
 /* 2. THÂN WEBSITE (BODY) */
 .app-body {
   display: flex;
   flex: 1;
-  min-height: calc(100vh - 60px - 45px);
+  min-height: calc(100vh - 64px - 45px);
 }
 
 /* Thanh điều hướng bên trái (Nav / Sidebar) */
 .left-sidebar {
-  width: 240px;
-  min-width: 240px;
+  width: 248px;
+  min-width: 248px;
   background-color: #ffffff;
   border-right: 1px solid #e2e8f0;
-  padding: 18px 12px;
+  box-shadow: 1px 0 3px rgba(15, 23, 42, 0.02);
+  padding: 20px 14px;
   position: sticky;
-  top: 60px;
-  height: calc(100vh - 60px);
+  top: 64px;
+  height: calc(100vh - 64px);
   overflow-y: auto;
 }
 
@@ -208,11 +223,11 @@
 
 .nav-section-label {
   display: block;
-  font-size: 10.5px;
+  font-size: 11px;
   font-weight: 700;
   color: #94a3b8;
-  letter-spacing: 0.5px;
-  padding: 0 12px 10px;
+  letter-spacing: 0.7px;
+  padding: 0 12px 12px;
 }
 
 .nav-list {
@@ -221,24 +236,25 @@
   margin: 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
 }
 
 .nav-link {
+  position: relative;
   width: 100%;
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 9px 12px;
+  padding: 10px 12px;
   background: transparent;
   border: 0;
-  border-radius: 6px;
+  border-radius: 10px;
   color: #475569;
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 500;
   cursor: pointer;
   text-align: left;
-  transition: all 120ms ease;
+  transition: all 140ms ease;
 }
 
 .nav-link:hover {
@@ -247,9 +263,22 @@
 }
 
 .nav-link.active {
-  background-color: #f0fdfa;
+  background: linear-gradient(90deg, #f0fdfa 0%, #e6fffa 100%);
   color: #0f766e;
   font-weight: 600;
+  box-shadow: inset 0 0 0 1px rgba(15, 118, 110, 0.14);
+}
+
+.nav-link.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 3px;
+  height: 20px;
+  border-radius: 0 4px 4px 0;
+  background-color: #0f766e;
 }
 
 .nav-icon {

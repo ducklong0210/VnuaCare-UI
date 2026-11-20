@@ -3,28 +3,8 @@
 // Hỗ trợ lấy dữ liệu, thêm mới và cập nhật kết quả khám 6 hệ cơ quan nội khoa
 
 import { internalMedicineRouter } from '../utils/api-router.js';
+import { getAuthHeaders, parseApiError, API_BASE_URL } from './httpClient.js';
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
-
-// Header xác thực kèm Bearer token
-function getAuthHeaders() {
-  const token = localStorage.getItem('accessToken');
-  return {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${token}`,
-  };
-}
-
-// Trích xuất thông báo lỗi từ backend
-function parseApiError(result, defaultMsg) {
-  if (result?.message) return result.message;
-  if (result?.errors && typeof result.errors === 'object') {
-    const errorList = Object.values(result.errors).flat();
-    if (errorList.length > 0) return errorList.join(', ');
-  }
-  if (result?.title) return result.title;
-  return defaultMsg;
-}
 
 // Lấy kết quả khám nội khoa tổng quát theo ID hồ sơ
 export async function getInternalMedicineApi(recordId) {

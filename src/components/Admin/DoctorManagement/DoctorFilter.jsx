@@ -30,9 +30,9 @@ export default function DoctorFilter({
         onChange={onSpecialtyChange}
       >
         <option value="ALL">Tất cả chuyên khoa</option>
-        {specialties.map((spec) => (
-          <option key={spec.specialtyId} value={spec.specialtyId}>
-            {spec.specialtyName}
+        {specialties.map((specialty) => (
+          <option key={specialty.specialtyId} value={specialty.specialtyId}>
+            {specialty.specialtyName}
           </option>
         ))}
       </select>

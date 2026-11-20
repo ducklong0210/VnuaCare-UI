@@ -3,28 +3,7 @@
 // Định nghĩa 2 danh mục chuẩn tĩnh: DEFAULT_HEALTH_CLASSIFICATIONS (Bộ Y tế) và DEFAULT_RECORD_STATUSES
 
 import { healthRecordRouter, campaignRouter, doctorRouter } from '../utils/api-router.js';
-
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
-
-// Header xác thực kèm Bearer token
-function getAuthHeaders() {
-  const token = localStorage.getItem('accessToken');
-  return {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${token}`,
-  };
-}
-
-// Trích xuất thông báo lỗi từ backend
-function parseApiError(result, defaultMsg) {
-  if (result?.message) return result.message;
-  if (result?.errors && typeof result.errors === 'object') {
-    const errorList = Object.values(result.errors).flat();
-    if (errorList.length > 0) return errorList.join(', ');
-  }
-  if (result?.title) return result.title;
-  return defaultMsg;
-}
+import { getAuthHeaders, parseApiError, API_BASE_URL } from './httpClient.js';
 
 // Lọc và phân trang danh sách Hồ sơ khám sức khỏe
 export async function getHealthRecordFilterApi({

@@ -1,4 +1,4 @@
-import { IconDashboard, IconUsers, IconStaffs, IconDoctors, IconCampaigns, IconRecords } from '../components/SupportAgent/Icons.jsx';
+import {IconSettings, IconDashboard, IconUsers, IconStaffs, IconDoctors, IconCampaigns, IconRecords } from '../components/SupportAgent/Icons.jsx';
 
 
 
@@ -99,6 +99,7 @@ export const MENU_ITEMS = [
     { id: 'records', label: 'Hồ sơ khám cán bộ', Icon: IconRecords },
     { id: 'staffs', label: 'Quản lý nhân viên', Icon: IconStaffs },
     { id: 'doctors', label: 'Quản lý bác sĩ', Icon: IconDoctors },
-    { id: 'campaigns', label: 'Đợt khám sức khỏe', Icon: IconCampaigns },
+    // { id: 'campaigns', label: 'Đợt khám sức khỏe', Icon: IconCampaigns },
     { id: 'users', label: 'Quản lý người dùng', Icon: IconUsers },
+    { id: 'settings', label: 'Cài đặt', Icon: IconSettings },
 ];

@@ -12,6 +12,7 @@ import UserManagerPage from '../pages/user-manager/UserManagerPage.jsx';
 import HealthRecordsPage from '../pages/health-records/HealthRecordsPage.jsx';
 import StaffManagerPage from '../pages/staff-manager/StaffManagerPage.jsx';
 import MainLayout from '../core/layouts/MainLayout.jsx';
+import SettingsAdmin from '../pages/settings/SettingsAdmin.jsx';
 
 function PlaceholderPage({ tabId, title, apiRoute }) {
   return (
@@ -62,6 +63,8 @@ function AppRouter() {
       return <HealthRecordsPage />;
     case 'staffs':
       return <StaffManagerPage />;
+      case 'settings':
+        return <SettingsAdmin />;
     case 'campaigns':
       return <PlaceholderPage tabId="campaigns" title="Đợt khám sức khỏe" apiRoute="POST /api/v1/campaigns/filter" />;
     case 'dashboard':

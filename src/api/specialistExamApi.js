@@ -3,28 +3,9 @@
 // Hỗ trợ lấy kết quả, thêm mới và cập nhật dữ liệu khám Mắt, Tai Mũi Họng, Răng, Da liễu, Ngoại, Phụ khoa
 
 import { specialistExamRouter } from '../utils/api-router.js';
+import { getAuthHeaders, parseApiError, API_BASE_URL } from './httpClient.js';
 
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
 
-// Header xác thực kèm Bearer token
-function getAuthHeaders() {
-  const token = localStorage.getItem('accessToken');
-  return {
-    'Content-Type': 'application/json',
-    Authorization: `Bearer ${token}`,
-  };
-}
-
-// Trích xuất thông báo lỗi từ backend
-function parseApiError(result, defaultMsg) {
-  if (result?.message) return result.message;
-  if (result?.errors && typeof result.errors === 'object') {
-    const errorList = Object.values(result.errors).flat();
-    if (errorList.length > 0) return errorList.join(', ');
-  }
-  if (result?.title) return result.title;
-  return defaultMsg;
-}
 
 // Lấy danh sách kết quả khám các chuyên khoa lẻ theo ID hồ sơ
 export async function getSpecialistExamsApi(recordId, specialtyType = null) {
