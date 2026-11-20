@@ -4,19 +4,20 @@
 
 import { userManagerRouter } from '../utils/api-router.js';
 import { getAuthHeaders, parseApiError, API_BASE_URL } from './httpClient.js';
+import { METHODS } from '../utils/index.js';
 
 
-  
+
 // Lọc và phân trang danh sách người dùng
 export async function getUserFilterApi({ textSearch = '', role = '', pageNumber = 1, pageSize = 10 } = {}) {
   const endpoint = `${API_BASE_URL}${userManagerRouter.getFilter}`;
 
   const response = await fetch(endpoint, {
-    method: 'POST',
+    method: METHODS.POST,
     headers: getAuthHeaders(),
     body: JSON.stringify({
       textSearch: textSearch,
-      role: role === 'ALL' ? '' : role,
+      role: role,
       pageNumber: pageNumber,
       pageSize: pageSize,
     }),
@@ -53,7 +54,7 @@ export async function getUserByIdApi(id) {
   const endpoint = `${API_BASE_URL}${userManagerRouter.getById(id)}`;
 
   const response = await fetch(endpoint, {
-    method: 'GET',
+    method: METHODS.GET,
     headers: getAuthHeaders(),
   });
 
@@ -70,7 +71,7 @@ export async function createUserApi(data) {
   const endpoint = `${API_BASE_URL}${userManagerRouter.create}`;
 
   const response = await fetch(endpoint, {
-    method: 'POST',
+    method: METHODS.POST,
     headers: getAuthHeaders(),
     body: JSON.stringify(data),
   });
@@ -88,7 +89,7 @@ export async function updateUserApi(data) {
   const endpoint = `${API_BASE_URL}${userManagerRouter.update}`;
 
   const response = await fetch(endpoint, {
-    method: 'PUT',
+    method: METHODS.PUT,
     headers: getAuthHeaders(),
     body: JSON.stringify(data),
   });
@@ -106,7 +107,7 @@ export async function deleteUserApi(id) {
   const endpoint = `${API_BASE_URL}${userManagerRouter.delete(id)}`;
 
   const response = await fetch(endpoint, {
-    method: 'DELETE',
+    method: METHODS.DELETE,
     headers: getAuthHeaders(),
   });
 
@@ -123,7 +124,7 @@ export async function getUserSelectApi(role = '') {
   const endpoint = `${API_BASE_URL}${userManagerRouter.getSelect(role)}`;
 
   const response = await fetch(endpoint, {
-    method: 'GET',
+    method: METHODS.GET,
     headers: getAuthHeaders(),
   });
 
@@ -133,4 +134,69 @@ export async function getUserSelectApi(role = '') {
 
   const result = await response.json();
   return result?.data || [];
+}
+
+// Lấy thông tin hồ sơ cá nhân của người đang đăng nhập (GET /api/v1/users/me)
+export async function getMyProfileApi() {
+  const endpoint = `${API_BASE_URL}${userManagerRouter.getMe}`;
+
+  const response = await fetch(endpoint, {
+    method: METHODS.GET,
+    headers: getAuthHeaders(),
+  });
+
+  if (response.status === 401) {
+    throw new Error('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!');
+  }
+
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok || (result.statusCode && result.statusCode !== 200)) {
+    throw new Error(parseApiError(result, 'Không thể tải thông tin hồ sơ cá nhân'));
+  }
+
+  return result?.data || null;
+}
+
+// Cập nhật thông tin hồ sơ cá nhân (PUT /api/v1/users/profile)
+export async function updateMyProfileApi(data) {
+  const endpoint = `${API_BASE_URL}${userManagerRouter.updateProfile}`;
+
+  const response = await fetch(endpoint, {
+    method: METHODS.PUT,
+    headers: getAuthHeaders(),
+    body: JSON.stringify(data),
+  });
+
+  if (response.status === 401) {
+    throw new Error('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!');
+  }
+
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok || (result.statusCode && result.statusCode !== 200)) {
+    throw new Error(parseApiError(result, 'Cập nhật hồ sơ cá nhân thất bại'));
+  }
+
+  return result?.data ?? result;
+}
+
+// Đổi mật khẩu tài khoản đang đăng nhập (POST /api/v1/users/change-password)
+export async function changePasswordApi(data) {
+  const endpoint = `${API_BASE_URL}${userManagerRouter.changePassword}`;
+
+  const response = await fetch(endpoint, {
+    method: METHODS.POST,
+    headers: getAuthHeaders(),
+    body: JSON.stringify(data),
+  });
+
+  if (response.status === 401) {
+    throw new Error('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!');
+  }
+
+  const result = await response.json().catch(() => ({}));
+  if (!response.ok || (result.statusCode && result.statusCode !== 200)) {
+    throw new Error(parseApiError(result, 'Đổi mật khẩu thất bại'));
+  }
+
+  return result?.data ?? result;
 }

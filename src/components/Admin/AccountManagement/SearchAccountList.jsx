@@ -12,30 +12,30 @@ import { ROLES, ModelMode } from '../../../utils/index.js';
 
 export default function SearchAccountList() {
     // Dữ liệu danh sách người dùng
-    const [users, setUsers] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [users, setUsers] = useState([]); // Mảng danh sách tài khoản người dùng hiển thị trên bảng
+    const [loading, setLoading] = useState(false); // Trạng thái đang tải bảng tài khoản (true = đang tải)
+    const [error, setError] = useState(null); // Chuỗi thông báo lỗi khi gọi API thất bại (null = không lỗi)
 
     // Bộ lọc tìm kiếm & Phân trang
-    const [search, setSearch] = useState('');
-    const [role, setRole] = useState('ALL');
-    const [pageNumber, setPageNumber] = useState(1);
-    const [pageSize, setPageSize] = useState(10);
-    const [totalCount, setTotalCount] = useState(0);
-    const [refreshKey, setRefreshKey] = useState(0);
+    const [search, setSearch] = useState(''); // Chuỗi từ khóa tìm kiếm (username, email)
+    const [role, setRole] = useState(''); // Mã vai trò đang chọn lọc ('' = tất cả, SUPER_ADMIN, HEALTH_ADMIN, DOCTOR, STAFF)
+    const [pageNumber, setPageNumber] = useState(1); // Số trang hiện tại (bắt đầu từ 1)
+    const [pageSize, setPageSize] = useState(10); // Số dòng tài khoản hiển thị trên mỗi trang
+    const [totalCount, setTotalCount] = useState(0); // Tổng số tài khoản khớp bộ lọc (dùng tính tổng số trang)
+    const [refreshKey, setRefreshKey] = useState(0); // Biến đếm tăng thêm 1 mỗi khi cần tải lại bảng (sau khi thêm/sửa/xóa)
 
     // Thông báo toast
-    const [toast, setToast] = useState('');
+    const [toast, setToast] = useState(''); // Chuỗi thông báo nổi góc màn hình (tự ẩn sau 3 giây)
     const showToast = (message) => {
         setToast(message);
         setTimeout(() => setToast(''), 3000);
     };
 
     // Quản lý Modal (Thêm / Sửa)
-    const [modalMode, setModalMode] = useState(null); // null | ModelMode.CREATE | ModelMode.EDIT
-    const [submitting, setSubmitting] = useState(false);
-    const [modalError, setModalError] = useState('');
-    const [formData, setFormData] = useState({
+    const [modalMode, setModalMode] = useState(null); // Chế độ modal: null (đóng) | ModelMode.CREATE (tạo mới) | ModelMode.EDIT (sửa)
+    const [submitting, setSubmitting] = useState(false); // Trạng thái đang gửi form Thêm/Sửa tài khoản lên API
+    const [modalError, setModalError] = useState(''); // Chuỗi thông báo lỗi hiển thị bên trong modal Thêm/Sửa
+    const [formData, setFormData] = useState({ // Đối tượng lưu dữ liệu các ô nhập trong modal Thêm/Sửa tài khoản
         userId: null,
         username: '',
         password: '',
@@ -45,8 +45,8 @@ export default function SearchAccountList() {
     });
 
     // Quản lý Modal xác nhận xóa
-    const [deletingUser, setDeletingUser] = useState(null);
-    const [deleteLoading, setDeleteLoading] = useState(false);
+    const [deletingUser, setDeletingUser] = useState(null); // Đối tượng tài khoản đang chờ xác nhận xóa (null = đóng hộp thoại)
+    const [deleteLoading, setDeleteLoading] = useState(false); // Trạng thái đang gọi API xóa tài khoản
 
     // Tải danh sách người dùng mỗi khi bộ lọc thay đổi hoặc sau khi thêm/sửa/xóa
     useEffect(() => {
@@ -59,7 +59,7 @@ export default function SearchAccountList() {
             try {
                 const data = await AccountService.getAccounts({
                     textSearch: search.trim(),
-                    role: role === 'ALL' ? '' : role,
+                    role: role,
                     pageNumber: pageNumber,
                     pageSize: pageSize,
                 });
@@ -92,7 +92,7 @@ export default function SearchAccountList() {
             username: '',
             password: '',
             email: '',
-            role: 'STAFF',
+            role: ModelMode.ROLES.STAFF,
             isActive: true,
         });
         setModalError('');
@@ -106,7 +106,7 @@ export default function SearchAccountList() {
             username: user.username,
             password: '',
             email: user.email || '',
-            role: user.role || 'STAFF',
+            role: user.role || ModelMode.ROLES.STAFF,
             isActive: Boolean(user.isActive),
         });
         setModalError('');

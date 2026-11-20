@@ -7,12 +7,10 @@ import {
   getSpecialistExamsApi,
   createSpecialistExamApi,
   updateSpecialistExamApi,
-} from '../../../../../api/specialistExamApi.js';
-import { getSpecialtiesApi } from '../../../../../api/recordApi.js';
-import { CLINICAL_SPECIALTIES_CONFIG } from '../../models/SpecialistExam.js';
-import { IconCheck, IconRefreshCw } from '../../../../SupportAgent/Icons.jsx';
-import './SpecialistExamsTab.css';
-
+} from '../../../../api/specialistExamApi.js';
+import { getSpecialtiesApi } from '../../../../api/recordApi.js';
+import { CLINICAL_SPECIALTIES_CONFIG } from '../../../../models/SpecialistExam.js';
+import { IconCheck, IconRefreshCw } from '../../../SupportAgent/Icons.jsx';
 const INITIAL_EXAM = {
   specialistExamId: null,
   specialtyType: 'EYE',
@@ -47,14 +45,14 @@ export default function SpecialistExamsTab({ recordId, doctorsList = [], classif
   );
 
   // Chuyên khoa đang được chọn xem
-  const [activeSpecialty, setActiveSpecialty] = useState('EYE');
+  const [activeSpecialty, setActiveSpecialty] = useState('EYE'); // Chuỗi mã chuyên khoa đang chọn (EYE, ENT, DENTAL...)
   // Lưu danh sách kết quả của các chuyên khoa đã khám
-  const [examsMap, setExamsMap] = useState({});
+  const [examsMap, setExamsMap] = useState({}); // Đối tượng ánh xạ { [mãChuyênKhoa]: dữLiệuPhiếuKhám }
 
-  const [loading, setLoading] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false); // Trạng thái đang tải dữ liệu khám chuyên khoa
+  const [saving, setSaving] = useState(false); // Trạng thái đang lưu kết quả chuyên khoa
+  const [message, setMessage] = useState(''); // Chuỗi thông báo thành công
+  const [error, setError] = useState(''); // Chuỗi thông báo lỗi
 
   // Tải danh mục chuyên khoa từ DB và kết quả khám của hồ sơ
   useEffect(() => {

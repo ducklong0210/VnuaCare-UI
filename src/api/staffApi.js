@@ -4,6 +4,7 @@
 
 import { staffRouter } from '../utils/api-router.js';
 import { getAuthHeaders, parseApiError, API_BASE_URL } from './httpClient.js';
+import { METHODS } from '../utils/index.js';
 
 
 // Lọc và phân trang danh sách Cán bộ
@@ -11,13 +12,14 @@ export async function getStaffFilterApi({ textSearch = '', departmentId = null, 
   const endpoint = `${API_BASE_URL}${staffRouter.getFilter}`;
 
   const response = await fetch(endpoint, {
-    method: 'POST',
+    method: METHODS.POST,
     headers: getAuthHeaders(),
     body: JSON.stringify({
       textSearch: textSearch,
       departmentId: departmentId && departmentId !== 'ALL' ? Number(departmentId) : 0,
       pageNumber: pageNumber,
       pageSize: pageSize,
+      isActive: true,
     }),
   });
 
@@ -50,7 +52,7 @@ export async function getDepartmentsApi() {
   const endpoint = `${API_BASE_URL}${staffRouter.getDepartments}`;
 
   const response = await fetch(endpoint, {
-    method: 'GET',
+    method: METHODS.GET,
     headers: getAuthHeaders(),
   });
 
@@ -74,7 +76,7 @@ export async function createStaffApi(data) {
   const endpoint = `${API_BASE_URL}${staffRouter.create}`;
 
   const response = await fetch(endpoint, {
-    method: 'POST',
+    method: METHODS.POST,
     headers: getAuthHeaders(),
     body: JSON.stringify(data),
   });
@@ -92,7 +94,7 @@ export async function updateStaffApi(data) {
   const endpoint = `${API_BASE_URL}${staffRouter.update}`;
 
   const response = await fetch(endpoint, {
-    method: 'PUT',
+    method: METHODS.PUT,
     headers: getAuthHeaders(),
     body: JSON.stringify(data),
   });
@@ -110,7 +112,7 @@ export async function deleteStaffApi(staffId) {
   const endpoint = `${API_BASE_URL}${staffRouter.delete(staffId)}`;
 
   const response = await fetch(endpoint, {
-    method: 'DELETE',
+    method: METHODS.DELETE,
     headers: getAuthHeaders(),
   });
 

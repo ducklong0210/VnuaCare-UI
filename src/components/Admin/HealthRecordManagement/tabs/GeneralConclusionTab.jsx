@@ -3,10 +3,8 @@
 // Bác sĩ chủ trì hội đồng KSK chọn xếp loại sức khỏe (Loại I - V), tư vấn điều trị và hoàn tất hồ sơ
 
 import { useEffect, useState } from 'react';
-import { getHealthRecordByIdApi, updateHealthRecordApi } from '../../../../../api/recordApi.js';
-import { IconCheck, IconRefreshCw } from '../../../../SupportAgent/Icons.jsx';
-import './GeneralConclusionTab.css';
-
+import { getHealthRecordByIdApi, updateHealthRecordApi } from '../../../../api/recordApi.js';
+import { IconCheck, IconRefreshCw } from '../../../SupportAgent/Icons.jsx';
 const INITIAL_CONCLUSION = {
   recordId: null,
   sidCode: '',
@@ -22,11 +20,11 @@ const INITIAL_CONCLUSION = {
 };
 
 export default function GeneralConclusionTab({ recordId, doctorsList = [], classifications = [], statuses = [], showToast, onRecordUpdated }) {
-  const [formData, setFormData] = useState(INITIAL_CONCLUSION);
-  const [loading, setLoading] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
+  const [formData, setFormData] = useState(INITIAL_CONCLUSION); // Đối tượng dữ liệu biểu mẫu kết luận & xếp loại tổng thể
+  const [loading, setLoading] = useState(false); // trạng thái đang tải thông tin kết luận hồ sơ
+  const [saving, setSaving] = useState(false); // trạng thái đang lưu kết luận
+  const [message, setMessage] = useState(''); // Chuỗi thông báo thành công
+  const [error, setError] = useState(''); // Chuỗi thông báo lỗi
 
   // Tải thông tin kết luận của hồ sơ
   useEffect(() => {

@@ -7,10 +7,8 @@ import {
   getInternalMedicineApi,
   createInternalMedicineExamApi,
   updateInternalMedicineExamApi,
-} from '../../../../../api/internalMedicineApi.js';
-import { IconCheck, IconRefreshCw } from '../../../../SupportAgent/Icons.jsx';
-import './InternalMedicineTab.css';
-
+} from '../../../../api/internalMedicineApi.js';
+import { IconCheck, IconRefreshCw } from '../../../SupportAgent/Icons.jsx';
 const INITIAL_INTERNAL_EXAM = {
   internalExamId: null,
   circulatoryDesc: '',
@@ -25,11 +23,11 @@ const INITIAL_INTERNAL_EXAM = {
 };
 
 export default function InternalMedicineTab({ recordId, doctorsList = [], classifications = [], showToast }) {
-  const [formData, setFormData] = useState(INITIAL_INTERNAL_EXAM);
-  const [loading, setLoading] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
+  const [formData, setFormData] = useState(INITIAL_INTERNAL_EXAM); // Đối tượng dữ liệu biểu mẫu khám nội khoa 6 hệ cơ quan
+  const [loading, setLoading] = useState(false); // trạng thái đang tải dữ liệu
+  const [saving, setSaving] = useState(false); // trạng thái đang lưu dữ liệu
+  const [message, setMessage] = useState(''); // thông báo
+  const [error, setError] = useState(''); // lỗi
 
   // Tải kết quả khám nội khoa theo ID hồ sơ
   useEffect(() => {

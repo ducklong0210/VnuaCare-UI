@@ -1,40 +1,93 @@
 // Modal chi tiết hồ sơ: Cửa sổ điều phối trung tâm cho toàn bộ quy trình khám của 1 cán bộ
 // Thanh tiêu đề hiển thị thông tin nhận diện cán bộ (Mã CB, Họ tên, Khoa phòng, Mã vạch SID, Đợt khám)
-// Thanh chọn Tab phía trên nạp động 5 Tab khám chuyên môn độc lập kèm thông báo toast phản hồi
+// Thanh chọn Tab phía trên nạp động 5 Tab khám chuyên môn độc lập từ danh sách cấu hình RECORD_TABS
 
 import { useState } from 'react';
-import {
-  VitalSignsTab,
-  InternalMedicineTab,
-  SpecialistExamsTab,
-  DiagnosticReportsTab,
-  GeneralConclusionTab,
-} from './tabs';
+import VitalSignsTab from './tabs/VitalSignsTab.jsx';
+import InternalMedicineTab from './tabs/InternalMedicineTab.jsx';
+import SpecialistExamsTab from './tabs/SpecialistExamsTab.jsx';
+import DiagnosticReportsTab from './tabs/DiagnosticReportsTab.jsx';
+import GeneralConclusionTab from './tabs/GeneralConclusionTab.jsx';
 import { IconClose, IconCheck } from '../../SupportAgent/Icons.jsx';
 import './RecordDetailModal.css';
+import './tabs/RecordTabs.css';
 
-export default function RecordDetailModal({ record, onClose, onRefreshList, doctorsList = [], classifications = [], statuses = [] }) {
-  // Tab chuyên môn đang mở: 'VITAL_SIGNS' | 'INTERNAL_MEDICINE' | 'SPECIALIST_EXAMS' | 'DIAGNOSTIC_REPORTS' | 'CONCLUSION'
-  const [activeTab, setActiveTab] = useState('VITAL_SIGNS');
+// Danh sách cấu hình 5 Tab khám chuyên môn (dễ mở rộng thêm tab mới như Xét nghiệm / Đơn thuốc)
+const RECORD_TABS = [
+  { key: 'VITAL_SIGNS', label: '1. Thể Lực & Chỉ Số Sinh Tồn' },
+  { key: 'INTERNAL_MEDICINE', label: '2. Khám Nội Khoa' },
+  { key: 'SPECIALIST_EXAMS', label: '3. Chuyên Khoa Lẻ (Mắt, TMH, Răng...)' },
+  { key: 'DIAGNOSTIC_REPORTS', label: '4. CĐHA & Thăm Dò Chức Năng' },
+  { key: 'CONCLUSION', label: '5. Kết Luận & Xếp Loại Tổng Thể' },
+];
+
+export default function RecordDetailModal({
+  record,
+  onClose,
+  onRefreshList,
+  doctorsList = [],
+  classifications = [],
+  statuses = [],
+}) {
+  const [activeTab, setActiveTab] = useState(RECORD_TABS[0].key);
   const [toast, setToast] = useState('');
 
   const showToast = (msg) => {
     setToast(msg);
-    setTimeout(() => {
-      setToast('');
-    }, 3000);
+    setTimeout(() => setToast(''), 3000);
   };
 
   if (!record) return null;
 
   const initials = record.staffName
     ? record.staffName
-      .split(' ')
-      .map((n) => n[0])
-      .slice(-2)
-      .join('')
-      .toUpperCase()
+        .split(' ')
+        .map((n) => n[0])
+        .slice(-2)
+        .join('')
+        .toUpperCase()
     : 'CB';
+
+  // Render nội dung Tab tương ứng theo key đang chọn
+  const renderTabContent = () => {
+    switch (activeTab) {
+      case 'VITAL_SIGNS':
+        return <VitalSignsTab recordId={record.recordId} doctorsList={doctorsList} showToast={showToast} />;
+      case 'INTERNAL_MEDICINE':
+        return (
+          <InternalMedicineTab
+            recordId={record.recordId}
+            doctorsList={doctorsList}
+            classifications={classifications}
+            showToast={showToast}
+          />
+        );
+      case 'SPECIALIST_EXAMS':
+        return (
+          <SpecialistExamsTab
+            recordId={record.recordId}
+            doctorsList={doctorsList}
+            classifications={classifications}
+            showToast={showToast}
+          />
+        );
+      case 'DIAGNOSTIC_REPORTS':
+        return <DiagnosticReportsTab recordId={record.recordId} doctorsList={doctorsList} showToast={showToast} />;
+      case 'CONCLUSION':
+        return (
+          <GeneralConclusionTab
+            recordId={record.recordId}
+            doctorsList={doctorsList}
+            classifications={classifications}
+            statuses={statuses}
+            showToast={showToast}
+            onRecordUpdated={onRefreshList}
+          />
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="modal-backdrop">
@@ -52,15 +105,22 @@ export default function RecordDetailModal({ record, onClose, onRefreshList, doct
           <div className="patient-info-row">
             <div className="patient-avatar-box">{initials}</div>
             <div className="patient-details">
-              <h3>{record.staffName || 'Hồ sơ khám cán bộ'}</h3>
+              <div className="patient-title-line">
+                <h3>{record.staffName || 'Hồ sơ khám cán bộ'}</h3>
+                {record.sidCode && <span className="patient-sid-tag">SID: {record.sidCode}</span>}
+              </div>
               <div className="patient-details-meta">
-                <span>Mã CB: <strong>{record.employeeCode || '—'}</strong></span>
-                <span>•</span>
-                <span>Khoa/Phòng: {record.departmentName || '—'}</span>
-                <span>•</span>
-                <span>Mã SID: <span className="patient-sid-tag">{record.sidCode}</span></span>
-                <span>•</span>
-                <span>Đợt: {record.campaignName || '—'}</span>
+                <span className="meta-item">
+                  Mã CB: <strong>{record.employeeCode || '—'}</strong>
+                </span>
+                <span className="meta-dot">•</span>
+                <span className="meta-item">
+                  Khoa/Phòng: <strong>{record.departmentName || '—'}</strong>
+                </span>
+                <span className="meta-dot">•</span>
+                <span className="meta-item meta-campaign" title={record.campaignName || ''}>
+                  Đợt: {record.campaignName || '—'}
+                </span>
               </div>
             </div>
           </div>
@@ -70,52 +130,22 @@ export default function RecordDetailModal({ record, onClose, onRefreshList, doct
           </button>
         </div>
 
-        {/* Thanh chọn Tab chuyên môn phân chia độc lập */}
+        {/* Thanh chọn Tab chuyên môn */}
         <div className="record-tabs-bar">
-          <button type="button" className={`record-tab-btn ${activeTab === 'VITAL_SIGNS' ? 'active' : ''}`} onClick={() => setActiveTab('VITAL_SIGNS')}>
-            1. Thể Lực & Sinh Tồn
-          </button>
-          <button type="button" className={`record-tab-btn ${activeTab === 'INTERNAL_MEDICINE' ? 'active' : ''}`} onClick={() => setActiveTab('INTERNAL_MEDICINE')}>
-            2. Khám Nội Khoa
-          </button>
-          <button type="button" className={`record-tab-btn ${activeTab === 'SPECIALIST_EXAMS' ? 'active' : ''}`} onClick={() => setActiveTab('SPECIALIST_EXAMS')}>
-            3. Chuyên Khoa Lẻ (Mắt, TMH, Răng...)
-          </button>
-          <button type="button" className={`record-tab-btn ${activeTab === 'DIAGNOSTIC_REPORTS' ? 'active' : ''}`} onClick={() => setActiveTab('DIAGNOSTIC_REPORTS')}>
-            4. CĐHA & Thăm Dò Chức Năng
-          </button>
-          <button type="button" className={`record-tab-btn ${activeTab === 'CONCLUSION' ? 'active' : ''}`} onClick={() => setActiveTab('CONCLUSION')}>
-            5. Kết Luận & Xếp Loại Tổng Thể
-          </button>
+          {RECORD_TABS.map((tab) => (
+            <button
+              key={tab.key}
+              type="button"
+              className={`record-tab-btn ${activeTab === tab.key ? 'active' : ''}`}
+              onClick={() => setActiveTab(tab.key)}
+            >
+              {tab.label}
+            </button>
+          ))}
         </div>
 
-        {/* Nội dung Tab tương ứng (được tách thành từng file độc lập) */}
-        <div className="record-detail-body">
-          {activeTab === 'VITAL_SIGNS' && <VitalSignsTab recordId={record.recordId} doctorsList={doctorsList} showToast={showToast} />}
-
-          {activeTab === 'INTERNAL_MEDICINE' && (
-            <InternalMedicineTab recordId={record.recordId} doctorsList={doctorsList} classifications={classifications} showToast={showToast} />
-          )}
-
-          {activeTab === 'SPECIALIST_EXAMS' && (
-            <SpecialistExamsTab recordId={record.recordId} doctorsList={doctorsList} classifications={classifications} showToast={showToast} />
-          )}
-
-          {activeTab === 'DIAGNOSTIC_REPORTS' && (
-            <DiagnosticReportsTab recordId={record.recordId} doctorsList={doctorsList} showToast={showToast} />
-          )}
-
-          {activeTab === 'CONCLUSION' && (
-            <GeneralConclusionTab
-              recordId={record.recordId}
-              doctorsList={doctorsList}
-              classifications={classifications}
-              statuses={statuses}
-              showToast={showToast}
-              onRecordUpdated={onRefreshList}
-            />
-          )}
-        </div>
+        {/* Nội dung Tab đang chọn */}
+        <div className="record-detail-body">{renderTabContent()}</div>
       </div>
     </div>
   );

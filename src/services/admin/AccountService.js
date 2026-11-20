@@ -9,6 +9,9 @@ import {
   updateUserApi,
   deleteUserApi,
   getUserSelectApi,
+  getMyProfileApi,
+  updateMyProfileApi,
+  changePasswordApi,
 } from '../../api/userApi.js';
 
 export const AccountService = {
@@ -29,6 +32,15 @@ export const AccountService = {
 
   // Lấy danh sách tài khoản chọn lọc (theo vai trò)
   getUserSelect: getUserSelectApi,
+
+  // Lấy thông tin hồ sơ cá nhân của tài khoản đang đăng nhập
+  getMyProfile: getMyProfileApi,
+
+  // Tự cập nhật hồ sơ cá nhân (Họ tên, Email, SĐT, Địa chỉ, Avatar...)
+  updateMyProfile: updateMyProfileApi,
+
+  // Tự đổi mật khẩu tài khoản đang đăng nhập
+  changePassword: changePasswordApi,
 };
 
 export default AccountService;

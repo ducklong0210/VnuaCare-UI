@@ -4,6 +4,7 @@
 
 import { vitalSignsRouter } from '../utils/api-router.js';
 import { getAuthHeaders, parseApiError, API_BASE_URL } from './httpClient.js';
+import { METHODS } from '../utils/index.js';
 
 
 // Lấy chỉ số sinh tồn và thể lực theo ID hồ sơ
@@ -11,7 +12,7 @@ export async function getVitalSignsApi(recordId) {
   const endpoint = `${API_BASE_URL}${vitalSignsRouter.getByRecordId(recordId)}`;
 
   const response = await fetch(endpoint, {
-    method: 'GET',
+    method: METHODS.GET,
     headers: getAuthHeaders(),
   });
 
@@ -28,7 +29,7 @@ export async function createVitalSignsApi(vitalSignsData) {
   const endpoint = `${API_BASE_URL}${vitalSignsRouter.create}`;
 
   const response = await fetch(endpoint, {
-    method: 'POST',
+    method: METHODS.POST,
     headers: getAuthHeaders(),
     body: JSON.stringify(vitalSignsData),
   });
@@ -56,7 +57,7 @@ export async function updateVitalSignsApi(vitalSignsData) {
   const endpoint = `${API_BASE_URL}${vitalSignsRouter.update}`;
 
   const response = await fetch(endpoint, {
-    method: 'PUT',
+    method: METHODS.PUT,
     headers: getAuthHeaders(),
     body: JSON.stringify(vitalSignsData),
   });
@@ -84,7 +85,7 @@ export async function deleteVitalSignsApi(recordId) {
   const endpoint = `${API_BASE_URL}${vitalSignsRouter.delete(recordId)}`;
 
   const response = await fetch(endpoint, {
-    method: 'DELETE',
+    method: METHODS.DELETE,
     headers: getAuthHeaders(),
   });
 

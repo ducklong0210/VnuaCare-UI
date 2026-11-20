@@ -3,31 +3,29 @@
 // Bác sĩ tự chọn loại kỹ thuật, thêm các phân vùng giải phẫu, nhập gạch đầu dòng mô tả và kết luận
 
 import { useState, useEffect } from 'react';
-import { diagnosticReportService } from '../../services/DiagnosticReportService.js';
+import { diagnosticReportService } from '../../../../services/admin/DiagnosticReportService.js';
 import {
   DiagnosticReport,
   MODALITY_CONFIG,
-} from '../../models/DiagnosticReport.js';
+} from '../../../../models/DiagnosticReport.js';
 import {
   IconPlus,
   IconRefreshCw,
   IconCheck,
   IconTrash,
   IconAlertTriangle,
-} from '../../../../SupportAgent/Icons.jsx';
-import './DiagnosticReportsTab.css';
-
+} from '../../../SupportAgent/Icons.jsx';
 export default function DiagnosticReportsTab({ recordId, doctorsList = [], showToast }) {
-  const [reports, setReports] = useState([]);
-  const [selectedReport, setSelectedReport] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [deleting, setDeleting] = useState(false);
+  const [reports, setReports] = useState([]); // Mảng các đối tượng báo cáo chuẩn đoán
+  const [selectedReport, setSelectedReport] = useState(null); // Đối tượng báo cáo chuẩn đoán đang chọn để chỉnh sửa (hoặc null)
+  const [loading, setLoading] = useState(false); // trạng thái đang tải danh sách phiếu
+  const [saving, setSaving] = useState(false); // trạng thái đang lưu phiếu
+  const [deleting, setDeleting] = useState(false); // trạng thái đang xóa phiếu
 
   // State thêm phân vùng giải phẫu mới
-  const [newSectionKey, setNewSectionKey] = useState('');
-  const [newSectionTitle, setNewSectionTitle] = useState('');
-  const [showAddSection, setShowAddSection] = useState(false);
+  const [newSectionKey, setNewSectionKey] = useState(''); // Chuỗi mã định danh (key) của vùng thăm khám mới
+  const [newSectionTitle, setNewSectionTitle] = useState(''); // Chuỗi tên hiển thị của vùng thăm khám mới
+  const [showAddSection, setShowAddSection] = useState(false); // Trạng thái ẩn/hiện form thêm vùng mới
 
   // Tải danh sách kết quả chẩn đoán hình ảnh từ backend
   useEffect(() => {

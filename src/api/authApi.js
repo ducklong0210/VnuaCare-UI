@@ -3,6 +3,7 @@
 // Trả về dữ liệu phiên làm việc gồm token truy cập JWT, thông tin vai trò và thông tin cá nhân
 
 import { authorizationRouter } from '../utils/api-router.js';
+import { METHODS } from '../utils/index.js';
 
 const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
 
@@ -11,7 +12,7 @@ export async function loginRequest({ loginIdentifier, password }) {
   const endpoint = `${API_BASE_URL}${authorizationRouter.login}`;
 
   const response = await fetch(endpoint, {
-    method: 'POST',
+    method: METHODS.POST,
     headers: {
       'Content-Type': 'application/json',
     },

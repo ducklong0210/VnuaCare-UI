@@ -4,20 +4,22 @@
 
 import { doctorRouter } from '../utils/api-router.js';
 import { getAuthHeaders, parseApiError, API_BASE_URL } from './httpClient.js';
+import { METHODS } from '../utils/index.js';
 
 
 // Lọc và phân trang danh sách Bác sĩ
-export async function getDoctorFilterApi({ textSearch = '', specialtyId = null, pageNumber = 1, pageSize = 10} = {}) {
+export async function getDoctorFilterApi({ textSearch = '', specialtyId = null, pageNumber = 1, pageSize = 10 } = {}) {
   const endpoint = `${API_BASE_URL}${doctorRouter.getFilter}`;
 
   const response = await fetch(endpoint, {
-    method: 'POST',
+    method: METHODS.POST,
     headers: getAuthHeaders(),
     body: JSON.stringify({
       textSearch: textSearch,
       specialty: specialtyId && specialtyId !== 'ALL' ? Number(specialtyId) : 0,
       pageNumber: pageNumber,
       pageSize: pageSize,
+      isActive: true,
     }),
   });
 
@@ -50,7 +52,7 @@ export async function getSpecialtiesApi() {
   const endpoint = `${API_BASE_URL}${doctorRouter.getSpecialties}`;
 
   const response = await fetch(endpoint, {
-    method: 'GET',
+    method: METHODS.GET,
     headers: getAuthHeaders(),
   });
 
@@ -74,7 +76,7 @@ export async function createDoctorApi(data) {
   const endpoint = `${API_BASE_URL}${doctorRouter.create}`;
 
   const response = await fetch(endpoint, {
-    method: 'POST',
+    method: METHODS.POST,
     headers: getAuthHeaders(),
     body: JSON.stringify(data),
   });
@@ -92,7 +94,7 @@ export async function updateDoctorApi(data) {
   const endpoint = `${API_BASE_URL}${doctorRouter.update}`;
 
   const response = await fetch(endpoint, {
-    method: 'PUT',
+    method: METHODS.PUT,
     headers: getAuthHeaders(),
     body: JSON.stringify(data),
   });
@@ -110,7 +112,7 @@ export async function deleteDoctorApi(doctorId) {
   const endpoint = `${API_BASE_URL}${doctorRouter.delete(doctorId)}`;
 
   const response = await fetch(endpoint, {
-    method: 'DELETE',
+    method: METHODS.DELETE,
     headers: getAuthHeaders(),
   });
 

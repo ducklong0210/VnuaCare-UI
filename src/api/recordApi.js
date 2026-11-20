@@ -4,6 +4,7 @@
 
 import { healthRecordRouter, campaignRouter, doctorRouter } from '../utils/api-router.js';
 import { getAuthHeaders, parseApiError, API_BASE_URL } from './httpClient.js';
+import { DEFAULT_HEALTH_CLASSIFICATIONS, DEFAULT_RECORD_STATUSES, METHODS } from '../utils/index.js';
 
 // Lọc và phân trang danh sách Hồ sơ khám sức khỏe
 export async function getHealthRecordFilterApi({
@@ -40,7 +41,7 @@ export async function getHealthRecordFilterApi({
   }
 
   const response = await fetch(endpoint, {
-    method: 'POST',
+    method: METHODS.POST,
     headers: getAuthHeaders(),
     body: JSON.stringify(bodyData),
   });
@@ -74,7 +75,7 @@ export async function getCampaignsSelectApi() {
   const endpoint = `${API_BASE_URL}${campaignRouter.getSelect}`;
 
   const response = await fetch(endpoint, {
-    method: 'GET',
+    method: METHODS.GET,
     headers: getAuthHeaders(),
   });
 
@@ -91,7 +92,7 @@ export async function getDepartmentsSelectApi() {
   const endpoint = `${API_BASE_URL}${healthRecordRouter.getDepartments}`;
 
   const response = await fetch(endpoint, {
-    method: 'GET',
+    method: METHODS.GET,
     headers: getAuthHeaders(),
   });
 
@@ -103,76 +104,7 @@ export async function getDepartmentsSelectApi() {
   return result?.data || [];
 }
 
-// Danh mục Phân loại sức khỏe chuẩn theo Bộ Y tế (Loại I - Loại V)
-export const DEFAULT_HEALTH_CLASSIFICATIONS = [
-  {
-    key: 'Loại I',
-    value: 'Loại I',
-    label: 'Loại I (Rất khỏe)',
-    classificationCode: 'Loại I',
-    classificationName: 'Loại I (Rất khỏe)',
-  },
-  {
-    key: 'Loại II',
-    value: 'Loại II',
-    label: 'Loại II (Khỏe)',
-    classificationCode: 'Loại II',
-    classificationName: 'Loại II (Khỏe)',
-  },
-  {
-    key: 'Loại III',
-    value: 'Loại III',
-    label: 'Loại III (Trung bình)',
-    classificationCode: 'Loại III',
-    classificationName: 'Loại III (Trung bình)',
-  },
-  {
-    key: 'Loại IV',
-    value: 'Loại IV',
-    label: 'Loại IV (Yếu)',
-    classificationCode: 'Loại IV',
-    classificationName: 'Loại IV (Yếu)',
-  },
-  {
-    key: 'Loại V',
-    value: 'Loại V',
-    label: 'Loại V (Rất yếu)',
-    classificationCode: 'Loại V',
-    classificationName: 'Loại V (Rất yếu)',
-  },
-];
 
-// Danh mục Trạng thái hồ sơ khám sức khỏe
-export const DEFAULT_RECORD_STATUSES = [
-  {
-    key: 'DRAFT',
-    value: 'DRAFT',
-    label: 'Mới tiếp nhận (Chưa khám)',
-    statusCode: 'DRAFT',
-    statusName: 'Mới tiếp nhận (Chưa khám)',
-  },
-  {
-    key: 'IN_PROGRESS',
-    value: 'IN_PROGRESS',
-    label: 'Đang khám',
-    statusCode: 'IN_PROGRESS',
-    statusName: 'Đang khám',
-  },
-  {
-    key: 'COMPLETED',
-    value: 'COMPLETED',
-    label: 'Đã hoàn thành',
-    statusCode: 'COMPLETED',
-    statusName: 'Đã hoàn thành',
-  },
-  {
-    key: 'CANCELLED',
-    value: 'CANCELLED',
-    label: 'Đã hủy',
-    statusCode: 'CANCELLED',
-    statusName: 'Đã hủy',
-  },
-];
 
 // Lấy danh mục Phân loại sức khỏe (chuẩn hóa ở Frontend theo Bộ Y tế)
 export async function getClassificationsApi() {
@@ -192,7 +124,7 @@ export async function getStaffsSelectApi(departmentId = null) {
   }
 
   const response = await fetch(endpoint, {
-    method: 'GET',
+    method: METHODS.GET,
     headers: getAuthHeaders(),
   });
 
@@ -212,7 +144,7 @@ export async function getDoctorsSelectApi(specialtyId = null) {
   }
 
   const response = await fetch(endpoint, {
-    method: 'GET',
+    method: METHODS.GET,
     headers: getAuthHeaders(),
   });
 
@@ -229,7 +161,7 @@ export async function getSpecialtiesApi() {
   const endpoint = `${API_BASE_URL}${doctorRouter.getSpecialties}`;
 
   const response = await fetch(endpoint, {
-    method: 'GET',
+    method: METHODS.GET,
     headers: getAuthHeaders(),
   });
 
@@ -246,7 +178,7 @@ export async function getHealthRecordByIdApi(recordId) {
   const endpoint = `${API_BASE_URL}${healthRecordRouter.getById(recordId)}`;
 
   const response = await fetch(endpoint, {
-    method: 'GET',
+    method: METHODS.GET,
     headers: getAuthHeaders(),
   });
 
@@ -270,7 +202,7 @@ export async function createHealthRecordApi(recordData) {
   const endpoint = `${API_BASE_URL}${healthRecordRouter.create}`;
 
   const response = await fetch(endpoint, {
-    method: 'POST',
+    method: METHODS.POST,
     headers: getAuthHeaders(),
     body: JSON.stringify(recordData),
   });
@@ -298,7 +230,7 @@ export async function updateHealthRecordApi(recordData) {
   const endpoint = `${API_BASE_URL}${healthRecordRouter.update}`;
 
   const response = await fetch(endpoint, {
-    method: 'PUT',
+    method: METHODS.PUT,
     headers: getAuthHeaders(),
     body: JSON.stringify(recordData),
   });
@@ -326,7 +258,7 @@ export async function deleteHealthRecordApi(recordId) {
   const endpoint = `${API_BASE_URL}${healthRecordRouter.delete(recordId)}`;
 
   const response = await fetch(endpoint, {
-    method: 'DELETE',
+    method: METHODS.DELETE,
     headers: getAuthHeaders(),
   });
 

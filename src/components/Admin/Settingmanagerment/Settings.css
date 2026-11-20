@@ -1,0 +1,268 @@
+/* ==============================================================================
+   SETTINGS STYLESHEET
+   Giao diện Cài đặt tài khoản: Hồ sơ cá nhân & Đổi mật khẩu - VnuaCare
+   ============================================================================== */
+
+.settings-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Thẻ tổng quan tài khoản phía trên */
+.settings-profile-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+}
+
+.settings-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.settings-avatar-lg {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0f766e 0%, #14b8a6 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 700;
+  flex-shrink: 0;
+  overflow: hidden;
+  border: 2px solid #ccfbf1;
+}
+
+.settings-avatar-lg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.settings-banner-info h3 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.settings-banner-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+  font-size: 12.5px;
+  color: #64748b;
+}
+
+.settings-role-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background-color: #f0fdfa;
+  border: 1px solid #99f6e4;
+  color: #0f766e;
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.settings-status-active {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #15803d;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Thanh chọn tab con (Hồ sơ cá nhân / Đổi mật khẩu) */
+.settings-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.settings-tabs-bar {
+  display: flex;
+  gap: 6px;
+  padding: 0 20px;
+  border-bottom: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+}
+
+.settings-tab-btn {
+  padding: 13px 16px;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #64748b;
+  background: transparent;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.settings-tab-btn:hover {
+  color: #0f766e;
+}
+
+.settings-tab-btn.active {
+  color: #0f766e;
+  border-bottom-color: #0f766e;
+}
+
+.settings-card-body {
+  padding: 24px;
+}
+
+/* Khối thông tin chỉ đọc (Tài khoản / Chuyên môn) */
+.settings-readonly-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  padding: 14px 16px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.settings-readonly-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.settings-readonly-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.settings-readonly-value {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+/* Biểu mẫu nhập liệu */
+.settings-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.settings-form-full {
+  grid-column: 1 / -1;
+}
+
+.settings-password-wrap {
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Bộ chọn ảnh đại diện có sẵn */
+.settings-avatar-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.settings-avatar-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.settings-avatar-option:hover {
+  border-color: #99f6e4;
+  background-color: #f0fdfa;
+}
+
+.settings-avatar-option.selected {
+  border-color: #0f766e;
+  background-color: #f0fdfa;
+  box-shadow: 0 0 0 2px rgba(15, 118, 110, 0.15);
+}
+
+.settings-avatar-option img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+.settings-avatar-option span {
+  font-size: 11px;
+  color: #475569;
+  font-weight: 500;
+}
+
+/* Chân biểu mẫu */
+.settings-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.settings-alert {
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.settings-alert.error {
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #dc2626;
+}
+
+.settings-alert.success {
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #15803d;
+}
+
+@media (max-width: 768px) {
+  .settings-readonly-grid,
+  .settings-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-profile-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

@@ -24,22 +24,22 @@ const INITIAL_FORM = {
 
 export default function SearchDoctorList() {
     // Dữ liệu danh sách bác sĩ, chuyên khoa và tài khoản người dùng
-    const [doctors, setDoctors] = useState([]);
-    const [specialties, setSpecialties] = useState([]);
-    const [usersList, setUsersList] = useState([]);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState(null);
+    const [doctors, setDoctors] = useState([]); // Mảng danh sách bác sĩ hiển thị trên bảng
+    const [specialties, setSpecialties] = useState([]); // Mảng danh mục chuyên khoa y tế (cho dropdown lọc & form)
+    const [usersList, setUsersList] = useState([]); // Mảng danh sách tài khoản (Role DOCTOR) để liên kết khi tạo bác sĩ
+    const [loading, setLoading] = useState(false); // Trạng thái đang tải bảng bác sĩ (true = đang tải)
+    const [error, setError] = useState(null); // Chuỗi thông báo lỗi khi gọi API thất bại (null = không lỗi)
 
     // Bộ lọc tìm kiếm và phân trang
-    const [search, setSearch] = useState('');
-    const [selectedSpecialty, setSelectedSpecialty] = useState('ALL');
-    const [pageNumber, setPageNumber] = useState(1);
-    const [pageSize, setPageSize] = useState(10);
-    const [totalCount, setTotalCount] = useState(0);
-    const [refreshKey, setRefreshKey] = useState(0);
+    const [search, setSearch] = useState(''); // Chuỗi từ khóa tìm kiếm (tên, mã bác sĩ, chứng chỉ hành nghề)
+    const [selectedSpecialty, setSelectedSpecialty] = useState('ALL'); // ID chuyên khoa đang chọn lọc ('ALL' = tất cả)
+    const [pageNumber, setPageNumber] = useState(1); // Số trang hiện tại (bắt đầu từ 1)
+    const [pageSize, setPageSize] = useState(10); // Số dòng bác sĩ hiển thị trên mỗi trang
+    const [totalCount, setTotalCount] = useState(0); // Tổng số bác sĩ khớp bộ lọc (dùng tính tổng số trang)
+    const [refreshKey, setRefreshKey] = useState(0); // Biến đếm tăng thêm 1 mỗi khi cần tải lại bảng (sau khi thêm/sửa/xóa)
 
     // Thông báo toast
-    const [toast, setToast] = useState('');
+    const [toast, setToast] = useState(''); // Chuỗi thông báo nổi góc màn hình (tự ẩn sau 3 giây)
     const showToast = (message) => {
         setToast(message);
         setTimeout(() => {
@@ -48,14 +48,14 @@ export default function SearchDoctorList() {
     };
 
     // Quản lý Modal Thêm / Sửa bác sĩ
-    const [modalMode, setModalMode] = useState(null); // null | ModelMode.CREATE | ModelMode.EDIT
-    const [submitting, setSubmitting] = useState(false);
-    const [modalError, setModalError] = useState('');
-    const [formData, setFormData] = useState(INITIAL_FORM);
+    const [modalMode, setModalMode] = useState(null); // Chế độ modal: null (đóng) | ModelMode.CREATE (tạo mới) | ModelMode.EDIT (sửa)
+    const [submitting, setSubmitting] = useState(false); // Trạng thái đang gửi form Thêm/Sửa bác sĩ lên API
+    const [modalError, setModalError] = useState(''); // Chuỗi thông báo lỗi hiển thị bên trong modal Thêm/Sửa
+    const [formData, setFormData] = useState(INITIAL_FORM); // Đối tượng lưu dữ liệu các ô nhập trong modal Thêm/Sửa bác sĩ
 
     // Quản lý Modal xác nhận xóa bác sĩ
-    const [deletingDoctor, setDeletingDoctor] = useState(null);
-    const [deleteLoading, setDeleteLoading] = useState(false);
+    const [deletingDoctor, setDeletingDoctor] = useState(null); // Đối tượng bác sĩ đang chờ xác nhận xóa (null = đóng hộp thoại)
+    const [deleteLoading, setDeleteLoading] = useState(false); // Trạng thái đang gọi API xóa bác sĩ
 
     // Tải danh mục Chuyên khoa và User (Role: DOCTOR) khi mở màn hình
     useEffect(() => {
@@ -65,7 +65,7 @@ export default function SearchDoctorList() {
             try {
                 const [specialtyResponse, userResponse] = await Promise.allSettled([
                     DoctorService.getSpecialties(),
-                    DoctorService.getUserSelect('DOCTOR'),
+                    DoctorService.getUserSelect(ModelMode.ROLES.DOCTOR),
                 ]);
                 if (!isCancelled) {
                     if (specialtyResponse.status === 'fulfilled') {
@@ -127,7 +127,7 @@ export default function SearchDoctorList() {
     // Mở form thêm mới bác sĩ
     const handleOpenCreate = async () => {
         try {
-            const data = await DoctorService.getUserSelect('DOCTOR');
+            const data = await DoctorService.getUserSelect(ModelMode.ROLES.DOCTOR);
             setUsersList(data || []);
         } catch {
             // Bỏ qua lỗi tải danh sách user

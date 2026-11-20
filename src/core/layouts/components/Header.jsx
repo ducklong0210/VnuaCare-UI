@@ -5,6 +5,7 @@
 import { useAuth } from '../../contexts/useAuth.js';
 import { useNavigation } from '../../contexts/useNavigation.js';
 import { IconBell, IconLogout } from '../../../components/SupportAgent/Icons.jsx';
+import { ROLE_LABELS } from '../../../utils/index.js';
 
 export default function Header() {
   const { user, logout } = useAuth();
@@ -51,7 +52,7 @@ export default function Header() {
           <div className="user-avatar-circle">{userInitial}</div>
           <div className="user-details">
             <span className="user-fullname" title={user?.fullname || user?.username}>{user?.fullname || user?.username || 'Cán bộ y tế'}</span>
-            <span className="user-role">{user?.role || 'Quản trị viên'}</span>
+            <span className="user-role">{ROLE_LABELS[user?.role] || user?.role || 'Quản trị viên'}</span>
           </div>
         </div>
 

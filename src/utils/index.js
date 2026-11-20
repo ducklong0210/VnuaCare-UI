@@ -1,4 +1,4 @@
-import {IconSettings, IconDashboard, IconUsers, IconStaffs, IconDoctors, IconCampaigns, IconRecords } from '../components/SupportAgent/Icons.jsx';
+import {IconSettings, IconDashboard, IconUsers, IconStaffs, IconDoctors, IconRecords } from '../components/SupportAgent/Icons.jsx';
 
 
 
@@ -7,7 +7,7 @@ export const METHODS = {
     GET: 'GET',
     POST: 'POST',
     PUT: 'PUT',
-    DELETE: 'DELETE ',
+    DELETE: 'DELETE',
 }
 
 // VAI TRÒ
@@ -18,19 +18,14 @@ export const ROLES = {
     STAFF: 'STAFF',
 };
 
+
 export const ROLE_LABELS = {
-    SUPER_ADMIN: 'Quản trị cấp cao',
-    HEALTH_ADMIN: 'Quản trị y tế',
-    DOCTOR: 'Bác sĩ',
-    STAFF: 'Cán bộ / Giảng viên',
+    [ROLES.SUPER_ADMIN]: 'Quản trị hệ thống',
+    [ROLES.HEALTH_ADMIN]: 'Quản trị y tế',
+    [ROLES.DOCTOR]: 'Bác sĩ',
+    [ROLES.STAFF]: 'Cán bộ / Giảng viên',
 };
 
-export const ROLE_COLORS = {
-    SUPER_ADMIN: 'red',
-    HEALTH_ADMIN: 'purple',
-    DOCTOR: 'blue',
-    STAFF: 'teal',
-};
 
 // 3. TRẠNG THÁI HỒ SƠ KHÁM SỨC KHỎE 
 export const RECORD_STATUS = {
@@ -67,7 +62,78 @@ export const HEALTH_CLASSIFICATIONS = [
 export const GENDER = {
     MALE: 'Nam',
     FEMALE: 'Nữ',
+    OTHER: 'Khác',
 };
+// Danh mục Phân loại sức khỏe chuẩn theo Bộ Y tế (Loại I - Loại V)
+export const DEFAULT_HEALTH_CLASSIFICATIONS = [
+  {
+    key: 'Loại I',
+    value: 'Loại I',
+    label: 'Loại I (Rất khỏe)',
+    classificationCode: 'Loại I',
+    classificationName: 'Loại I (Rất khỏe)',
+  },
+  {
+    key: 'Loại II',
+    value: 'Loại II',
+    label: 'Loại II (Khỏe)',
+    classificationCode: 'Loại II',
+    classificationName: 'Loại II (Khỏe)',
+  },
+  {
+    key: 'Loại III',
+    value: 'Loại III',
+    label: 'Loại III (Trung bình)',
+    classificationCode: 'Loại III',
+    classificationName: 'Loại III (Trung bình)',
+  },
+  {
+    key: 'Loại IV',
+    value: 'Loại IV',
+    label: 'Loại IV (Yếu)',
+    classificationCode: 'Loại IV',
+    classificationName: 'Loại IV (Yếu)',
+  },
+  {
+    key: 'Loại V',
+    value: 'Loại V',
+    label: 'Loại V (Rất yếu)',
+    classificationCode: 'Loại V',
+    classificationName: 'Loại V (Rất yếu)',
+  },
+];
+
+// Danh mục Trạng thái hồ sơ khám sức khỏe
+export const DEFAULT_RECORD_STATUSES = [
+  {
+    key: 'DRAFT',
+    value: 'DRAFT',
+    label: 'Mới tiếp nhận (Chưa khám)',
+    statusCode: 'DRAFT',
+    statusName: 'Mới tiếp nhận (Chưa khám)',
+  },
+  {
+    key: 'IN_PROGRESS',
+    value: 'IN_PROGRESS',
+    label: 'Đang khám',
+    statusCode: 'IN_PROGRESS',
+    statusName: 'Đang khám',
+  },
+  {
+    key: 'COMPLETED',
+    value: 'COMPLETED',
+    label: 'Đã hoàn thành',
+    statusCode: 'COMPLETED',
+    statusName: 'Đã hoàn thành',
+  },
+  {
+    key: 'CANCELLED',
+    value: 'CANCELLED',
+    label: 'Đã hủy',
+    statusCode: 'CANCELLED',
+    statusName: 'Đã hủy',
+  },
+];
 
 export const SystemColors = {
     primary: '#0f766e',
@@ -95,11 +161,11 @@ export const ModelMode = {
 }
 
 export const MENU_ITEMS = [
-    { id: 'dashboard', label: 'Bảng điều khiển', Icon: IconDashboard },
-    { id: 'records', label: 'Hồ sơ khám cán bộ', Icon: IconRecords },
-    { id: 'staffs', label: 'Quản lý nhân viên', Icon: IconStaffs },
-    { id: 'doctors', label: 'Quản lý bác sĩ', Icon: IconDoctors },
-    // { id: 'campaigns', label: 'Đợt khám sức khỏe', Icon: IconCampaigns },
-    { id: 'users', label: 'Quản lý người dùng', Icon: IconUsers },
-    { id: 'settings', label: 'Cài đặt', Icon: IconSettings },
+    { id: 'dashboard', label: 'Bảng điều khiển', Icon: IconDashboard, roles: [ROLES.SUPER_ADMIN, ROLES.HEALTH_ADMIN, ROLES.DOCTOR] },
+    { id: 'records', label: 'Hồ sơ khám cán bộ', Icon: IconRecords, roles: [ROLES.SUPER_ADMIN, ROLES.HEALTH_ADMIN, ROLES.DOCTOR] },
+    { id: 'staffs', label: 'Quản lý nhân viên', Icon: IconStaffs, roles: [ROLES.SUPER_ADMIN, ROLES.HEALTH_ADMIN] },
+    { id: 'doctors', label: 'Quản lý bác sĩ', Icon: IconDoctors, roles: [ROLES.SUPER_ADMIN, ROLES.HEALTH_ADMIN] },
+    // { id: 'campaigns', label: 'Đợt khám sức khỏe', Icon: IconCampaigns, roles: [ROLES.SUPER_ADMIN, ROLES.HEALTH_ADMIN] },
+    { id: 'users', label: 'Quản lý người dùng', Icon: IconUsers, roles: [ROLES.SUPER_ADMIN] },
+    { id: 'settings', label: 'Cài đặt', Icon: IconSettings, roles: [ROLES.SUPER_ADMIN, ROLES.HEALTH_ADMIN, ROLES.DOCTOR] },
 ];

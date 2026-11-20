@@ -3,10 +3,8 @@
 // Tự động tính chỉ số BMI, đánh giá thể trạng theo chuẩn WHO châu Á và cảnh báo mức huyết áp real-time
 
 import { useEffect, useState } from 'react';
-import { getVitalSignsApi, createVitalSignsApi, updateVitalSignsApi } from '../../../../../api/vitalSignsApi.js';
-import { IconCheck, IconRefreshCw } from '../../../../SupportAgent/Icons.jsx';
-import './VitalSignsTab.css';
-
+import { getVitalSignsApi, createVitalSignsApi, updateVitalSignsApi } from '../../../../api/vitalSignsApi.js';
+import { IconCheck, IconRefreshCw } from '../../../SupportAgent/Icons.jsx';
 const INITIAL_VITAL_SIGNS = {
   vitalSignId: null,
   heightCm: '',
@@ -51,11 +49,11 @@ function evaluateBloodPressure(systolic, diastolic) {
 }
 
 export default function VitalSignsTab({ recordId, doctorsList = [], showToast }) {
-  const [formData, setFormData] = useState(INITIAL_VITAL_SIGNS);
-  const [loading, setLoading] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState('');
-  const [error, setError] = useState('');
+  const [formData, setFormData] = useState(INITIAL_VITAL_SIGNS); // Đối tượng dữ liệu biểu mẫu chỉ số thể lực & chỉ số sinh tồn
+  const [loading, setLoading] = useState(false); // Trạng thái đang tải dữ liệu chỉ số sinh tồn
+  const [saving, setSaving] = useState(false); // Trạng thái đang lưu chỉ số sinh tồn
+  const [message, setMessage] = useState(''); // Chuỗi thông báo thành công
+  const [error, setError] = useState(''); // Chuỗi thông báo lỗi
 
   // Tải thông tin chỉ số sinh tồn đã có theo ID hồ sơ
   useEffect(() => {

@@ -4,6 +4,7 @@
 
 import { internalMedicineRouter } from '../utils/api-router.js';
 import { getAuthHeaders, parseApiError, API_BASE_URL } from './httpClient.js';
+import { METHODS } from '../utils/index.js';
 
 
 // Lấy kết quả khám nội khoa tổng quát theo ID hồ sơ
@@ -11,7 +12,7 @@ export async function getInternalMedicineApi(recordId) {
   const endpoint = `${API_BASE_URL}${internalMedicineRouter.getByRecordId(recordId)}`;
 
   const response = await fetch(endpoint, {
-    method: 'GET',
+    method: METHODS.GET,
     headers: getAuthHeaders(),
   });
 
@@ -28,7 +29,7 @@ export async function createInternalMedicineExamApi(examData) {
   const endpoint = `${API_BASE_URL}${internalMedicineRouter.create}`;
 
   const response = await fetch(endpoint, {
-    method: 'POST',
+    method: METHODS.POST,
     headers: getAuthHeaders(),
     body: JSON.stringify(examData),
   });
@@ -56,7 +57,7 @@ export async function updateInternalMedicineExamApi(examData) {
   const endpoint = `${API_BASE_URL}${internalMedicineRouter.update}`;
 
   const response = await fetch(endpoint, {
-    method: 'PUT',
+    method: METHODS.PUT,
     headers: getAuthHeaders(),
     body: JSON.stringify(examData),
   });
@@ -84,7 +85,7 @@ export async function deleteInternalMedicineExamApi(internalExamId) {
   const endpoint = `${API_BASE_URL}${internalMedicineRouter.delete(internalExamId)}`;
 
   const response = await fetch(endpoint, {
-    method: 'DELETE',
+    method: METHODS.DELETE,
     headers: getAuthHeaders(),
   });
 

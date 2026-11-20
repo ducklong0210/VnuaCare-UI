@@ -4,6 +4,7 @@
 
 import { specialistExamRouter } from '../utils/api-router.js';
 import { getAuthHeaders, parseApiError, API_BASE_URL } from './httpClient.js';
+import { METHODS } from '../utils/index.js';
 
 
 
@@ -15,7 +16,7 @@ export async function getSpecialistExamsApi(recordId, specialtyType = null) {
   }
 
   const response = await fetch(endpoint, {
-    method: 'GET',
+    method: METHODS.GET,
     headers: getAuthHeaders(),
   });
 
@@ -32,7 +33,7 @@ export async function createSpecialistExamApi(examData) {
   const endpoint = `${API_BASE_URL}${specialistExamRouter.create}`;
 
   const response = await fetch(endpoint, {
-    method: 'POST',
+    method: METHODS.POST,
     headers: getAuthHeaders(),
     body: JSON.stringify(examData),
   });
@@ -60,7 +61,7 @@ export async function updateSpecialistExamApi(examData) {
   const endpoint = `${API_BASE_URL}${specialistExamRouter.update}`;
 
   const response = await fetch(endpoint, {
-    method: 'PUT',
+    method: METHODS.PUT,
     headers: getAuthHeaders(),
     body: JSON.stringify(examData),
   });
@@ -88,7 +89,7 @@ export async function deleteSpecialistExamApi(specialistExamId) {
   const endpoint = `${API_BASE_URL}${specialistExamRouter.delete(specialistExamId)}`;
 
   const response = await fetch(endpoint, {
-    method: 'DELETE',
+    method: METHODS.DELETE,
     headers: getAuthHeaders(),
   });
 

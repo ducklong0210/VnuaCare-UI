@@ -1,0 +1,64 @@
+// Tầng Service chuyển đổi dữ liệu giữa API Chẩn đoán hình ảnh và Model DiagnosticReport (Tab 4)
+// Chịu trách nhiệm kiểm tra hợp lệ (validate) và ánh xạ JSON findings_data sang thực thể DiagnosticReport
+
+import {
+  getDiagnosticReportsByRecordIdApi,
+  getDiagnosticReportByIdApi,
+  createDiagnosticReportApi,
+  updateDiagnosticReportApi,
+  deleteDiagnosticReportApi,
+} from '../../api/diagnosticReportApi.js';
+import { DiagnosticReport } from '../../models/DiagnosticReport.js';
+
+export class DiagnosticReportService {
+  // Lấy danh sách phiếu chẩn đoán hình ảnh theo ID hồ sơ khám
+  async getReportsByRecordId(recordId, modalityType = null) {
+    const dataList = await getDiagnosticReportsByRecordIdApi(recordId, modalityType);
+    return dataList.map((item) => DiagnosticReport.fromApi(item));
+  }
+
+  // Lấy chi tiết một phiếu kết quả chẩn đoán theo ID
+  async getReportById(reportId) {
+    const data = await getDiagnosticReportByIdApi(reportId);
+    return DiagnosticReport.fromApi(data);
+  }
+
+  // Thêm mới một phiếu kết quả chẩn đoán hình ảnh
+  async createReport(reportInstance) {
+    this.#assertValidReport(reportInstance);
+    return await createDiagnosticReportApi(reportInstance.toApiPayload());
+  }
+
+  // Cập nhật phiếu kết quả chẩn đoán hình ảnh
+  async updateReport(reportInstance) {
+    this.#assertValidReport(reportInstance);
+    return await updateDiagnosticReportApi(reportInstance.toApiPayload());
+  }
+
+  // Lưu thông minh: tự động chọn tạo mới hoặc cập nhật
+  async saveReport(reportInstance) {
+    if (reportInstance.reportId) {
+      return await this.updateReport(reportInstance);
+    }
+    return await this.createReport(reportInstance);
+  }
+
+  // Xóa phiếu kết quả chẩn đoán hình ảnh
+  async deleteReport(reportId) {
+    return await deleteDiagnosticReportApi(reportId);
+  }
+
+  // Kiểm tra hợp lệ thực thể DiagnosticReport trước khi gửi lên API
+  #assertValidReport(reportInstance) {
+    if (!(reportInstance instanceof DiagnosticReport)) {
+      throw new Error('Dữ liệu không phải là một thực thể DiagnosticReport');
+    }
+
+    const validation = reportInstance.validate();
+    if (!validation.isValid) {
+      throw new Error(validation.errors.join(' '));
+    }
+  }
+}
+
+export const diagnosticReportService = new DiagnosticReportService();

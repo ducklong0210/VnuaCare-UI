@@ -8,7 +8,7 @@ export default defineConfig({
     // Cấu hình Vite tự chuyển tiếp sang https://localhost:44310/api
     proxy: {
       '/api': {
-        target: 'https://localhost:44310',
+        target: 'http://localhost:5049',
         changeOrigin: true,
         secure: false, // Bỏ qua kiểm tra chứng chỉ SSL tự ký của localhost
       },
