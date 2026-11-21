@@ -1,22 +1,23 @@
-// Tab 1: Khám thể lực & đo lường các dấu hiệu sinh tồn ban đầu
-// Thu thập chỉ số nhân trắc học: chiều cao, cân nặng, vòng bụng, huyết áp, mạch, SpO2, nhịp thở
-// Tự động tính chỉ số BMI, đánh giá thể trạng theo chuẩn WHO châu Á và cảnh báo mức huyết áp real-time
+//
+// Tab Khám thể lực và đo các chỉ số dấu hiệu sinh tồn ban đầu
+// Nhập chiều cao, cân nặng, huyết áp, mạch, SpO2 và tự động tính BMI, đánh giá thể trạng tức thì
+//
 
 import { useEffect, useState } from 'react';
 import { getVitalSignsApi, createVitalSignsApi, updateVitalSignsApi } from '../../../../api/vitalSignsApi.js';
 import { IconCheck, IconRefreshCw } from '../../../SupportAgent/Icons.jsx';
 const INITIAL_VITAL_SIGNS = {
-  vitalSignId: null,
-  heightCm: '',
-  weightKg: '',
-  bmi: '',
-  waistCm: '',
-  systolicBp: '',
-  diastolicBp: '',
-  heartRateBpm: '',
-  respiratoryRate: '',
-  spo2Percent: '',
-  measuredBy: '',
+  vitalSignId: null, // Mã phiếu sinh hiệu
+  heightCm: '', // Chiều cao (cm)
+  weightKg: '', // Cân nặng (kg)
+  bmi: '', // Chỉ số BMI
+  waistCm: '', // Vòng bụng (cm)
+  systolicBp: '', // Huyết áp tâm thu
+  diastolicBp: '', // Huyết áp tâm trương
+  heartRateBpm: '', // Nhịp tim (lần/phút)
+  respiratoryRate: '', // Nhịp thở (lần/phút)
+  spo2Percent: '', // Oxy máu SpO2 (%)
+  measuredBy: '', // Người đo
 };
 
 // Đánh giá thể trạng dựa trên BMI (tiêu chuẩn WHO cho người châu Á)

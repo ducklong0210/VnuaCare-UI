@@ -1,9 +1,7 @@
-// Component con của Dashboard: bảng hiển thị các hồ sơ khám gần đây nhất
-// Tái sử dụng hằng số RECORD_STATUS và RECORD_STATUS_LABELS từ utils/index.js
-// Nhận props từ DashboardManager:
-// - records   : Mảng danh sách hồ sơ khám lấy từ Backend
-// - loading   : Trạng thái đang tải dữ liệu (true/false)
-// - onViewAll : Hàm chuyển nhanh sang trang Quản lý Hồ sơ khám đầy đủ (undefined nếu không có quyền)
+//
+// Bảng hiển thị tối đa 5 hồ sơ khám gần đây nhất trên Dashboard
+// Nhận danh sách records, trạng thái loading từ DashboardManager và hỗ trợ nút chuyển nhanh sang trang Hồ sơ khám
+//
 
 import { RECORD_STATUS, RECORD_STATUS_LABELS } from '../../../utils/index.js';
 import { formatDate } from '../../../utils/utils.js';

@@ -1,6 +1,7 @@
-// Tầng API quản lý phiếu kết quả Chẩn đoán hình ảnh & Thăm dò chức năng (Tab 4)
-// Tương tác trực tiếp với endpoint /api/v1/diagnosticreports (Siêu âm, X-quang, Điện tim...)
-// Hỗ trợ đầy đủ CRUD: Lấy theo hồ sơ, lấy chi tiết, thêm mới, cập nhật và xóa phiếu
+//
+// Tầng API quản lý phiếu Chẩn đoán hình ảnh và Thăm dò chức năng (Siêu âm, X-quang, Điện tim...)
+// Hỗ trợ lấy danh sách theo hồ sơ, xem chi tiết, thêm mới, cập nhật và xóa phiếu chẩn đoán
+//
 
 import { diagnosticReportRouter } from '../utils/api-router.js';
 import { getAuthHeaders, parseApiError, API_BASE_URL } from './httpClient.js';

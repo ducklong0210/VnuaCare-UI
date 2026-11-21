@@ -1,11 +1,8 @@
-/**
- * ==============================================================================
- * COMPONENT: Footer (Chân trang hệ thống quản trị)
- * VAI TRÒ:
- *   - Bản quyền hệ thống Học viện Nông nghiệp Việt Nam
- *   - Thông tin phiên bản phần mềm & liên hệ hỗ trợ kỹ thuật y tế
- * ==============================================================================
- */
+//
+// Chân trang (Footer) của giao diện hệ thống quản trị VnuaCare
+// Hiển thị thông tin bản quyền Học viện Nông nghiệp Việt Nam và phiên bản hệ thống
+//
+
 export default function Footer() {
   return (
     <footer className="admin-footer">

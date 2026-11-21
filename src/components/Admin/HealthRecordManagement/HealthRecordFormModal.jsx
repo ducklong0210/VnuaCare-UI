@@ -1,5 +1,7 @@
-// Component Modal biểu mẫu Thêm mới / Cập nhật thông tin hồ sơ khám sức khỏe
+//
+// Modal biểu mẫu Thêm mới và Cập nhật thông tin chung của Hồ sơ khám sức khỏe
 // Quản lý thông tin tiếp nhận (đợt khám, cán bộ, mã SID, ngày khám), tiền sử bệnh và kết luận chung
+//
 
 import { IconClose } from '../../SupportAgent/Icons.jsx';
 import { ModelMode } from '../../../utils/index.js';

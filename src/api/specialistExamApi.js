@@ -1,6 +1,7 @@
-// Tầng API quản lý kết quả khám các chuyên khoa lẻ lâm sàng (Tab 3)
-// Tương tác với endpoint /api/v1/specialistexams theo mã hồ sơ recordId và loại chuyên khoa specialtyType
-// Hỗ trợ lấy kết quả, thêm mới và cập nhật dữ liệu khám Mắt, Tai Mũi Họng, Răng, Da liễu, Ngoại, Phụ khoa
+//
+// Tầng API quản lý kết quả khám các chuyên khoa lẻ lâm sàng theo mã hồ sơ (recordId)
+// Hỗ trợ lấy danh sách, thêm mới và cập nhật kết quả khám Mắt, Tai Mũi Họng, Răng, Da liễu, Ngoại, Phụ khoa
+//
 
 import { specialistExamRouter } from '../utils/api-router.js';
 import { getAuthHeaders, parseApiError, API_BASE_URL } from './httpClient.js';

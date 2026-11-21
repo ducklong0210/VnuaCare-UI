@@ -1,6 +1,7 @@
-
-
-// Cấu hình HTTP dùng chung cho toàn bộ tầng API: địa chỉ máy chủ, header JWT và bộ đọc lỗi từ Backend
+//
+// Cấu hình HTTP dùng chung cho toàn bộ tầng API
+// Quản lý địa chỉ máy chủ (API_BASE_URL), tự động gắn thẻ xác thực JWT và chuẩn hóa thông báo lỗi từ Backend
+//
 
 // Đọc địa chỉ máy chủ API từ file môi trường (.env) và xóa dấu "/" thừa ở cuối chuỗi để tránh lỗi ghép link (vd: //api/...)
 export const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');

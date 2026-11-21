@@ -1,5 +1,7 @@
-// Trang Cổng thông tin dành riêng cho Cán bộ / Giảng viên (Role: STAFF)
-// Tạm thời là trang trắng có sẵn thanh đăng xuất để kiểm thử phân quyền và phát triển tiếp về sau
+//
+// Trang Cổng thông tin dành riêng cho tài khoản Cán bộ / Giảng viên (vai trò STAFF)
+// Hiển thị thông tin người dùng đang đăng nhập, nút đăng xuất và khu vực mở rộng tra cứu hồ sơ cá nhân
+//
 
 import { useAuth } from '../../core/contexts/useAuth.js';
 import { useNavigation } from '../../core/contexts/useNavigation.js';

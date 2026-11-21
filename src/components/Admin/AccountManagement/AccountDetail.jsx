@@ -1,6 +1,7 @@
-// Component Modal biểu mẫu Thêm mới / Cập nhật tài khoản người dùng
-// Hỗ trợ thiết lập tên đăng nhập, mật khẩu, email và gán vai trò truy cập (Role)
-// Cung cấp chức năng khóa hoặc mở khóa trạng thái tài khoản khi cập nhật
+//
+// Modal biểu mẫu Thêm mới và Cập nhật tài khoản người dùng
+// Cho phép nhập tên đăng nhập, mật khẩu, email, chọn vai trò và bật/tắt trạng thái hoạt động
+//
 
 import { IconClose } from '../../SupportAgent/Icons.jsx';
 import { ModelMode } from '../../../utils/index.js'

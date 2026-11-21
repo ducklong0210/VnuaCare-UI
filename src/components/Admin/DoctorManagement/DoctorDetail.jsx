@@ -1,6 +1,7 @@
-// Component Modal biểu mẫu Thêm mới / Cập nhật hồ sơ Bác sĩ
-// Hỗ trợ nhập liệu thông tin chuyên môn, chứng chỉ hành nghề và đơn vị công tác
-// Hỗ trợ liên kết tài khoản người dùng tương ứng (Role: DOCTOR) khi tạo mới
+//
+// Modal biểu mẫu Thêm mới và Cập nhật thông tin hồ sơ Bác sĩ
+// Cho phép nhập mã bác sĩ, chuyên khoa, chứng chỉ hành nghề, nơi công tác và liên kết tài khoản DOCTOR
+//
 
 import { IconClose } from '../../SupportAgent/Icons.jsx';
 import { ModelMode } from '../../../utils/index.js'

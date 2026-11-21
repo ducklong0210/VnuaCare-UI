@@ -1,5 +1,7 @@
-// Màn hình Bảng điều khiển tổng quan (Dashboard)
-// Nhúng khung MainLayout và liên kết container DashboardManager đồng bộ với các trang quản trị khác
+//
+// Trang Bảng điều khiển tổng quan (Dashboard)
+// Bọc khung giao diện MainLayout và hiển thị container xử lý chính DashboardManager
+//
 
 import MainLayout from '../../core/layouts/MainLayout.jsx';
 import DashboardManager from '../../components/Admin/DashboardManagement/DashboardManager.jsx';

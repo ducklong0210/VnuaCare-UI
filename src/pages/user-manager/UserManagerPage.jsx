@@ -1,6 +1,7 @@
-// Màn hình quản lý tài khoản người dùng và phân quyền truy cập hệ thống
-// Nhúng thanh điều hướng MainLayout và liên kết component quản trị SearchAccountList
-// Đóng vai trò là Page View mỏng kết nối router và giao diện phân hệ Admin
+//
+// Trang Quản lý Tài khoản người dùng và phân quyền hệ thống
+// Bọc khung giao diện MainLayout và hiển thị container quản trị SearchAccountList
+//
 
 import MainLayout from '../../core/layouts/MainLayout.jsx';
 import SearchAccountList from '../../components/Admin/AccountManagement/SearchAccountList.jsx';

@@ -1,6 +1,7 @@
-// Component Container quản lý trung tâm dữ liệu và tương tác màn hình Cán bộ
-// Điều phối kết nối StaffService, bộ lọc phòng ban, bảng danh sách và các modal quản trị
-// Kết hợp các component con: StaffFilter, StaffTable và StaffDetail
+//
+// Container điều phối chính của màn hình Quản lý Cán bộ và Giảng viên
+// Gọi StaffService tải danh sách, phòng ban và kết nối StaffFilter, StaffTable cùng StaffDetail
+//
 
 import { useEffect, useState } from 'react';
 import { StaffService } from '../../../services/admin/StaffService.js';

@@ -1,6 +1,7 @@
-// Component Container quản lý trung tâm dữ liệu và tương tác màn hình Bác sĩ
-// Điều phối kết nối API, bộ lọc, bảng danh sách và các hộp thoại Modal Thêm/Sửa/Xóa
-// Kết hợp các component con: DoctorFilter, DoctorTable và DoctorDetail
+//
+// Container điều phối chính của màn hình Quản lý Bác sĩ
+// Gọi DoctorService tải dữ liệu, quản lý tìm kiếm/phân trang và kết nối DoctorFilter, DoctorTable, DoctorDetail
+//
 
 import { useEffect, useState } from 'react';
 import { DoctorService } from '../../../services/admin/DoctorService.js';

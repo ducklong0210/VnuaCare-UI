@@ -1,3 +1,8 @@
+//
+// Biểu mẫu đăng nhập hệ thống VnuaCare
+// Gọi loginRequest xác thực tài khoản, lưu phiên vào AuthContext và điều hướng theo vai trò người dùng
+//
+
 import { useState } from 'react';
 import { loginRequest } from '../../api/authApi.js';
 import { useAuth } from '../../core/contexts/useAuth.js';

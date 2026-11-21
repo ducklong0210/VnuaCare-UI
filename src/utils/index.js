@@ -1,3 +1,8 @@
+//
+// Kho hằng số cấu hình dùng chung cho toàn bộ ứng dụng VnuaCare
+// Chứa METHODS, ROLES, ROLE_LABELS, MENU_ITEMS, STAT_CARDS, trạng thái hồ sơ, phân loại sức khỏe và màu sắc
+//
+
 import { IconSettings, IconDashboard, IconUsers, IconStaffs, IconDoctors, IconRecords, IconCampaigns } from '../components/SupportAgent/Icons.jsx';
 
 

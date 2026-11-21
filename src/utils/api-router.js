@@ -1,4 +1,7 @@
-// Định nghĩa toàn bộ đường dẫn API của hệ thống
+//
+// Tập trung khai báo toàn bộ đường dẫn (endpoint) API kết nối tới Backend .NET
+// Chia nhóm rõ ràng theo từng phân hệ để các file trong src/api/ dùng chung và dễ bảo trì
+//
 
 export const authorizationRouter = {
   login: '/api/v1/authorization/login',

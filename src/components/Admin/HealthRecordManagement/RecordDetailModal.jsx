@@ -1,6 +1,7 @@
-// Modal chi tiết hồ sơ: Cửa sổ điều phối trung tâm cho toàn bộ quy trình khám của 1 cán bộ
-// Thanh tiêu đề hiển thị thông tin nhận diện cán bộ (Mã CB, Họ tên, Khoa phòng, Mã vạch SID, Đợt khám)
-// Thanh chọn Tab phía trên nạp động 5 Tab khám chuyên môn độc lập từ danh sách cấu hình RECORD_TABS
+//
+// Modal chi tiết điều phối quy trình khám sức khỏe của một cán bộ
+// Hiển thị thông tin nhận diện cán bộ ở đầu cửa sổ và chuyển đổi qua lại giữa các tab khám chuyên môn
+//
 
 import { useState } from 'react';
 import VitalSignsTab from './tabs/VitalSignsTab.jsx';

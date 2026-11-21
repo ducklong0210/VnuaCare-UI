@@ -1,6 +1,7 @@
-// Tab 4: Chẩn đoán hình ảnh & Thăm dò chức năng (Siêu âm, X-quang, Điện tim, Nội soi, CT, MRI)
-// Hiển thị danh sách phiếu khám của cán bộ và cho phép bác sĩ hoàn toàn tự do nhập liệu
-// Bác sĩ tự chọn loại kỹ thuật, thêm các phân vùng giải phẫu, nhập gạch đầu dòng mô tả và kết luận
+//
+// Tab Chẩn đoán hình ảnh và Thăm dò chức năng (Siêu âm, X-quang, Điện tim, Nội soi, CT, MRI)
+// Hiển thị danh sách phiếu khám và cho phép bác sĩ tự do thêm phân vùng giải phẫu, mô tả và kết luận
+//
 
 import { useState, useEffect } from 'react';
 import { diagnosticReportService } from '../../../../services/admin/DiagnosticReportService.js';

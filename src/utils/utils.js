@@ -1,3 +1,7 @@
+//
+// Tập hợp các hàm tiện ích dùng chung trên toàn hệ thống
+// Hỗ trợ chuẩn hóa định dạng ngày tháng và các thao tác chuyển đổi dữ liệu hiển thị
+//
 
 // Hàm định dạng ngày sang chuẩn Việt Nam DD/MM/YYYY
 export function formatDate(dateStr) {

@@ -1,6 +1,7 @@
-// Tầng Model quản lý cấu hình và trạng thái mặc định của các chuyên khoa lẻ lâm sàng
-// Định nghĩa CLINICAL_SPECIALTIES_CONFIG ánh xạ mã chuyên khoa với ID tương ứng trong bảng vc_specialties
-// Cung cấp cấu trúc khởi tạo INITIAL_SPECIALIST_EXAM phục vụ việc reset form nhập liệu
+//
+// Model cấu hình danh mục các chuyên khoa lẻ lâm sàng và trạng thái form mặc định
+// Ánh xạ mã chuyên khoa với specialtyId trong database và cung cấp INITIAL_SPECIALIST_EXAM để khởi tạo form
+//
 
 export const CLINICAL_SPECIALTIES_CONFIG = [
   { code: 'EYE', specialtyId: 8, defaultName: 'Chuyên khoa Mắt', desc: 'Đo thị lực mắt trái, mắt phải có kính và không kính' },
@@ -12,25 +13,25 @@ export const CLINICAL_SPECIALTIES_CONFIG = [
 ];
 
 export const INITIAL_SPECIALIST_EXAM = {
-  specialistExamId: null,
-  specialtyType: 'EYE',
-  visionLeftNoGlass: '',
-  visionRightNoGlass: '',
-  visionLeftGlass: '',
-  visionRightGlass: '',
-  upperJaw: '',
-  lowerJaw: '',
-  teethFormula: '',
-  earLeftDesc: '',
-  earRightDesc: '',
-  noseDesc: '',
-  throatDesc: '',
-  skinDesc: '',
-  surgicalDesc: '',
-  obstetricDesc: '',
-  conclusion: '',
-  healthClass: '',
-  examiningDoctorId: '',
-  readingDoctorId: '',
-  performedAt: '',
+  specialistExamId: null, // Mã phiếu khám
+  specialtyType: 'EYE', // Loại chuyên khoa
+  visionLeftNoGlass: '', // Mắt trái không kính
+  visionRightNoGlass: '', // Mắt phải không kính
+  visionLeftGlass: '', // Mắt trái có kính
+  visionRightGlass: '', // Mắt phải có kính
+  upperJaw: '', // Hàm trên
+  lowerJaw: '', // Hàm dưới
+  teethFormula: '', // Công thức răng
+  earLeftDesc: '', // Tai trái
+  earRightDesc: '', // Tai phải
+  noseDesc: '', // Mũi
+  throatDesc: '', // Họng
+  skinDesc: '', // Da liễu
+  surgicalDesc: '', // Ngoại khoa
+  obstetricDesc: '', // Sản phụ khoa
+  conclusion: '', // Kết luận
+  healthClass: '', // Xếp loại sức khỏe
+  examiningDoctorId: '', // Bác sĩ khám
+  readingDoctorId: '', // Bác sĩ đọc kết quả
+  performedAt: '', // Thời gian khám
 };

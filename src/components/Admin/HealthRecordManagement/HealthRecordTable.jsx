@@ -1,6 +1,7 @@
-// Component Bảng danh sách Hồ sơ khám sức khỏe và thanh phân trang
-// Hiển thị mã SID, cán bộ, đợt khám, ngày khám, xếp loại sức khỏe, bác sĩ kết luận và trạng thái
-// Cung cấp 3 thao tác trên từng dòng: Xem/Khám chuyên khoa, Sửa thông tin hồ sơ, Xóa hồ sơ
+//
+// Bảng danh sách Hồ sơ khám sức khỏe kèm thanh phân trang
+// Hiển thị mã SID, cán bộ, đợt khám, ngày khám, xếp loại, trạng thái và các nút xem/khám, sửa, xóa
+//
 
 import { IconEye, IconEdit, IconTrash } from '../../SupportAgent/Icons.jsx';
 

@@ -1,6 +1,7 @@
-// Màn hình quản lý đội ngũ bác sĩ khám sức khỏe cán bộ
-// Nhúng thanh điều hướng MainLayout và liên kết component quản trị SearchDoctorList
-// Đóng vai trò là Page View mỏng kết nối router và giao diện phân hệ Admin
+//
+// Trang Quản lý đội ngũ Bác sĩ khám sức khỏe
+// Bọc khung giao diện MainLayout và hiển thị container quản trị SearchDoctorList
+//
 
 import MainLayout from '../../core/layouts/MainLayout.jsx';
 import SearchDoctorList from '../../components/Admin/DoctorManagement/SearchDoctorList.jsx';

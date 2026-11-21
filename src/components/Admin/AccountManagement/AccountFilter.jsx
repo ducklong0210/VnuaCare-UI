@@ -1,6 +1,7 @@
-// Component bộ lọc tìm kiếm và phân loại danh sách Tài khoản người dùng
-// Hỗ trợ tìm kiếm theo từ khóa (tên đăng nhập, email) và phân loại theo vai trò (Role)
-// Cung cấp nút làm mới để đưa bộ lọc về trạng thái mặc định ban đầu
+//
+// Thanh tìm kiếm và bộ lọc danh sách Tài khoản người dùng
+// Hỗ trợ tìm theo tên đăng nhập/email, lọc theo vai trò và làm mới bộ lọc về mặc định
+//
 
 import { IconSearch, IconRefreshCw } from '../../SupportAgent/Icons.jsx';
 

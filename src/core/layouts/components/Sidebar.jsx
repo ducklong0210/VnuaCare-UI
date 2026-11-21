@@ -1,6 +1,7 @@
-// Menu thanh bên trái (Left Sidebar) phục vụ điều hướng toàn bộ hệ thống
-// Hiển thị danh mục 6 chức năng chính kèm icon nhận diện trực quan từ menuNavData.js
-// Tự động làm nổi bật menu đang được chọn và kích hoạt hàm chuyển trang khi người dùng bấm chuột
+//
+// Thanh menu điều hướng bên trái (Sidebar) hỗ trợ thu gọn và mở rộng
+// Tự động lọc danh sách chức năng từ MENU_ITEMS theo đúng quyền hạn vai trò của tài khoản đang đăng nhập
+//
 
 import { MENU_ITEMS } from '../../../utils/index.js';
 import Tabs from '../../../components/SupportAgent/Tabs.jsx';

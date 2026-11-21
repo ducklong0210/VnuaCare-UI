@@ -1,5 +1,7 @@
-// Component Thanh tìm kiếm và bộ lọc cho danh sách Hồ sơ khám sức khỏe
-// Hỗ trợ tìm theo từ khóa (SID, tên/mã CB, bác sĩ) và lọc theo Đợt khám, Khoa/Phòng, Xếp loại SK, Trạng thái
+//
+// Thanh tìm kiếm và bộ lọc danh sách Hồ sơ khám sức khỏe
+// Hỗ trợ tìm theo mã SID/tên cán bộ và lọc theo Đợt khám, Khoa/Phòng, Xếp loại sức khỏe, Trạng thái
+//
 
 import { IconSearch, IconRefreshCw } from '../../SupportAgent/Icons.jsx';
 

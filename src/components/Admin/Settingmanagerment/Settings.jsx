@@ -1,8 +1,7 @@
-// Component Cài đặt tài khoản cá nhân: quản lý Hồ sơ cá nhân & Đổi mật khẩu
-// Kết nối trực tiếp với 3 API Backend:
-//   - GET  /api/v1/users/me              (Tải thông tin tài khoản & hồ sơ hiện tại)
-//   - PUT  /api/v1/users/profile         (Cập nhật thông tin cá nhân)
-//   - POST /api/v1/users/change-password (Đổi mật khẩu tài khoản đang đăng nhập)
+//
+// Màn hình Cài đặt tài khoản cá nhân gồm hai tab Hồ sơ cá nhân và Đổi mật khẩu
+// Gọi AccountService để tải/cập nhật thông tin phù hợp từng vai trò và đổi mật khẩu tài khoản đang đăng nhập
+//
 
 import { useEffect, useState } from 'react';
 import { AccountService } from '../../../services/admin/AccountService.js';

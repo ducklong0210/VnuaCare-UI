@@ -1,6 +1,7 @@
-// Tầng API quản lý tài khoản người dùng và phân quyền truy cập hệ thống
-// Cung cấp các chức năng lọc danh sách người dùng, tra cứu danh mục vai trò (ADMIN, DOCTOR, STAFF)
-// Hỗ trợ tạo tài khoản mới, cập nhật phân quyền, đặt lại mật khẩu và khóa/xóa tài khoản
+//
+// Tầng API quản lý tài khoản người dùng, phân quyền và hồ sơ cá nhân
+// Hỗ trợ lọc phân trang, CRUD tài khoản, xem/cập nhật thông tin cá nhân và đổi mật khẩu
+//
 
 import { userManagerRouter } from '../utils/api-router.js';
 import { getAuthHeaders, parseApiError, API_BASE_URL } from './httpClient.js';

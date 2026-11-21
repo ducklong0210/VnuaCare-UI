@@ -1,6 +1,7 @@
-// Tầng API quản lý chỉ số thể lực và dấu hiệu sinh tồn (Tab 1)
-// Tương tác trực tiếp với endpoint /api/v1/vitalsigns để lấy thông tin theo mã hồ sơ recordId
-// Hỗ trợ các phương thức thêm mới (POST), cập nhật (PUT) và xóa (DELETE) kết quả đo lường
+//
+// Tầng API quản lý chỉ số thể lực và dấu hiệu sinh tồn theo mã hồ sơ (recordId)
+// Hỗ trợ lấy kết quả đo hiện có, thêm mới, cập nhật và xóa phiếu đo sinh hiệu
+//
 
 import { vitalSignsRouter } from '../utils/api-router.js';
 import { getAuthHeaders, parseApiError, API_BASE_URL } from './httpClient.js';

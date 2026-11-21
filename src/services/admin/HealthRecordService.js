@@ -1,6 +1,7 @@
-// Tầng dịch vụ quản trị Hồ sơ khám sức khỏe cho phân hệ Quản trị viên (Admin)
-// Bao bọc các API lọc, phân trang, danh mục tra cứu và thao tác CRUD hồ sơ khám
-// Đóng vai trò là Service Facade trung gian đồng bộ với AccountService, DoctorService và StaffService
+//
+// Tầng dịch vụ (Service) trung gian cho phân hệ Quản lý Hồ sơ khám sức khỏe
+// Gom nhóm các hàm từ recordApi.js phục vụ lọc phân trang, tải danh mục tra cứu và CRUD hồ sơ khám
+//
 
 import {
   getHealthRecordFilterApi,

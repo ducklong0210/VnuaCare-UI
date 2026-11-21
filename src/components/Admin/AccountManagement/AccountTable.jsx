@@ -1,6 +1,7 @@
-// Component bảng hiển thị danh sách Tài khoản người dùng kèm thanh phân trang
-// Hiển thị tên đăng nhập, email, huy hiệu vai trò, trạng thái tài khoản và ngày khởi tạo
-// Cung cấp các nút chỉnh sửa quyền hạn/thông tin và nút xóa tài khoản
+//
+// Bảng hiển thị danh sách Tài khoản người dùng kèm thanh phân trang
+// Hiển thị tên đăng nhập, email, vai trò, trạng thái, ngày tạo cùng các nút sửa và xóa
+//
 
 import { IconEdit, IconTrash } from '../../SupportAgent/Icons.jsx';
 

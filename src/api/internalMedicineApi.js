@@ -1,6 +1,7 @@
-// Tầng API quản lý kết quả khám nội khoa tổng quát
-// Tương tác với endpoint /api/v1/internalmedicines theo mã hồ sơ recordId của cán bộ
-// Hỗ trợ lấy dữ liệu, thêm mới, cập nhật và xóa kết quả khám các hệ cơ quan nội khoa
+//
+// Tầng API quản lý phiếu khám nội khoa tổng quát theo mã hồ sơ (recordId)
+// Hỗ trợ lấy kết quả khám hiện có, thêm mới, cập nhật và xóa phiếu khám nội khoa
+//
 
 import { internalMedicineRouter } from '../utils/api-router.js';
 import { getAuthHeaders, parseApiError, API_BASE_URL } from './httpClient.js';

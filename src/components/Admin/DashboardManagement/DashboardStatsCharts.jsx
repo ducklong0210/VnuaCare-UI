@@ -1,9 +1,7 @@
-// Component con của Dashboard: hiển thị hai khung thống kê dạng thanh ngang trực quan
-// - Khung bên trái: Tỷ lệ Phân loại sức khỏe (dùng danh mục DEFAULT_HEALTH_CLASSIFICATIONS từ utils/index.js)
-// - Khung bên phải: Tiến độ xử lý hồ sơ khám (dùng RECORD_STATUS và RECORD_STATUS_LABELS từ utils/index.js)
-// Nhận props từ DashboardManager:
-// - records : Mảng danh sách hồ sơ khám lấy từ Backend
-// - loading : Trạng thái đang tải dữ liệu (true/false)
+//
+// Hai khung biểu đồ thanh ngang trên Dashboard: Phân loại sức khỏe và Tiến độ xử lý hồ sơ
+// Nhận danh sách records từ DashboardManager để tự động đếm số lượng và tính phần trăm hiển thị
+//
 
 import {
   DEFAULT_HEALTH_CLASSIFICATIONS,

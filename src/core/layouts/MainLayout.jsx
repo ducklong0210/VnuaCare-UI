@@ -1,6 +1,7 @@
-// Khung giao diện chính (Master Layout) dùng chung cho tất cả các trang quản trị
-// Tổ chức bố cục chuẩn: Header cố định trên cùng, Sidebar menu điều hướng bên trái và Footer dưới cùng
-// Nhận children đại diện cho nội dung của từng chức năng hiển thị tại vùng app-main
+//
+// Khung bố cục chính (Master Layout) dùng chung cho tất cả các trang quản trị
+// Kết hợp Header cố định trên cùng, Sidebar thu gọn được bên trái, vùng nội dung chính và Footer
+//
 
 import { useState } from 'react';
 import Header from './components/Header.jsx';

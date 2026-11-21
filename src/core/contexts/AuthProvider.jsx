@@ -1,6 +1,7 @@
-// Quản lý phiên làm việc và trạng thái đăng nhập của người dùng toàn ứng dụng
-// Tự động kiểm tra và phục hồi accessToken cùng thông tin user từ localStorage khi tải lại trang
-// Cung cấp hàm login() lưu trữ phiên và logout() dọn dẹp dữ liệu để quay về màn hình đăng nhập
+//
+// Provider quản lý trạng thái đăng nhập và phiên làm việc toàn ứng dụng
+// Khôi phục user từ localStorage khi tải lại trang và cung cấp hai hàm login(), logout()
+//
 
 import { useState } from 'react';
 import { AuthContext } from './authContext.js';

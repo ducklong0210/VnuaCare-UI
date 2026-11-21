@@ -1,6 +1,7 @@
-// Tab 3: Khám chuyên khoa lẻ lâm sàng (Mắt, Tai Mũi Họng, Răng Hàm Mặt, Da liễu, Ngoại khoa, Phụ khoa)
-// Giao diện 2 cột: menu chọn chuyên khoa bên trái, form nhập kết quả chuyên môn tương ứng bên phải
-// Bác sĩ nhập thị lực Snellen, công thức răng, mô tả bệnh lý và xếp loại sức khỏe cho từng chuyên khoa
+//
+// Tab Khám chuyên khoa lẻ lâm sàng (Mắt, Tai Mũi Họng, Răng Hàm Mặt, Da liễu, Ngoại khoa, Phụ khoa)
+// Bố cục hai cột: chọn chuyên khoa bên trái và nhập kết quả khám, xếp loại tương ứng bên phải
+//
 
 import { useEffect, useState } from 'react';
 import {
@@ -12,25 +13,25 @@ import { getSpecialtiesApi } from '../../../../api/recordApi.js';
 import { CLINICAL_SPECIALTIES_CONFIG } from '../../../../models/SpecialistExam.js';
 import { IconCheck, IconRefreshCw } from '../../../SupportAgent/Icons.jsx';
 const INITIAL_EXAM = {
-  specialistExamId: null,
-  specialtyType: 'EYE',
-  visionLeftNoGlass: '',
-  visionRightNoGlass: '',
-  visionLeftGlass: '',
-  visionRightGlass: '',
-  upperJaw: '',
-  lowerJaw: '',
-  teethFormula: '',
-  earLeftDesc: '',
-  earRightDesc: '',
-  noseDesc: '',
-  throatDesc: '',
-  skinDesc: '',
-  surgicalDesc: '',
-  obstetricDesc: '',
-  conclusion: '',
-  healthClass: '',
-  examiningDoctorId: '',
+  specialistExamId: null, // Mã phiếu khám
+  specialtyType: 'EYE', // Loại chuyên khoa
+  visionLeftNoGlass: '', // Mắt trái không kính
+  visionRightNoGlass: '', // Mắt phải không kính
+  visionLeftGlass: '', // Mắt trái có kính
+  visionRightGlass: '', // Mắt phải có kính
+  upperJaw: '', // Hàm trên
+  lowerJaw: '', // Hàm dưới
+  teethFormula: '', // Công thức răng
+  earLeftDesc: '', // Tai trái
+  earRightDesc: '', // Tai phải
+  noseDesc: '', // Mũi
+  throatDesc: '', // Họng
+  skinDesc: '', // Da liễu
+  surgicalDesc: '', // Ngoại khoa
+  obstetricDesc: '', // Sản phụ khoa
+  conclusion: '', // Kết luận
+  healthClass: '', // Xếp loại sức khỏe
+  examiningDoctorId: '', // Bác sĩ khám
 };
 
 export default function SpecialistExamsTab({ recordId, doctorsList = [], classifications = [], showToast }) {

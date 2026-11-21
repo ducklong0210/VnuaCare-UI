@@ -1,6 +1,7 @@
-// Tầng API quản lý danh sách cán bộ, giảng viên và nhân viên Học viện Nông nghiệp Việt Nam
-// Hỗ trợ lọc danh sách cán bộ theo từ khóa, đơn vị khoa phòng và tải danh mục phòng ban
-// Cung cấp các chức năng thêm mới cán bộ, chỉnh sửa hồ sơ hành chính và xóa cán bộ
+//
+// Tầng API quản lý danh sách cán bộ, giảng viên và nhân viên Học viện
+// Hỗ trợ lọc phân trang theo từ khóa, khoa/phòng ban và các thao tác thêm/sửa/xóa hồ sơ cán bộ
+//
 
 import { staffRouter } from '../utils/api-router.js';
 import { getAuthHeaders, parseApiError, API_BASE_URL } from './httpClient.js';

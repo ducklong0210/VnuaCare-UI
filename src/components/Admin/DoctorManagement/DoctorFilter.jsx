@@ -1,6 +1,7 @@
-// Component bộ lọc tìm kiếm và phân loại danh sách Bác sĩ
-// Hỗ trợ tìm kiếm theo từ khóa (Mã BS, họ tên, bệnh viện) và lọc theo chuyên khoa y tế
-// Cung cấp nút làm mới để đưa bộ lọc về trạng thái mặc định ban đầu
+//
+// Thanh tìm kiếm và bộ lọc danh sách Bác sĩ khám bệnh
+// Hỗ trợ tìm theo mã bác sĩ/họ tên/bệnh viện, lọc theo chuyên khoa và nút làm mới bộ lọc
+//
 
 import { IconSearch, IconRefreshCw } from '../../SupportAgent/Icons.jsx';
 

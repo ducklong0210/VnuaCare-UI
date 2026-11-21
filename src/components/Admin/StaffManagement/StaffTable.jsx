@@ -1,6 +1,7 @@
-// Component bảng hiển thị danh sách Cán bộ, nhân viên kèm thanh phân trang
-// Hiển thị ảnh đại diện, Mã CB, Họ tên, Đơn vị/Khoa, Chức vụ/Học vị, Số điện thoại
-// Cung cấp các nút chỉnh sửa thông tin hoặc xóa hồ sơ cán bộ khỏi hệ thống
+//
+// Bảng hiển thị danh sách Cán bộ, giảng viên kèm thanh phân trang
+// Hiển thị ảnh đại diện, mã cán bộ, họ tên, đơn vị công tác, chức vụ, SĐT cùng nút sửa và xóa
+//
 
 import { IconEdit, IconTrash } from '../../../components/SupportAgent/Icons.jsx';
 

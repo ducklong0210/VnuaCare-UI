@@ -1,6 +1,7 @@
-// Tab 2: Khám nội khoa tổng quát cho cán bộ và nhân viên
-// Đánh giá chi tiết 6 hệ cơ quan: tuần hoàn, hô hấp, tiêu hóa, tiết niệu, cơ xương khớp, thần kinh
-// Bác sĩ nhập mô tả từng hệ cơ quan, ghi nhận kết luận chung và xếp loại sức khỏe chuyên khoa nội
+//
+// Tab Khám nội khoa tổng quát cho cán bộ và nhân viên
+// Nhập đánh giá các hệ cơ quan nội khoa, ghi nhận kết luận chung và phân loại sức khỏe chuyên khoa nội
+//
 
 import { useEffect, useState } from 'react';
 import {
@@ -10,16 +11,16 @@ import {
 } from '../../../../api/internalMedicineApi.js';
 import { IconCheck, IconRefreshCw } from '../../../SupportAgent/Icons.jsx';
 const INITIAL_INTERNAL_EXAM = {
-  internalExamId: null,
-  circulatoryDesc: '',
-  respiratoryDesc: '',
-  digestiveDesc: '',
-  urinaryDesc: '',
-  musculoskeletalDesc: '',
-  neurologicalDesc: '',
-  conclusion: '',
-  healthClass: '',
-  examiningDoctorId: '',
+  internalExamId: null, // Mã phiếu nội khoa
+  circulatoryDesc: '', // Tuần hoàn
+  respiratoryDesc: '', // Hô hấp
+  digestiveDesc: '', // Tiêu hóa
+  urinaryDesc: '', // Thận - tiết niệu
+  musculoskeletalDesc: '', // Cơ - xương - khớp
+  neurologicalDesc: '', // Thần kinh
+  conclusion: '', // Kết luận
+  healthClass: '', // Xếp loại sức khỏe
+  examiningDoctorId: '', // Bác sĩ khám
 };
 
 export default function InternalMedicineTab({ recordId, doctorsList = [], classifications = [], showToast }) {

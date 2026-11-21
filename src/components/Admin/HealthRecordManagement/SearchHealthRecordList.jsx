@@ -1,9 +1,7 @@
-// Container chính điều phối phân hệ Quản lý Hồ sơ khám sức khỏe cán bộ
-// Quản lý state tìm kiếm, bộ lọc, phân trang, gọi HealthRecordService và kết nối các component con:
-//   - HealthRecordFilter     : Thanh tìm kiếm & bộ lọc
-//   - HealthRecordTable      : Bảng danh sách hồ sơ & phân trang
-//   - HealthRecordFormModal  : Modal Thêm / Sửa thông tin hồ sơ
-//   - RecordDetailModal      : Modal điều phối 5 Tab khám chuyên môn
+//
+// Container điều phối chính của màn hình Quản lý Hồ sơ khám sức khỏe
+// Gọi HealthRecordService tải danh sách, danh mục lọc và kết nối Filter, Table, FormModal cùng RecordDetailModal
+//
 
 import { useEffect, useState } from 'react';
 import { HealthRecordService } from '../../../services/admin/HealthRecordService.js';
@@ -16,23 +14,23 @@ import RecordDetailModal from './RecordDetailModal.jsx';
 
 // Giá trị khởi tạo mặc định của form hồ sơ khám
 const INITIAL_FORM = {
-  recordId: null,
-  campaignId: '',
-  staffId: '',
-  sidCode: '',
-  actualCheckupDate: '',
-  medicalHistoryPersonal: '',
-  medicalHistoryFamily: '',
-  healthClassification: '',
-  generalConclusion: '',
-  recommendations: '',
-  concludedByDoctorId: '',
-  status: 'PENDING',
-  reportPdfUrl: '',
-  staffName: '',
-  employeeCode: '',
-  departmentName: '',
-  campaignName: '',
+  recordId: null, // Mã hồ sơ
+  campaignId: '', // Mã đợt khám
+  staffId: '', // Mã cán bộ
+  sidCode: '', // Mã SID
+  actualCheckupDate: '', // Ngày khám
+  medicalHistoryPersonal: '', // Tiền sử cá nhân
+  medicalHistoryFamily: '', // Tiền sử gia đình
+  healthClassification: '', // Xếp loại sức khỏe
+  generalConclusion: '', // Kết luận chung
+  recommendations: '', // Lời dặn
+  concludedByDoctorId: '', // Bác sĩ kết luận
+  status: 'PENDING', // Trạng thái
+  reportPdfUrl: '', // Đường dẫn PDF
+  staffName: '', // Tên cán bộ
+  employeeCode: '', // Mã nhân viên
+  departmentName: '', // Tên khoa / phòng
+  campaignName: '', // Tên đợt khám
 };
 
 // Chuyển đổi chuỗi ngày từ API sang YYYY-MM-DD cho ô <input type="date">

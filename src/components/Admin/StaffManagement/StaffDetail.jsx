@@ -1,6 +1,7 @@
-// Component Modal biểu mẫu Thêm mới / Cập nhật hồ sơ Cán bộ, nhân viên
-// Hỗ trợ nhập liệu thông tin cá nhân, chức vụ, học vị, đơn vị công tác và chọn ảnh đại diện
-// Cung cấp chức năng liên kết với tài khoản người dùng tương ứng (Role: STAFF)
+//
+// Modal biểu mẫu Thêm mới và Cập nhật hồ sơ Cán bộ, nhân viên
+// Nhập thông tin hành chính, đơn vị công tác, chức vụ, ảnh đại diện và liên kết tài khoản STAFF
+//
 
 import { IconClose } from '../../../components/SupportAgent/Icons.jsx';
 import { AVATAR_PRESETS, ModelMode } from '../../../utils/index.js';

@@ -1,6 +1,7 @@
-// Tầng API quản lý thông tin đội ngũ bác sĩ khám bệnh tại Trạm Y tế
-// Hỗ trợ tìm kiếm, lọc danh sách bác sĩ theo phân trang và chuyên khoa y tế
-// Cung cấp các thao tác thêm mới hồ sơ bác sĩ, cập nhật thông tin và xóa khỏi hệ thống
+//
+// Tầng API quản lý danh sách bác sĩ khám sức khỏe tại Trạm Y tế
+// Hỗ trợ lọc phân trang, tải danh mục chuyên khoa và các thao tác thêm/sửa/xóa hồ sơ bác sĩ
+//
 
 import { doctorRouter } from '../utils/api-router.js';
 import { getAuthHeaders, parseApiError, API_BASE_URL } from './httpClient.js';

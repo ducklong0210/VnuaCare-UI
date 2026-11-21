@@ -1,6 +1,7 @@
-// Màn hình quản lý nhân viên, cán bộ và giảng viên Học viện
-// Nhúng thanh điều hướng MainLayout và liên kết component quản trị SearchStaffList
-// Đóng vai trò là Page View mỏng kết nối router và giao diện phân hệ Admin
+//
+// Trang Quản lý danh sách Cán bộ, Giảng viên và Nhân viên
+// Bọc khung giao diện MainLayout và hiển thị container quản trị SearchStaffList
+//
 
 import MainLayout from '../../core/layouts/MainLayout.jsx';
 import SearchStaffList from '../../components/Admin/StaffManagement/SearchStaffList.jsx';

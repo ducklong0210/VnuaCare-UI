@@ -1,6 +1,7 @@
-// Quản lý trạng thái màn hình đang hoạt động (activeTab) trong toàn bộ ứng dụng
-// Đồng bộ tab hiện tại với URL Hash để hỗ trợ người dùng bookmark hoặc refresh trang
-// Cung cấp hàm navigate(tabId) để chuyển đổi nhanh giữa các màn hình chức năng
+//
+// Provider quản lý màn hình đang mở (activeTab) trong toàn ứng dụng
+// Đồng bộ tab hiện tại với URL Hash và cung cấp hàm navigate() để chuyển trang mượt không cần reload
+//
 
 import { useState, useEffect } from 'react';
 import { NavigationContext } from './navigationContext.js';

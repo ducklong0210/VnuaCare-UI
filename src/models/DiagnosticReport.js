@@ -1,6 +1,7 @@
-// Tầng Model hướng đối tượng (Domain Model) cho phiếu Chẩn đoán hình ảnh và Thăm dò chức năng
-// Bao gồm: Value Object FindingSection quản lý phát hiện theo vùng, Entity DiagnosticReport xử lý nghiệp vụ
-// Cho phép bác sĩ tự do nhập mô tả giải phẫu, kỹ thuật thực hiện và kết luận chẩn đoán không gò bó theo mẫu có sẵn
+//
+// Domain Model quản lý cấu trúc phiếu Chẩn đoán hình ảnh và Thăm dò chức năng
+// Định nghĩa cấu hình các loại kỹ thuật, lớp FindingSection và thực thể DiagnosticReport xử lý JSON kết quả
+//
 
 export const MODALITY_CONFIG = {
   ULTRASOUND: {

@@ -1,6 +1,7 @@
-// Thanh công cụ trên cùng (Top Header) của giao diện hệ thống
-// Hiển thị logo VnuaCare, trạng thái kết nối máy chủ API và chuông thông báo y tế
-// Hiển thị thông tin tài khoản đang đăng nhập (tên, vai trò) kèm nút đăng xuất khỏi hệ thống
+//
+// Thanh công cụ trên cùng (Top Header) của hệ thống quản trị
+// Hiển thị logo VnuaCare, trạng thái kết nối API, thông tin tài khoản theo vai trò và nút đăng xuất
+//
 
 import { useAuth } from '../../contexts/useAuth.js';
 import { useNavigation } from '../../contexts/useNavigation.js';

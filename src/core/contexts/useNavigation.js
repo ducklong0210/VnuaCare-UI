@@ -1,3 +1,8 @@
+//
+// Custom Hook tiện ích giúp đọc trạng thái tab hiện tại và hàm chuyển trang từ NavigationContext
+// Kiểm tra an toàn và báo lỗi nếu gọi ngoài phạm vi bọc của NavigationProvider
+//
+
 import { useContext } from 'react';
 import { NavigationContext } from './navigationContext.js';
 

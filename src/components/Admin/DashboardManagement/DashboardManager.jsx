@@ -1,7 +1,7 @@
-// Component Container quản lý Bảng điều khiển tổng quan (Dashboard)
-// - Hiển thị các thẻ chỉ số tổng quan thật (Cán bộ, Bác sĩ, Hồ sơ khám, Đợt khám)
-// - Hiển thị hai khung thanh tỷ lệ Phân loại sức khỏe và Tiến độ hồ sơ (DashboardStatsCharts)
-// - Hiển thị bảng các hồ sơ khám gần đây nhất (DashboardRecentRecords)
+//
+// Trang quản lý Bảng điều khiển tổng quan (Dashboard)
+// Tự động gọi API lấy số liệu thật cho các thẻ KPI, sau đó truyền danh sách hồ sơ xuống biểu đồ và bảng gần đây
+//
 
 import { useEffect, useState } from 'react';
 import { StaffService } from '../../../services/admin/StaffService.js';

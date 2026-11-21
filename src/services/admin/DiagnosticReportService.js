@@ -1,5 +1,7 @@
-// Tầng Service chuyển đổi dữ liệu giữa API Chẩn đoán hình ảnh và Model DiagnosticReport (Tab 4)
-// Chịu trách nhiệm kiểm tra hợp lệ (validate) và ánh xạ JSON findings_data sang thực thể DiagnosticReport
+//
+// Tầng dịch vụ (Service) cho phiếu Chẩn đoán hình ảnh và Thăm dò chức năng
+// Kết nối diagnosticReportApi.js với Model DiagnosticReport để kiểm tra hợp lệ và chuyển đổi dữ liệu JSON
+//
 
 import {
   getDiagnosticReportsByRecordIdApi,

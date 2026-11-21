@@ -1,6 +1,7 @@
-// Component gốc (Root): Điểm khởi đầu của toàn bộ cây giao diện ứng dụng
-// Thiết lập 2 Provider toàn cục: AuthProvider (xác thực) và NavigationProvider (điều hướng màn hình)
-// Render AppRouter đóng vai trò gác cổng an ninh và điều phối các trang
+//
+// Component gốc (Root) khởi tạo toàn bộ cây giao diện ứng dụng VnuaCare
+// Bọc AuthProvider (xác thực), NavigationProvider (điều hướng) và hiển thị AppRouter phân quyền trang
+//
 
 import AppRouter from './app/AppRouter.jsx';
 import { AuthProvider } from './core/contexts/AuthProvider.jsx';

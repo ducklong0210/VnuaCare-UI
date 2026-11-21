@@ -1,22 +1,23 @@
-// Tab 5: Kết luận & Xếp loại tổng thể sức khỏe cán bộ theo tiêu chuẩn Bộ Y tế
-// Tổng hợp đánh giá từ 4 chuyên khoa trước, ghi nhận tiền sử bệnh bản thân và gia đình
-// Bác sĩ chủ trì hội đồng KSK chọn xếp loại sức khỏe (Loại I - V), tư vấn điều trị và hoàn tất hồ sơ
+//
+// Tab Kết luận và Xếp loại tổng thể sức khỏe cán bộ theo tiêu chuẩn Bộ Y tế
+// Ghi nhận tiền sử bệnh bản thân/gia đình, chọn phân loại sức khỏe, lời khuyên điều trị và hoàn tất hồ sơ
+//
 
 import { useEffect, useState } from 'react';
 import { getHealthRecordByIdApi, updateHealthRecordApi } from '../../../../api/recordApi.js';
 import { IconCheck, IconRefreshCw } from '../../../SupportAgent/Icons.jsx';
 const INITIAL_CONCLUSION = {
-  recordId: null,
-  sidCode: '',
-  actualCheckupDate: '',
-  medicalHistoryPersonal: '',
-  medicalHistoryFamily: '',
-  healthClassification: '',
-  generalConclusion: '',
-  recommendations: '',
-  concludedByDoctorId: '',
-  status: 'COMPLETED',
-  reportPdfUrl: '',
+  recordId: null, // Mã hồ sơ khám
+  sidCode: '', // Mã SID
+  actualCheckupDate: '', // Ngày khám thực tế
+  medicalHistoryPersonal: '', // Tiền sử cá nhân
+  medicalHistoryFamily: '', // Tiền sử gia đình
+  healthClassification: '', // Xếp loại sức khỏe chung
+  generalConclusion: '', // Kết luận chung
+  recommendations: '', // Lời dặn / khuyến nghị
+  concludedByDoctorId: '', // Bác sĩ kết luận
+  status: 'COMPLETED', // Trạng thái hồ sơ
+  reportPdfUrl: '', // Đường dẫn PDF
 };
 
 export default function GeneralConclusionTab({ recordId, doctorsList = [], classifications = [], statuses = [], showToast, onRecordUpdated }) {

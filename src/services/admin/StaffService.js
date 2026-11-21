@@ -1,6 +1,7 @@
-// Tầng dịch vụ quản trị cán bộ, nhân viên cho phân hệ Quản trị viên (Admin)
-// Bao bọc các API phân trang, tìm kiếm, phòng ban và quản lý hồ sơ cán bộ Học viện
-// Đóng vai trò là Service Facade trung gian kết nối giữa UI Admin và Backend
+//
+// Tầng dịch vụ (Service) trung gian cho phân hệ Quản lý Cán bộ và Nhân viên
+// Gom nhóm các hàm từ staffApi.js phục vụ lọc phân trang, tải phòng ban và CRUD hồ sơ cán bộ
+//
 
 import {
   getStaffFilterApi,

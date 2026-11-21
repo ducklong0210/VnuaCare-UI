@@ -1,6 +1,7 @@
-// Component bộ lọc tìm kiếm và phân loại danh sách Cán bộ, nhân viên
-// Hỗ trợ tìm kiếm theo từ khóa (Mã CB, họ tên, chức vụ, SĐT) và lọc theo Khoa / Phòng ban
-// Cung cấp nút làm mới để đưa bộ lọc về trạng thái mặc định ban đầu
+//
+// Thanh tìm kiếm và bộ lọc danh sách Cán bộ, giảng viên
+// Hỗ trợ tìm theo mã cán bộ/họ tên/chức vụ/SĐT, lọc theo Khoa/Phòng ban và làm mới bộ lọc
+//
 
 import { IconSearch, IconRefreshCw } from '../../../components/SupportAgent/Icons.jsx';
 

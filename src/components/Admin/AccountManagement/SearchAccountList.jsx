@@ -1,6 +1,7 @@
-// Component Container quản lý trung tâm dữ liệu và tương tác màn hình Tài khoản
-// Điều phối kết nối AccountService, bộ lọc tìm kiếm, bảng tài khoản và các modal quản trị
-// Kết hợp các component con: AccountFilter, AccountTable và AccountDetail
+//
+// Container điều phối chính của màn hình Quản lý Tài khoản người dùng
+// Gọi AccountService tải dữ liệu, quản lý bộ lọc/phân trang và kết nối AccountFilter, AccountTable, AccountDetail
+//
 
 import { useEffect, useState } from 'react';
 import { AccountService } from '../../../services/admin/AccountService.js';

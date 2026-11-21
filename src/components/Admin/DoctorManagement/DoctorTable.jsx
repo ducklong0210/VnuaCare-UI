@@ -1,6 +1,7 @@
-// Component bảng hiển thị danh sách Bác sĩ kèm thanh phân trang
-// Hiển thị đầy đủ thông tin: Mã BS, Họ tên, Chuyên khoa, Số CCHN, Bệnh viện công tác
-// Cung cấp các nút thao tác chỉnh sửa thông tin hoặc xóa hồ sơ bác sĩ
+//
+// Bảng hiển thị danh sách Bác sĩ kèm thanh phân trang
+// Hiển thị mã bác sĩ, họ tên, chuyên khoa, số chứng chỉ hành nghề, nơi công tác và nút sửa/xóa
+//
 
 import { IconEdit, IconTrash } from '../../SupportAgent/Icons.jsx';
 

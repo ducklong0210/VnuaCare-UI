@@ -1,6 +1,7 @@
-// Trang chủ (HomePage) đơn giản - Cổng Tra Cứu & Xem Thông Tin Sức Khỏe Cán Bộ VNUA
-// Chức năng: Cung cấp thông tin tổng quan và hỗ trợ cán bộ đăng nhập xem kết quả khám sức khỏe định kỳ
-// (Hệ thống phục vụ xem và tra cứu thông tin hồ sơ y tế, KHÔNG PHẢI đăng ký khám bệnh)
+//
+// Trang chủ giới thiệu Cổng Tra Cứu & Xem Kết Quả Khám Sức Khỏe Cán Bộ VNUA
+// Cung cấp thông tin tổng quan hệ thống và điều hướng nhanh sang trang Đăng nhập hoặc Bảng điều khiển
+//
 
 import { useAuth } from '../../core/contexts/useAuth.js';
 import { useNavigation } from '../../core/contexts/useNavigation.js';

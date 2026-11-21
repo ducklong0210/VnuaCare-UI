@@ -1,6 +1,7 @@
-// Tầng dịch vụ quản trị tài khoản người dùng cho phân hệ Quản trị viên (Admin)
-// Bao bọc các API phân trang, tìm kiếm, tạo tài khoản và phân quyền người dùng
-// Đóng vai trò là Service Facade trung gian kết nối giữa UI Admin và Backend
+//
+// Tầng dịch vụ (Service) trung gian cho phân hệ Quản lý Tài khoản và Cài đặt cá nhân
+// Gom nhóm các hàm từ userApi.js để màn hình giao diện gọi thống nhất theo nghiệp vụ
+//
 
 import {
   getUserFilterApi,

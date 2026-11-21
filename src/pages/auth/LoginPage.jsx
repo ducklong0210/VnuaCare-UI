@@ -1,3 +1,8 @@
+//
+// Trang Đăng nhập hệ thống VnuaCare
+// Hiển thị logo thương hiệu, nút quay lại Trang chủ và nhúng biểu mẫu xác thực LoginForm
+//
+
 import { useNavigation } from '../../core/contexts/useNavigation.js';
 import LoginForm from '../../components/Auth/LoginForm.jsx';
 import './LoginPage.css';

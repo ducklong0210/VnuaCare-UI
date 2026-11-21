@@ -1,6 +1,7 @@
-// Tầng dịch vụ quản trị bác sĩ cho phân hệ Quản trị viên (Admin)
-// Bao bọc các API phân trang, tìm kiếm, chuyên khoa và quản lý hồ sơ bác sĩ
-// Đóng vai trò là Service Facade trung gian kết nối giữa UI Admin và Backend
+//
+// Tầng dịch vụ (Service) trung gian cho phân hệ Quản lý Bác sĩ
+// Gom nhóm các hàm từ doctorApi.js phục vụ lọc phân trang, tải chuyên khoa và CRUD hồ sơ bác sĩ
+//
 
 import {
   getDoctorFilterApi,

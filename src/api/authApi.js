@@ -1,6 +1,7 @@
-// Tầng API xử lý xác thực tài khoản người dùng đăng nhập vào hệ thống
-// Gửi thông tin định danh (email/mã cán bộ) và mật khẩu tới endpoint /api/v1/authorization/login
-// Trả về dữ liệu phiên làm việc gồm token truy cập JWT, thông tin vai trò và thông tin cá nhân
+//
+// Tầng API xử lý đăng nhập và xác thực tài khoản người dùng
+// Gửi tên đăng nhập và mật khẩu lên Backend để nhận về JWT accessToken cùng thông tin vai trò
+//
 
 import { authorizationRouter } from '../utils/api-router.js';
 import { METHODS } from '../utils/index.js';

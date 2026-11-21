@@ -1,7 +1,7 @@
-/**
- * Tập hợp các biểu tượng SVG chuẩn thiết kế y tế & quản trị
- * Đường nét tối giản 1.75px, đồng nhất và sắc nét
- */
+//
+// Thư viện các biểu tượng SVG dùng chung cho toàn bộ giao diện quản trị và y tế
+// Cung cấp các component icon nhận kích thước size và className đồng bộ nét vẽ mảnh sắc nét
+//
 
 export function IconDashboard({ className = '', size = 20 }) {
   return (

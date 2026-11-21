@@ -1,6 +1,7 @@
-// Tầng API quản lý hồ sơ khám sức khỏe: lọc danh sách, phân trang và các thao tác thêm/sửa/xóa hồ sơ
-// Cung cấp các hàm tải danh mục lựa chọn (Lookups): đợt khám, phòng ban, danh sách bác sĩ và cán bộ
-// Dùng chung danh mục tĩnh DEFAULT_HEALTH_CLASSIFICATIONS (Bộ Y tế) và DEFAULT_RECORD_STATUSES từ utils/index.js
+//
+// Tầng API quản lý hồ sơ khám sức khỏe: lọc phân trang, xem chi tiết và thêm/sửa/xóa hồ sơ
+// Đồng thời cung cấp các hàm tải danh mục chọn (đợt khám, phòng ban, cán bộ, bác sĩ, chuyên khoa)
+//
 
 import { healthRecordRouter, campaignRouter, doctorRouter } from '../utils/api-router.js';
 import { getAuthHeaders, parseApiError, API_BASE_URL } from './httpClient.js';

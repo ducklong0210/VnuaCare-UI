@@ -1,6 +1,7 @@
-// Màn hình quản lý Hồ sơ khám sức khỏe cán bộ toàn học viện
-// Nhúng thanh điều hướng MainLayout và liên kết container quản trị SearchHealthRecordList
-// Đóng vai trò là Page View mỏng đồng bộ với DoctorManagerPage, StaffManagerPage và UserManagerPage
+//
+// Trang Quản lý Hồ sơ khám sức khỏe cán bộ toàn Học viện
+// Bọc khung giao diện MainLayout và hiển thị container quản trị SearchHealthRecordList
+//
 
 import MainLayout from '../../core/layouts/MainLayout.jsx';
 import SearchHealthRecordList from '../../components/Admin/HealthRecordManagement/SearchHealthRecordList.jsx';

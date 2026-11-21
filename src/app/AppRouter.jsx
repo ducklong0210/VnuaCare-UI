@@ -1,9 +1,7 @@
-// Bộ điều hướng và phân quyền trung tâm của ứng dụng (Routing Guard)
-// Phân tách luồng hiển thị theo vai trò đăng nhập (Role-Based Access Control):
-//   - Chưa đăng nhập : HomePage / LoginPage
-//   - STAFF          : StaffPortalPage (Cổng cán bộ / giảng viên riêng)
-//   - SUPER_ADMIN, HEALTH_ADMIN, DOCTOR : Vào chung khung Quản trị (MainLayout),
-//     nhưng Sidebar & AppRouter tự động ẩn/chặn các chức năng không thuộc quyền theo cấu hình MENU_ITEMS
+//
+// Bộ điều hướng và kiểm soát phân quyền trung tâm của toàn bộ ứng dụng
+// Phân luồng màn hình theo vai trò đăng nhập (Khách, Cán bộ STAFF và nhóm Quản trị / Bác sĩ)
+//
 
 import { useAuth } from '../core/contexts/useAuth.js';
 import { useNavigation } from '../core/contexts/useNavigation.js';
