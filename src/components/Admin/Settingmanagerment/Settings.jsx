@@ -79,7 +79,7 @@ export default function Settings() {
           const staff = data.staffProfile;
           const doctor = data.doctorProfile;
           setProfileForm({
-            fullName: staff?.fullName || doctor?.fullName || user?.fullname || data.username || '',
+            fullName: doctor?.fullName || user?.fullname || data.username || '',
             email: data.email || '',
             phoneNumber: staff?.phoneNumber || '',
             address: staff?.address || staff?.adrress || '',
