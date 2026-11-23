@@ -9,7 +9,7 @@ import { IconPlus, IconCheck, IconClose } from '../../SupportAgent/Icons.jsx';
 import DoctorFilter from './DoctorFilter.jsx';
 import DoctorTable from './DoctorTable.jsx';
 import DoctorDetail from './DoctorDetail.jsx';
-import { ModelMode } from '../../../utils/index.js'
+import { ModelMode, ROLES } from '../../../utils/index.js';
 
 // Giá trị mặc định ban đầu của form bác sĩ
 const INITIAL_FORM = {
@@ -66,7 +66,7 @@ export default function SearchDoctorList() {
             try {
                 const [specialtyResponse, userResponse] = await Promise.allSettled([
                     DoctorService.getSpecialties(),
-                    DoctorService.getUserSelect(ModelMode.ROLES.DOCTOR),
+                    DoctorService.getUserSelect(ROLES.DOCTOR),
                 ]);
                 if (!isCancelled) {
                     if (specialtyResponse.status === 'fulfilled') {
@@ -128,7 +128,7 @@ export default function SearchDoctorList() {
     // Mở form thêm mới bác sĩ
     const handleOpenCreate = async () => {
         try {
-            const data = await DoctorService.getUserSelect(ModelMode.ROLES.DOCTOR);
+            const data = await DoctorService.getUserSelect(ROLES.DOCTOR);
             setUsersList(data || []);
         } catch {
             // Bỏ qua lỗi tải danh sách user

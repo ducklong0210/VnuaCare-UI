@@ -12,8 +12,10 @@ export default function Header() {
   const { user, logout } = useAuth();
   const { navigate } = useNavigation();
 
-  // Chữ cái đầu tên user làm avatar
-  const userInitial = (user?.fullname || user?.username || 'U')[0].toUpperCase();
+  // Chữ cái đầu tên user làm avatar và chuẩn hóa vai trò chữ hoa
+  const displayName = user?.fullName || user?.username || 'Cán bộ y tế';
+  const userInitial = displayName[0].toUpperCase();
+  const normalizedRole = (user?.role || '').toUpperCase();
 
   return (
     <header className="top-header">
@@ -51,8 +53,8 @@ export default function Header() {
         <div className="header-user-profile">
           <div className="user-avatar-circle">{userInitial}</div>
           <div className="user-details">
-            <span className="user-fullname" title={user?.fullname || user?.username}>{user?.fullname || user?.username || 'Cán bộ y tế'}</span>
-            <span className="user-role">{ROLE_LABELS[user?.role] || user?.role || 'Quản trị viên'}</span>
+            <span className="user-fullname" title={displayName}>{displayName}</span>
+            <span className="user-role">{ROLE_LABELS[normalizedRole] || user?.role || 'Quản trị viên'}</span>
           </div>
         </div>
 

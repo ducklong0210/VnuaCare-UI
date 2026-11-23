@@ -9,7 +9,7 @@ import { IconPlus, IconCheck, IconClose } from '../../../components/SupportAgent
 import StaffFilter from './StaffFilter.jsx';
 import StaffTable from './StaffTable.jsx';
 import StaffDetail from './StaffDetail.jsx';
-import { ModelMode } from '../../../utils/index.js'
+import { ModelMode, ROLES } from '../../../utils/index.js';
 // Giá trị mặc định của form cán bộ
 const INITIAL_FORM = {
     staffId: null,
@@ -70,7 +70,7 @@ export default function SearchStaffList() {
             try {
                 const [departmentResponse, userResponse] = await Promise.allSettled([
                     StaffService.getDepartments(),
-                    StaffService.getUserSelect(ModelMode.ROLES.STAFF),
+                    StaffService.getUserSelect(ROLES.STAFF),
                 ]);
                 if (!isCancelled) {
                     if (departmentResponse.status === 'fulfilled') {
@@ -132,7 +132,7 @@ export default function SearchStaffList() {
     // Mở form thêm mới cán bộ
     const handleOpenCreate = async () => {
         try {
-            const data = await StaffService.getUserSelect(ModelMode.ROLES.STAFF);
+            const data = await StaffService.getUserSelect(ROLES.STAFF);
             setUsersList(data || []);
         } catch {
             // Bỏ qua lỗi tải danh sách user

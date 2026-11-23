@@ -66,8 +66,8 @@ export default function DashboardRecentRecords({ records = [], loading = false, 
             {/* Duyệt mảng các hồ sơ gần đây để vẽ từng dòng bảng */}
             {!loading &&
               recentRecords.map((record) => {
-                // Nếu hồ sơ chưa có trạng thái thì mặc định là Chờ khám (PENDING)
-                const statusCode = record.status || RECORD_STATUS.PENDING;
+                // Nếu hồ sơ chưa có trạng thái hoặc ở trạng thái DRAFT thì quy về Chờ khám (PENDING)
+                const statusCode = !record.status || record.status === 'DRAFT' ? RECORD_STATUS.PENDING : record.status;
                 // Đổi mã trạng thái tiếng Anh sang nhãn tiếng Việt để hiển thị
                 const statusLabel = RECORD_STATUS_LABELS[statusCode] || RECORD_STATUS_LABELS[RECORD_STATUS.PENDING];
 

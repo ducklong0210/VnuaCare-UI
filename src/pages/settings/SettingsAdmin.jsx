@@ -3,8 +3,8 @@
 // Bọc khung giao diện MainLayout và hiển thị component xử lý chính Settings
 //
 
-import MainLayout from "../../core/layouts/MainLayout";
-import Settings from "../../components/Admin/SettingManagerment/Settings";
+import MainLayout from '../../core/layouts/MainLayout.jsx';
+import Settings from '../../components/Admin/SettingManagement/Settings.jsx';
 
 
 export default function SettingsAdmin(){

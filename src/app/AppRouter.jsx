@@ -42,10 +42,10 @@ function PlaceholderPage({ tabId, title, apiRoute }) {
   );
 }
 
-// Kiểm tra vai trò hiện tại có được phép vào tab tương ứng không (dựa trên MENU_ITEMS)
+// Kiểm tra vai trò hiện tại có được phép vào tab tương ứng không (mặc định từ chối nếu tab không có trong MENU_ITEMS)
 function canAccessTab(tabId, userRole) {
   const menuItem = MENU_ITEMS.find((item) => item.id === tabId);
-  if (!menuItem || !menuItem.roles) return true;
+  if (!menuItem || !menuItem.roles) return false;
   return menuItem.roles.includes(userRole);
 }
 

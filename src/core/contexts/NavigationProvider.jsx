@@ -1,20 +1,30 @@
 //
 // Provider quản lý màn hình đang mở (activeTab) trong toàn ứng dụng
-// Đồng bộ tab hiện tại với URL Hash và cung cấp hàm navigate() để chuyển trang mượt không cần reload
+// Đồng bộ tab hiện tại với History API (/pathname) và cung cấp hàm navigate() chuyển trang mượt không cần reload
 //
 
 import { useState, useEffect } from 'react';
 import { NavigationContext } from './navigationContext.js';
+import { ROLES } from '../../utils/index.js';
+
+function getDefaultTab() {
+  const token = localStorage.getItem('accessToken');
+  if (!token) return 'home';
+  try {
+    const savedUser = JSON.parse(localStorage.getItem('user') || 'null');
+    if ((savedUser?.role || '').toUpperCase() === ROLES.STAFF) {
+      return 'staff-portal';
+    }
+  } catch {
+    // Bỏ qua nếu dữ liệu user bị hỏng
+  }
+  return 'dashboard';
+}
 
 export function NavigationProvider({ children }) {
   const [activeTab, setActiveTab] = useState(() => {
     const path = window.location.pathname.replace('/', '').trim();
-    if (path) {
-      return path;
-    }
-    // Nếu chưa có path: nếu đã đăng nhập thì vào dashboard, chưa đăng nhập thì hiển thị homepage
-    const token = localStorage.getItem('accessToken');
-    return token ? 'dashboard' : 'home';
+    return path || getDefaultTab();
   });
 
   const navigate = (tabId) => {
@@ -25,7 +35,7 @@ export function NavigationProvider({ children }) {
   useEffect(() => {
     const handlePopState = () => {
       const path = window.location.pathname.replace('/', '').trim();
-      setActiveTab(path || (localStorage.getItem('accessToken') ? 'dashboard' : 'home'));
+      setActiveTab(path || getDefaultTab());
     };
     window.addEventListener('popstate', handlePopState);
     return () => window.removeEventListener('popstate', handlePopState);

@@ -5,11 +5,14 @@
 
 import { useAuth } from '../../core/contexts/useAuth.js';
 import { useNavigation } from '../../core/contexts/useNavigation.js';
+import { ROLES } from '../../utils/index.js';
 import './HomePage.css';
 
 export default function HomePage() {
   const { user } = useAuth();
   const { navigate } = useNavigation();
+  const isStaff = (user?.role || '').toUpperCase() === ROLES.STAFF;
+  const targetTab = isStaff ? 'staff-portal' : 'dashboard';
 
   return (
     <div className="home-container">
@@ -25,9 +28,9 @@ export default function HomePage() {
               <button
                 type="button"
                 className="home-btn-primary"
-                onClick={() => navigate('dashboard')}
+                onClick={() => navigate(targetTab)}
               >
-                <span>Vào bảng quản lý</span>
+                <span>{isStaff ? 'Xem hồ sơ của tôi' : 'Vào bảng quản lý'}</span>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M5 12h14" />
                   <path d="m12 5 7 7-7 7" />
@@ -72,9 +75,15 @@ export default function HomePage() {
             <button
               type="button"
               className="home-btn-hero-primary"
-              onClick={() => navigate(user ? 'dashboard' : 'login')}
+              onClick={() => navigate(user ? targetTab : 'login')}
             >
-              <span>{user ? 'Vào bảng điều khiển quản lý' : 'Đăng nhập xem hồ sơ sức khỏe'}</span>
+              <span>
+                {user
+                  ? isStaff
+                    ? 'Xem hồ sơ sức khỏe của tôi'
+                    : 'Vào bảng điều khiển quản lý'
+                  : 'Đăng nhập xem hồ sơ sức khỏe'}
+              </span>
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14" />
                 <path d="m12 5 7 7-7 7" />

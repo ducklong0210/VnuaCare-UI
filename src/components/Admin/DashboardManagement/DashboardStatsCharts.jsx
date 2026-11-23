@@ -31,17 +31,9 @@ function matchesClassification(value, targetCode) {
   // Nhóm chưa xếp loại ứng với các hồ sơ có giá trị rỗng hoặc null
   if (targetCode === 'UNCLASSIFIED') return normalized === '';
 
-  // Với "Loại I" cần loại trừ "Loại II", "Loại III", "Loại IV", "Loại V" vì cùng chứa chuỗi "Loại I"
-  if (targetCode === 'Loại I') {
-    return (
-      normalized.includes('Loại I') &&
-      !normalized.includes('Loại II') &&
-      !normalized.includes('Loại III') &&
-      !normalized.includes('Loại IV') &&
-      !normalized.includes('Loại V')
-    );
-  }
-  return normalized.includes(targetCode);
+  // Khớp chính xác mã xếp loại ở đầu chuỗi (tránh "Loại I" khớp "Loại II" hoặc "Loại II" khớp "Loại III")
+  const escaped = targetCode.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  return new RegExp(`^${escaped}(?:\\s|\\(|$)`).test(normalized);
 }
 
 export default function DashboardStatsCharts({ records = [], loading = false }) {
@@ -75,7 +67,7 @@ export default function DashboardStatsCharts({ records = [], loading = false }) 
     },
     {
       label: RECORD_STATUS_LABELS[RECORD_STATUS.PENDING],
-      count: records.filter((r) => !r.status || r.status === RECORD_STATUS.PENDING).length,
+      count: records.filter((r) => !r.status || r.status === RECORD_STATUS.PENDING || r.status === 'DRAFT').length,
       color: SystemColors.warning,
     },
     {

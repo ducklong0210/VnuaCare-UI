@@ -122,7 +122,8 @@ export async function deleteUserApi(id) {
 
 // Lấy danh sách tài khoản người dùng theo vai trò
 export async function getUserSelectApi(role = '') {
-  const endpoint = `${API_BASE_URL}${userManagerRouter.getSelect(role)}`;
+  const query = role ? `?role=${encodeURIComponent(role)}&isActive=true` : '?isActive=true';
+  const endpoint = `${API_BASE_URL}${userManagerRouter.getSelect}${query}`;
 
   const response = await fetch(endpoint, {
     method: METHODS.GET,

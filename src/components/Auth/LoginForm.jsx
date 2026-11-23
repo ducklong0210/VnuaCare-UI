@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { loginRequest } from '../../api/authApi.js';
 import { useAuth } from '../../core/contexts/useAuth.js';
 import { useNavigation } from '../../core/contexts/useNavigation.js';
+import { ROLES } from '../../utils/index.js';
 
 function LoginForm() {
   const { login } = useAuth();
@@ -33,9 +34,10 @@ function LoginForm() {
         password: password,
       });
 
-      // Lưu thông tin đăng nhập rồi chuyển sang Dashboard
+      // Lưu thông tin đăng nhập rồi điều hướng đúng màn hình theo vai trò
       login(data);
-      navigate('dashboard');
+      const role = (data?.role || '').toUpperCase();
+      navigate(role === ROLES.STAFF ? 'staff-portal' : 'dashboard');
     } catch (error) {
       setErrorMessage(error.message || 'Đăng nhập không thành công. Vui lòng kiểm tra lại thông tin.');
     } finally {

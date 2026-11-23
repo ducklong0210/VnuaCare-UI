@@ -41,6 +41,7 @@ export default function SearchAccountList() {
         username: '',
         password: '',
         email: '',
+        fullName:'',
         role: ROLES.STAFF,
         isActive: true,
     });
@@ -93,7 +94,8 @@ export default function SearchAccountList() {
             username: '',
             password: '',
             email: '',
-            role: ModelMode.ROLES.STAFF,
+            fullName:'',
+            role: ROLES.STAFF,
             isActive: true,
         });
         setModalError('');
@@ -107,7 +109,8 @@ export default function SearchAccountList() {
             username: user.username,
             password: '',
             email: user.email || '',
-            role: user.role || ModelMode.ROLES.STAFF,
+            fullName: user.fullName || '',
+            role: user.role || ROLES.STAFF,
             isActive: Boolean(user.isActive),
         });
         setModalError('');
@@ -140,6 +143,7 @@ export default function SearchAccountList() {
                     username: formData.username.trim(),
                     password: formData.password,
                     email: formData.email.trim(),
+                    fullName : formData.fullName.trim(),
                     role: formData.role,
                 });
                 showToast('Thêm tài khoản người dùng thành công!');
@@ -147,6 +151,7 @@ export default function SearchAccountList() {
                 await AccountService.updateAccount({
                     userId: formData.userId,
                     email: formData.email.trim(),
+                    fullName : formData.fullName.trim(),
                     role: formData.role,
                     isActive: formData.isActive,
                 });

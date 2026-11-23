@@ -6,13 +6,16 @@
 // Đọc địa chỉ máy chủ API từ file môi trường (.env) và xóa dấu "/" thừa ở cuối chuỗi để tránh lỗi ghép link (vd: //api/...)
 export const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '');
 
-// Tạo bộ header mặc định kèm thẻ xác thực JWT để gửi trong mọi request cần đăng nhập
+// Tạo bộ header mặc định kèm thẻ xác thực JWT (chỉ gắn Authorization khi có token hợp lệ)
 export function getAuthHeaders() {
-  const token = localStorage.getItem('accessToken'); // Đọc "chìa khóa" JWT đã lưu trong trình duyệt lúc đăng nhập
-  return {
-    'Content-Type': 'application/json', // Báo với Backend rằng dữ liệu gửi đi có định dạng JSON
-    Authorization: `Bearer ${token}`, // Đính kèm thẻ JWT theo chuẩn Bearer để Backend kiểm tra quyền
+  const token = localStorage.getItem('accessToken');
+  const headers = {
+    'Content-Type': 'application/json',
   };
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+  return headers;
 }
 
 // Đọc và chuẩn hóa thông báo lỗi tiếng Việt từ nhiều kiểu JSON lỗi khác nhau do Backend .NET trả về

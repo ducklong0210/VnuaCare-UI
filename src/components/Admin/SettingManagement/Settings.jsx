@@ -6,7 +6,7 @@
 import { useEffect, useState } from 'react';
 import { AccountService } from '../../../services/admin/AccountService.js';
 import { useAuth } from '../../../core/contexts/useAuth.js';
-import { ROLE_LABELS, ROLES, AVATAR_PRESETS } from '../../../utils/index.js';
+import { ROLE_LABELS, ROLES } from '../../../utils/index.js';
 import { IconCheck, IconRefreshCw } from '../../SupportAgent/Icons.jsx';
 import './Settings.css';
 
@@ -79,7 +79,7 @@ export default function Settings() {
           const staff = data.staffProfile;
           const doctor = data.doctorProfile;
           setProfileForm({
-            fullName: doctor?.fullName || user?.fullname || data.username || '',
+            fullName: data.fullName || data.fullname || doctor?.fullName || staff?.fullName || user?.fullName || user?.fullname || '',
             email: data.email || '',
             phoneNumber: staff?.phoneNumber || '',
             address: staff?.address || staff?.adrress || '',
@@ -108,27 +108,20 @@ export default function Settings() {
 
   const displayRole = (profileInfo?.role || user?.role || '').toUpperCase();
   const isStaff = displayRole === ROLES.STAFF;
-  const isDoctor = displayRole === ROLES.DOCTOR;
 
   // Xử lý lưu cập nhật Hồ sơ cá nhân (PUT /api/v1/users/profile)
   const handleSaveProfile = async (e) => {
     e.preventDefault();
     setProfileError('');
 
-    // Chỉ bắt buộc Họ và tên với DOCTOR / STAFF (Admin không có cột full_name trong bảng vc_users)
-    if ((isStaff || isDoctor) && !profileForm.fullName.trim()) {
+    const resolvedFullName = profileForm.fullName.trim();
+    if (!resolvedFullName) {
       setProfileError('Họ và tên không được để trống');
       return;
     }
 
     setSavingProfile(true);
     try {
-      // Backend yêu cầu trường fullName không rỗng nên với Admin tự gửi kèm username làm giá trị mặc định
-      const resolvedFullName =
-        isStaff || isDoctor
-          ? profileForm.fullName.trim()
-          : profileInfo?.username || user?.username || 'Admin';
-
       await AccountService.updateMyProfile({
         fullName: resolvedFullName,
         email: profileForm.email.trim() || null,
@@ -143,7 +136,8 @@ export default function Settings() {
       if (user) {
         login({
           ...user,
-          fullname: isStaff || isDoctor ? resolvedFullName : user.fullname,
+          fullName: resolvedFullName,
+          fullname: resolvedFullName,
           email: profileForm.email.trim() || user.email,
         });
       }
@@ -200,9 +194,13 @@ export default function Settings() {
   };
 
   const displayName =
-    isStaff || isDoctor
-      ? profileForm.fullName || user?.fullname || user?.username || 'Người dùng'
-      : profileInfo?.username || user?.username || 'Quản trị viên';
+    profileForm.fullName ||
+    profileInfo?.fullName ||
+    user?.fullName ||
+    user?.fullname ||
+    profileInfo?.username ||
+    user?.username ||
+    'Quản trị viên';
   const userInitial = displayName[0].toUpperCase();
 
   return (
@@ -281,7 +279,7 @@ export default function Settings() {
                   </div>
                   <div className="settings-readonly-item">
                     <span className="settings-readonly-label">
-                      {profileInfo?.doctorProfile ? 'Mã bác sĩ / Chuyên khoa' : 'Mã cán bộ / Đơn vị'}
+                      {profileInfo?.doctorProfile ? 'Mã bác sĩ / Chuyên khoa' : 'Loại tài khoản'}
                     </span>
                     <span className="settings-readonly-value">
                       {profileInfo?.doctorProfile
@@ -293,23 +291,21 @@ export default function Settings() {
                   </div>
                 </div>
 
-                {/* Các trường tự cập nhật hiển thị đúng theo cột SQL của từng vai trò */}
+                {/* Các trường tự cập nhật: Họ và tên + Email cho mọi vai trò */}
                 <div className="settings-form-grid">
-                  {(isStaff || isDoctor) && (
-                    <div className="form-item">
-                      <label className="field-label">Họ và tên *</label>
-                      <input
-                        type="text"
-                        className="text-input"
-                        value={profileForm.fullName}
-                        onChange={(e) => setProfileForm({ ...profileForm, fullName: e.target.value })}
-                        placeholder="Nhập họ và tên đầy đủ"
-                        required
-                      />
-                    </div>
-                  )}
+                  <div className="form-item">
+                    <label className="field-label">Họ và tên *</label>
+                    <input
+                      type="text"
+                      className="text-input"
+                      value={profileForm.fullName}
+                      onChange={(e) => setProfileForm({ ...profileForm, fullName: e.target.value })}
+                      placeholder="Nhập họ và tên đầy đủ"
+                      required
+                    />
+                  </div>
 
-                  <div className={`form-item ${!isStaff && !isDoctor ? 'settings-form-full' : ''}`}>
+                  <div className="form-item">
                     <label className="field-label">Email liên hệ</label>
                     <input
                       type="email"
@@ -319,72 +315,6 @@ export default function Settings() {
                       placeholder="Ví dụ: ten@vnua.edu.vn"
                     />
                   </div>
-
-                  {isStaff && (
-                    <>
-                      <div className="form-item">
-                        <label className="field-label">Số điện thoại</label>
-                        <input
-                          type="text"
-                          className="text-input"
-                          value={profileForm.phoneNumber}
-                          onChange={(e) => setProfileForm({ ...profileForm, phoneNumber: e.target.value })}
-                          placeholder="Nhập số điện thoại"
-                        />
-                      </div>
-
-                      <div className="form-item">
-                        <label className="field-label">Giới tính</label>
-                        <select
-                          className="form-select"
-                          value={profileForm.gender}
-                          onChange={(e) => setProfileForm({ ...profileForm, gender: e.target.value })}
-                        >
-                          <option value="NAM">Nam</option>
-                          <option value="NU">Nữ</option>
-                          <option value="KHAC">Khác</option>
-                        </select>
-                      </div>
-
-                      <div className="form-item">
-                        <label className="field-label">Ngày sinh</label>
-                        <input
-                          type="date"
-                          className="text-input"
-                          value={profileForm.dateOfBirth}
-                          onChange={(e) => setProfileForm({ ...profileForm, dateOfBirth: e.target.value })}
-                        />
-                      </div>
-
-                      <div className="form-item">
-                        <label className="field-label">Địa chỉ</label>
-                        <input
-                          type="text"
-                          className="text-input"
-                          value={profileForm.address}
-                          onChange={(e) => setProfileForm({ ...profileForm, address: e.target.value })}
-                          placeholder="Nhập địa chỉ nơi ở / đơn vị công tác"
-                        />
-                      </div>
-
-                      <div className="form-item settings-form-full">
-                        <label className="field-label">Chọn ảnh đại diện</label>
-                        <div className="settings-avatar-grid">
-                          {AVATAR_PRESETS.map((av) => (
-                            <button
-                              key={av.id}
-                              type="button"
-                              className={`settings-avatar-option ${profileForm.avatarUrl === av.url ? 'selected' : ''}`}
-                              onClick={() => setProfileForm({ ...profileForm, avatarUrl: av.url })}
-                            >
-                              <img src={av.url} alt={av.label} />
-                              <span>{av.label}</span>
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    </>
-                  )}
                 </div>
 
                 <div className="settings-form-actions">

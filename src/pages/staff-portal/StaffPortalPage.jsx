@@ -13,7 +13,7 @@ export default function StaffPortalPage() {
 
   const handleLogout = () => {
     logout();
-    navigate('login');
+    navigate('home');
   };
 
   return (
@@ -22,7 +22,7 @@ export default function StaffPortalPage() {
         <div>
           <h2 style={{ margin: 0, fontSize: '20px', color: '#0f172a' }}>Cổng Cán bộ / Giảng viên</h2>
           <span style={{ fontSize: '13px', color: '#64748b' }}>
-            Xin chào: <strong>{user?.fullname || user?.username}</strong> ({ROLE_LABELS[user?.role] || user?.role})
+            Xin chào: <strong>{user?.fullName || user?.fullname || user?.username}</strong> ({ROLE_LABELS[user?.role] || user?.role})
           </span>
         </div>
 

@@ -8,11 +8,17 @@ import { AuthContext } from './authContext.js';
 
 // Component Provider bọc quanh toàn bộ app để cung cấp user, login, logout
 export function AuthProvider({ children }) {
-  // Khởi tạo state 'user': kiểm tra xem trong localStorage đã lưu thông tin người dùng từ trước chưa
+  // Khởi tạo state 'user': kiểm tra và parse an toàn từ localStorage để tránh crash nếu dữ liệu hỏng
   const [user, setUser] = useState(() => {
     const savedUser = localStorage.getItem('user');
-    // Nếu có dữ liệu cũ thì giải mã từ JSON sang Object, nếu chưa có thì để null (chưa đăng nhập)
-    return savedUser ? JSON.parse(savedUser) : null;
+    if (!savedUser) return null;
+    try {
+      return JSON.parse(savedUser);
+    } catch {
+      localStorage.removeItem('user');
+      localStorage.removeItem('accessToken');
+      return null;
+    }
   });
 
   // Hàm xử lý khi đăng nhập thành công

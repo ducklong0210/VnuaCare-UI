@@ -6,7 +6,7 @@
   width: 100%;
   background-color: #f8fafc;
   color: #1e293b;
-  font-family: inherit;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   display: flex;
   flex-direction: column;
   overflow-x: hidden;

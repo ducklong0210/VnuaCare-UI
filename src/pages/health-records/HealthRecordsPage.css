@@ -58,7 +58,7 @@
 /* Badge Mã SID */
 .record-sid-badge {
   display: inline-block;
-  font-family: monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 12px;
   font-weight: 700;
   color: #0f766e;
@@ -181,7 +181,7 @@
 
 /* Modal Thêm & Cập nhật Hồ sơ khám */
 .record-modal-card {
-  max-width: 680px;
+  max-width: 980px;
   width: 95%;
 }
 
@@ -247,7 +247,7 @@
   border: 1px solid #cbd5e1;
   border-radius: 6px;
   font-size: 13px;
-  font-family: inherit;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   resize: vertical;
   background-color: #fff;
 }

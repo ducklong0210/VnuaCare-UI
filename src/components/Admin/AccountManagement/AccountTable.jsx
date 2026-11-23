@@ -4,7 +4,7 @@
 //
 
 import { IconEdit, IconTrash } from '../../SupportAgent/Icons.jsx';
-
+import {ROLE_LABELS} from '../../../utils/index.js';
 export default function AccountTable({
   users = [],
   loading = false,
@@ -28,6 +28,7 @@ export default function AccountTable({
             <tr>
               <th style={{ width: '180px' }}>Tên đăng nhập</th>
               <th style={{ width: '260px' }}>Email</th>
+              <th style={{ width: '260px' }}>Họ tên</th>
               <th style={{ width: '160px' }}>Vai trò</th>
               <th style={{ width: '140px' }}>Trạng thái</th>
               <th style={{ width: '160px' }}>Ngày tạo</th>
@@ -74,8 +75,9 @@ export default function AccountTable({
                 <tr key={u.userId || u.username}>
                   <td className="code-font">{u.username}</td>
                   <td>{u.email || '—'}</td>
+                  <td>{u.fullName || '—'} </td>
                   <td>
-                    <span className="tag-badge">{u.role}</span>
+                    <span className="tag-badge">{ROLE_LABELS[u.role]}</span>
                   </td>
                   <td>
                     {u.isActive ? (

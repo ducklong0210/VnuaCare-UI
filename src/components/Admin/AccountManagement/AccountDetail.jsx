@@ -75,6 +75,17 @@ export default function AccountDetail({
                 required
               />
             </div>
+             <div className="form-item">
+              <label className="field-label">Họ Tên *</label>
+              <input
+                type="text"
+                className="text-input"
+                placeholder="Ví dụ: Nguyễn Đức Long"
+                value={formData.fullName}
+                onChange={(e) => onFormChange('fullname', e.target.value)}
+                required
+              />
+            </div>
 
             <div className="form-item">
               <label className="field-label">Vai trò</label>

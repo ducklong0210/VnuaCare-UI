@@ -283,7 +283,7 @@
 
 /* Cells */
 .code-font {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   font-weight: 600;
   color: #0f766e;
 }
@@ -421,7 +421,7 @@
 }
 
 .empty-desc code {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
   color: #0f766e;
   background-color: #f1f5f9;
   padding: 2px 6px;

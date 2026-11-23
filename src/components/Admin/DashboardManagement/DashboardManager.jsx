@@ -49,45 +49,28 @@ export default function DashboardManager() {
     const loadDashboardStats = async () => {
       setLoading(true);
 
-      // Lấy tổng số Cán bộ (chỉ xin pageSize = 1 cho nhẹ vì chỉ cần đọc trường totalCount)
-      try {
-        const staffRes = await StaffService.getStaffs({ pageNumber: 1, pageSize: 1 });
-        if (!isCancelled) setTotalStaffs(staffRes?.totalCount || 0);
-      } catch {
-        if (!isCancelled) setTotalStaffs(0);
-      }
+      // Gọi song song 4 API cùng lúc để tăng tốc độ tải Dashboard
+      const [staffRes, doctorRes, recordRes, campaignRes] = await Promise.allSettled([
+        StaffService.getStaffs({ pageNumber: 1, pageSize: 1 }),
+        DoctorService.getDoctors({ pageNumber: 1, pageSize: 1 }),
+        HealthRecordService.getHealthRecords({ pageNumber: 1, pageSize: 200 }),
+        HealthRecordService.getCampaigns(),
+      ]);
 
-      // Lấy tổng số Bác sĩ (chỉ xin pageSize = 1 cho nhẹ vì chỉ cần đọc trường totalCount)
-      try {
-        const doctorRes = await DoctorService.getDoctors({ pageNumber: 1, pageSize: 1 });
-        if (!isCancelled) setTotalDoctors(doctorRes?.totalCount || 0);
-      } catch {
-        if (!isCancelled) setTotalDoctors(0);
-      }
+      if (!isCancelled) {
+        setTotalStaffs(staffRes.status === 'fulfilled' ? staffRes.value?.totalCount || 0 : 0);
+        setTotalDoctors(doctorRes.status === 'fulfilled' ? doctorRes.value?.totalCount || 0 : 0);
 
-      // Lấy danh sách và tổng số Hồ sơ khám (xin tối đa 200 bản ghi để tính tỷ lệ thống kê và hiện bảng gần đây)
-      try {
-        const recordRes = await HealthRecordService.getHealthRecords({ pageNumber: 1, pageSize: 200 });
-        if (!isCancelled) {
-          setTotalRecords(recordRes?.totalCount || 0); // Lưu tổng số hồ sơ vào thẻ KPI
-          setRecords(recordRes?.items || []); // Lưu mảng danh sách hồ sơ để truyền xuống component con
-        }
-      } catch {
-        if (!isCancelled) {
+        if (recordRes.status === 'fulfilled') {
+          setTotalRecords(recordRes.value?.totalCount || 0);
+          setRecords(recordRes.value?.items || []);
+        } else {
           setTotalRecords(0);
           setRecords([]);
         }
-      }
 
-      // Lấy danh sách Đợt khám sức khỏe rồi đếm độ dài mảng để hiển thị tổng số đợt khám
-      try {
-        const campaignList = await HealthRecordService.getCampaigns();
-        if (!isCancelled) setTotalCampaigns(Array.isArray(campaignList) ? campaignList.length : 0);
-      } catch {
-        if (!isCancelled) setTotalCampaigns(0);
-      }
-
-      if (!isCancelled) {
+        const campaignList = campaignRes.status === 'fulfilled' ? campaignRes.value : [];
+        setTotalCampaigns(Array.isArray(campaignList) ? campaignList.length : 0);
         setLoading(false);
       }
     };
