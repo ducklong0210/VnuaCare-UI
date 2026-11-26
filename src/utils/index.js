@@ -3,7 +3,7 @@
 // Chứa METHODS, ROLES, ROLE_LABELS, MENU_ITEMS, STAT_CARDS, trạng thái hồ sơ, phân loại sức khỏe và màu sắc
 //
 
-import { IconSettings, IconDashboard, IconUsers, IconStaffs, IconDoctors, IconRecords, IconCampaigns } from '../components/SupportAgent/Icons.jsx';
+import { IconSettings, IconDashboard, IconUsers, IconStaffs, IconDoctors, IconRecords, IconCampaigns, IconMail } from '../components/SupportAgent/Icons.jsx';
 
 
 
@@ -54,15 +54,6 @@ export const RECORD_STATUS_COLORS = {
     CANCELLED: 'red',
 };
 
-// XẾP LOẠI SỨC KHỎE CHUẨN BỘ Y TẾ 
-export const HEALTH_CLASSIFICATIONS = [
-    'Loại I',
-    'Loại II',
-    'Loại III',
-    'Loại IV',
-    'Loại V',
-];
-
 //  GIỚI TÍNH & MÀU SẮC CHỦ ĐẠO
 export const GENDER = {
     MALE: 'Nam',
@@ -108,14 +99,14 @@ export const DEFAULT_HEALTH_CLASSIFICATIONS = [
   },
 ];
 
-// Danh mục Trạng thái hồ sơ khám sức khỏe
+// Danh mục Trạng thái hồ sơ khám sức khỏe (khớp mã PENDING của Backend)
 export const DEFAULT_RECORD_STATUSES = [
   {
-    key: 'DRAFT',
-    value: 'DRAFT',
-    label: 'Mới tiếp nhận (Chưa khám)',
-    statusCode: 'DRAFT',
-    statusName: 'Mới tiếp nhận (Chưa khám)',
+    key: 'PENDING',
+    value: 'PENDING',
+    label: 'Mới tiếp nhận (Chờ khám)',
+    statusCode: 'PENDING',
+    statusName: 'Mới tiếp nhận (Chờ khám)',
   },
   {
     key: 'IN_PROGRESS',
@@ -165,12 +156,24 @@ export const ModelMode = {
     DELETE: 'DELETE',
 }
 
+export const EMAIL_SENT_STATUSES = [
+    { value: 'Success', label: 'Gửi thành công' },
+    { value: 'Failed', label: 'Gửi thất bại' },
+];
+
+export const EMAIL_REFERENCE_TYPES = [
+    { value: 'HealthCheckupRecord', label: 'Cảnh báo hồ sơ sức khỏe' },
+    { value: 'ForgotPassword', label: 'Khôi phục mật khẩu' },
+    { value: 'System', label: 'Thông báo hệ thống' },
+];
+
 export const MENU_ITEMS = [
     { id: 'dashboard', label: 'Bảng điều khiển', Icon: IconDashboard, roles: [ROLES.SUPER_ADMIN, ROLES.HEALTH_ADMIN, ROLES.DOCTOR] },
     { id: 'records', label: 'Hồ sơ khám cán bộ', Icon: IconRecords, roles: [ROLES.SUPER_ADMIN, ROLES.HEALTH_ADMIN, ROLES.DOCTOR] },
     { id: 'staffs', label: 'Quản lý nhân viên', Icon: IconStaffs, roles: [ROLES.SUPER_ADMIN, ROLES.HEALTH_ADMIN] },
     { id: 'doctors', label: 'Quản lý bác sĩ', Icon: IconDoctors, roles: [ROLES.SUPER_ADMIN, ROLES.HEALTH_ADMIN] },
     // { id: 'campaigns', label: 'Đợt khám sức khỏe', Icon: IconCampaigns, roles: [ROLES.SUPER_ADMIN, ROLES.HEALTH_ADMIN] },
+    { id: 'emails', label: 'Nhật ký gửi email', Icon: IconMail, roles: [ROLES.SUPER_ADMIN, ROLES.HEALTH_ADMIN] },
     { id: 'users', label: 'Quản lý người dùng', Icon: IconUsers, roles: [ROLES.SUPER_ADMIN] },
     { id: 'settings', label: 'Cài đặt', Icon: IconSettings, roles: [ROLES.SUPER_ADMIN, ROLES.HEALTH_ADMIN, ROLES.DOCTOR] },
 ];

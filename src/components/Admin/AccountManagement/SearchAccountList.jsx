@@ -11,6 +11,15 @@ import AccountTable from './AccountTable.jsx';
 import AccountDetail from './AccountDetail.jsx';
 import { ROLES, ModelMode } from '../../../utils/index.js';
 
+const INITIAL_FORM = {
+        userId: null,
+        username: '',
+        password: '',
+        email: '',
+        fullName:'',
+        role: ROLES.STAFF,
+        isActive: true,
+    }
 export default function SearchAccountList() {
     // Dữ liệu danh sách người dùng
     const [users, setUsers] = useState([]); // Mảng danh sách tài khoản người dùng hiển thị trên bảng
@@ -19,7 +28,7 @@ export default function SearchAccountList() {
 
     // Bộ lọc tìm kiếm & Phân trang
     const [search, setSearch] = useState(''); // Chuỗi từ khóa tìm kiếm (username, email)
-    const [role, setRole] = useState(''); // Mã vai trò đang chọn lọc ('' = tất cả, SUPER_ADMIN, HEALTH_ADMIN, DOCTOR, STAFF)
+    const [role, setRole] = useState('ALL'); // Mã vai trò đang chọn lọc ('ALL' = tất cả, SUPER_ADMIN, HEALTH_ADMIN, DOCTOR, STAFF)
     const [pageNumber, setPageNumber] = useState(1); // Số trang hiện tại (bắt đầu từ 1)
     const [pageSize, setPageSize] = useState(10); // Số dòng tài khoản hiển thị trên mỗi trang
     const [totalCount, setTotalCount] = useState(0); // Tổng số tài khoản khớp bộ lọc (dùng tính tổng số trang)
@@ -36,15 +45,8 @@ export default function SearchAccountList() {
     const [modalMode, setModalMode] = useState(null); // Chế độ modal: null (đóng) | ModelMode.CREATE (tạo mới) | ModelMode.EDIT (sửa)
     const [submitting, setSubmitting] = useState(false); // Trạng thái đang gửi form Thêm/Sửa tài khoản lên API
     const [modalError, setModalError] = useState(''); // Chuỗi thông báo lỗi hiển thị bên trong modal Thêm/Sửa
-    const [formData, setFormData] = useState({ // Đối tượng lưu dữ liệu các ô nhập trong modal Thêm/Sửa tài khoản
-        userId: null,
-        username: '',
-        password: '',
-        email: '',
-        fullName:'',
-        role: ROLES.STAFF,
-        isActive: true,
-    });
+    const [formData, setFormData] = useState(INITIAL_FORM);// Đối tượng lưu dữ liệu các ô nhập trong modal Thêm/Sửa tài khoản
+        
 
     // Quản lý Modal xác nhận xóa
     const [deletingUser, setDeletingUser] = useState(null); // Đối tượng tài khoản đang chờ xác nhận xóa (null = đóng hộp thoại)
@@ -89,15 +91,7 @@ export default function SearchAccountList() {
 
     // Mở modal tạo mới tài khoản
     const handleOpenCreate = () => {
-        setFormData({
-            userId: null,
-            username: '',
-            password: '',
-            email: '',
-            fullName:'',
-            role: ROLES.STAFF,
-            isActive: true,
-        });
+        setFormData(INITIAL_FORM);
         setModalError('');
         setModalMode(ModelMode.CREATE);
     };
@@ -125,8 +119,8 @@ export default function SearchAccountList() {
 
     // Thay đổi trường form
     const handleFormChange = (field, value) => {
-        setFormData((prev) => ({
-            ...prev,
+        setFormData((currentForm) => ({
+            ...currentForm,
             [field]: value,
         }));
     };
@@ -159,7 +153,7 @@ export default function SearchAccountList() {
             }
 
             handleCloseModal();
-            setRefreshKey((prev) => prev + 1);
+            setRefreshKey((currentKey) => currentKey + 1);
         } catch (err) {
             setModalError(err.message || 'Có lỗi xảy ra, vui lòng thử lại!');
         } finally {
@@ -181,7 +175,7 @@ export default function SearchAccountList() {
             await AccountService.deleteAccount(deletingUser.userId);
             showToast(`Đã xóa tài khoản "${deletingUser.username}" thành công!`);
             setDeletingUser(null);
-            setRefreshKey((prev) => prev + 1);
+            setRefreshKey((currentKey) => currentKey + 1);
         } catch (err) {
             showToast(err.message || 'Không thể xóa tài khoản này');
         } finally {

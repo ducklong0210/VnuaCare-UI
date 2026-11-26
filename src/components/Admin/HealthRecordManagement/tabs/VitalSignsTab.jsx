@@ -5,7 +5,9 @@
 
 import { useEffect, useState } from 'react';
 import { getVitalSignsApi, createVitalSignsApi, updateVitalSignsApi } from '../../../../api/vitalSignsApi.js';
+import { evaluateBmi, evaluateBloodPressure } from '../../../../utils/helpers.js';
 import { IconCheck, IconRefreshCw } from '../../../SupportAgent/Icons.jsx';
+
 const INITIAL_VITAL_SIGNS = {
   vitalSignId: null, // Mã phiếu sinh hiệu
   heightCm: '', // Chiều cao (cm)
@@ -19,35 +21,6 @@ const INITIAL_VITAL_SIGNS = {
   spo2Percent: '', // Oxy máu SpO2 (%)
   measuredBy: '', // Người đo
 };
-
-// Đánh giá thể trạng dựa trên BMI (tiêu chuẩn WHO cho người châu Á)
-function evaluateBmi(bmiValue) {
-  if (!bmiValue || isNaN(bmiValue)) return null;
-  const num = Number(bmiValue);
-  if (num < 18.5) return { text: 'Nhẹ cân / Thể lực gầy', tagClass: 'badge-warning' };
-  if (num < 23.0) return { text: 'Thể trạng bình thường / Cân đối', tagClass: 'badge-success' };
-  if (num < 25.0) return { text: 'Thừa cân / Tiền béo phì', tagClass: 'badge-warning' };
-  return { text: 'Béo phì / Cần điều chỉnh ăn uống', tagClass: 'badge-danger' };
-}
-
-// Đánh giá phân loại huyết áp
-function evaluateBloodPressure(systolic, diastolic) {
-  if (!systolic && !diastolic) return null;
-  const sys = Number(systolic) || 0;
-  const dia = Number(diastolic) || 0;
-  if (sys === 0 && dia === 0) return null;
-
-  if (sys >= 140 || dia >= 90) {
-    return { text: 'Tăng huyết áp (Cần lưu ý theo dõi)', tagClass: 'badge-danger' };
-  }
-  if (sys >= 120 || dia >= 80) {
-    return { text: 'Huyết áp tiền tăng (Hơi cao)', tagClass: 'badge-warning' };
-  }
-  if (sys < 90 || dia < 60) {
-    return { text: 'Huyết áp thấp', tagClass: 'badge-warning' };
-  }
-  return { text: 'Huyết áp bình thường', tagClass: 'badge-success' };
-}
 
 export default function VitalSignsTab({ recordId, doctorsList = [], showToast }) {
   const [formData, setFormData] = useState(INITIAL_VITAL_SIGNS); // Đối tượng dữ liệu biểu mẫu chỉ số thể lực & chỉ số sinh tồn
@@ -143,7 +116,17 @@ export default function VitalSignsTab({ recordId, doctorsList = [], showToast })
       if (formData.vitalSignId) {
         await updateVitalSignsApi(payload);
       } else {
-        await createVitalSignsApi(payload);
+        const createResult = await createVitalSignsApi(payload);
+
+        // Lưu lại vitalSignId vừa tạo để nếu bấm Lưu lần 2 sẽ gọi PUT cập nhật thay vì POST tạo trùng
+        let createdId = createResult?.data?.vitalSignId || createResult?.vitalSignId || null;
+        if (!createdId) {
+          const savedData = await getVitalSignsApi(recordId);
+          createdId = savedData?.vitalSignId || null;
+        }
+        if (createdId) {
+          setFormData((currentForm) => ({ ...currentForm, vitalSignId: createdId }));
+        }
       }
       setMessage('Đã lưu chỉ số sinh tồn & thể lực thành công!');
       if (showToast) showToast('Đã lưu chỉ số sinh tồn thành công!');

@@ -9,7 +9,7 @@ import {
   createSpecialistExamApi,
   updateSpecialistExamApi,
 } from '../../../../api/specialistExamApi.js';
-import { getSpecialtiesApi } from '../../../../api/recordApi.js';
+import { getSpecialtiesApi } from '../../../../api/doctorApi.js';
 import { CLINICAL_SPECIALTIES_CONFIG } from '../../../../models/SpecialistExam.js';
 import { IconCheck, IconRefreshCw } from '../../../SupportAgent/Icons.jsx';
 const INITIAL_EXAM = {
@@ -83,8 +83,8 @@ export default function SpecialistExamsTab({ recordId, doctorsList = [], classif
           }
 
           if (dbSpecialties.status === 'fulfilled' && Array.isArray(dbSpecialties.value) && dbSpecialties.value.length > 0) {
-            setSpecialtiesList((prev) =>
-              prev.map((item) => {
+            setSpecialtiesList((currentList) =>
+              currentList.map((item) => {
                 const match = dbSpecialties.value.find((s) => s.specialtyId === item.specialtyId);
                 if (match) {
                   return {
@@ -125,12 +125,12 @@ export default function SpecialistExamsTab({ recordId, doctorsList = [], classif
   // Khi bác sĩ nhập liệu vào một ô, chỉ cập nhật vào đúng mã chuyên khoa đang chọn
   const handleFieldChange = (field, value) => {
     const code = activeSpecialty;
-    setExamsMap((prev) => {
-      const current = prev[code] || { ...INITIAL_EXAM, specialtyType: code };
+    setExamsMap((currentMap) => {
+      const currentExam = currentMap[code] || { ...INITIAL_EXAM, specialtyType: code };
       return {
-        ...prev,
+        ...currentMap,
         [code]: {
-          ...current,
+          ...currentExam,
           specialtyType: code,
           [field]: value,
         },
@@ -138,7 +138,7 @@ export default function SpecialistExamsTab({ recordId, doctorsList = [], classif
     });
 
     // Đánh dấu chuyên khoa này đang có thay đổi chưa lưu
-    setUnsavedCodes((prev) => (prev.includes(code) ? prev : [...prev, code]));
+    setUnsavedCodes((currentCodes) => (currentCodes.includes(code) ? currentCodes : [...currentCodes, code]));
   };
 
   // Chuyển sang xem chuyên khoa khác ở cột bên trái
@@ -193,8 +193,8 @@ export default function SpecialistExamsTab({ recordId, doctorsList = [], classif
       const remainingUnsaved = unsavedCodes.filter((c) => c !== savingCode);
       setUnsavedCodes(remainingUnsaved);
 
-      setExamsMap((prev) => {
-        const nextMap = { ...prev };
+      setExamsMap((currentMap) => {
+        const nextMap = { ...currentMap };
         updatedList.forEach((item) => {
           if (item.specialtyType) {
             const code = item.specialtyType.trim().toUpperCase();

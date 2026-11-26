@@ -4,42 +4,23 @@
 //
 
 import { staffRouter } from '../utils/api-router.js';
-import { getAuthHeaders, parseApiError, API_BASE_URL } from './httpClient.js';
+import { apiRequest } from './httpClient.js';
 import { METHODS } from '../utils/index.js';
-
 
 // Lọc và phân trang danh sách Cán bộ
 export async function getStaffFilterApi({ textSearch = '', departmentId = null, pageNumber = 1, pageSize = 10 } = {}) {
-  const endpoint = `${API_BASE_URL}${staffRouter.getFilter}`;
-
-  const response = await fetch(endpoint, {
+  const result = await apiRequest(staffRouter.getFilter, {
     method: METHODS.POST,
-    headers: getAuthHeaders(),
-    body: JSON.stringify({
-      textSearch: textSearch,
+    body: {
+      textSearch,
       departmentId: departmentId && departmentId !== 'ALL' ? Number(departmentId) : 0,
-      pageNumber: pageNumber,
-      pageSize: pageSize,
+      pageNumber,
+      pageSize,
       isActive: true,
-    }),
+    },
+    defaultError: 'Lỗi khi tải danh sách cán bộ',
   });
 
-  if (response.status === 401) {
-    throw new Error('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!');
-  }
-
-  if (!response.ok) {
-    let errorMessage = 'Lỗi khi tải danh sách cán bộ';
-    try {
-      const err = await response.json();
-      errorMessage = parseApiError(err, errorMessage);
-    } catch {
-      // Bỏ qua lỗi parse JSON
-    }
-    throw new Error(errorMessage);
-  }
-
-  const result = await response.json();
   return {
     items: result?.data?.data || [],
     totalCount: result?.data?.totalCount || 0,
@@ -50,77 +31,38 @@ export async function getStaffFilterApi({ textSearch = '', departmentId = null, 
 
 // Lấy danh mục Khoa / Phòng ban cho dropdown
 export async function getDepartmentsApi() {
-  const endpoint = `${API_BASE_URL}${staffRouter.getDepartments}`;
-
-  const response = await fetch(endpoint, {
+  const result = await apiRequest(staffRouter.getDepartments, {
     method: METHODS.GET,
-    headers: getAuthHeaders(),
+    defaultError: 'Lỗi khi tải danh mục phòng ban',
   });
-
-  if (!response.ok) {
-    let errorMessage = 'Lỗi khi tải danh mục phòng ban';
-    try {
-      const err = await response.json();
-      errorMessage = parseApiError(err, errorMessage);
-    } catch {
-      // Bỏ qua lỗi parse JSON
-    }
-    throw new Error(errorMessage);
-  }
-
-  const result = await response.json();
   return result?.data || [];
 }
 
 // Thêm mới cán bộ
 export async function createStaffApi(data) {
-  const endpoint = `${API_BASE_URL}${staffRouter.create}`;
-
-  const response = await fetch(endpoint, {
+  const result = await apiRequest(staffRouter.create, {
     method: METHODS.POST,
-    headers: getAuthHeaders(),
-    body: JSON.stringify(data),
+    body: data,
+    defaultError: 'Lỗi khi thêm cán bộ',
   });
-
-  const result = await response.json();
-  if (!response.ok) {
-    throw new Error(parseApiError(result, 'Lỗi khi thêm cán bộ'));
-  }
-
   return result?.data ?? result;
 }
 
 // Cập nhật thông tin cán bộ
 export async function updateStaffApi(data) {
-  const endpoint = `${API_BASE_URL}${staffRouter.update}`;
-
-  const response = await fetch(endpoint, {
+  const result = await apiRequest(staffRouter.update, {
     method: METHODS.PUT,
-    headers: getAuthHeaders(),
-    body: JSON.stringify(data),
+    body: data,
+    defaultError: 'Lỗi khi cập nhật cán bộ',
   });
-
-  const result = await response.json();
-  if (!response.ok) {
-    throw new Error(parseApiError(result, 'Lỗi khi cập nhật cán bộ'));
-  }
-
   return result?.data ?? result;
 }
 
 // Xóa cán bộ theo ID
 export async function deleteStaffApi(staffId) {
-  const endpoint = `${API_BASE_URL}${staffRouter.delete(staffId)}`;
-
-  const response = await fetch(endpoint, {
+  const result = await apiRequest(staffRouter.delete(staffId), {
     method: METHODS.DELETE,
-    headers: getAuthHeaders(),
+    defaultError: 'Lỗi khi xóa cán bộ',
   });
-
-  const result = await response.json();
-  if (!response.ok) {
-    throw new Error(parseApiError(result, 'Lỗi khi xóa cán bộ'));
-  }
-
   return result?.data ?? result;
 }

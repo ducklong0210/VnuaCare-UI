@@ -17,10 +17,10 @@ export default function MainLayout({ children, activeTab }) {
   );
 
   const handleToggleSidebar = () => {
-    setSidebarCollapsed((prev) => {
-      const next = !prev;
-      localStorage.setItem('sidebarCollapsed', String(next));
-      return next;
+    setSidebarCollapsed((currentCollapsed) => {
+      const nextCollapsed = !currentCollapsed;
+      localStorage.setItem('sidebarCollapsed', String(nextCollapsed));
+      return nextCollapsed;
     });
   };
 

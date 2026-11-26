@@ -7,23 +7,9 @@ import { useEffect, useState } from 'react';
 import { AccountService } from '../../../services/admin/AccountService.js';
 import { useAuth } from '../../../core/contexts/useAuth.js';
 import { ROLE_LABELS, ROLES } from '../../../utils/index.js';
+import { toDateInputValue } from '../../../utils/helpers.js';
 import { IconCheck, IconRefreshCw } from '../../SupportAgent/Icons.jsx';
 import './Settings.css';
-
-// Chuyển chuỗi ngày từ API sang YYYY-MM-DD cho ô <input type="date">
-function toDateInputValue(dateStr) {
-  if (!dateStr || dateStr.startsWith('0001-01-01')) return '';
-  try {
-    const d = new Date(dateStr);
-    if (isNaN(d.getTime())) return '';
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  } catch {
-    return '';
-  }
-}
 
 export default function Settings() {
   const { user, login } = useAuth();
@@ -143,7 +129,7 @@ export default function Settings() {
       }
 
       showToast('Cập nhật thông tin tài khoản thành công!');
-      setRefreshKey((prev) => prev + 1);
+      setRefreshKey((currentKey) => currentKey + 1);
     } catch (err) {
       setProfileError(err.message || 'Cập nhật hồ sơ thất bại');
     } finally {
@@ -321,7 +307,7 @@ export default function Settings() {
                   <button
                     type="button"
                     className="btn btn-outline"
-                    onClick={() => setRefreshKey((prev) => prev + 1)}
+                    onClick={() => setRefreshKey((currentKey) => currentKey + 1)}
                     disabled={loading || savingProfile}
                   >
                     <IconRefreshCw size={14} />

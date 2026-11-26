@@ -98,7 +98,17 @@ export default function InternalMedicineTab({ recordId, doctorsList = [], classi
       if (formData.internalExamId) {
         await updateInternalMedicineExamApi(payload);
       } else {
-        await createInternalMedicineExamApi(payload);
+        const createResult = await createInternalMedicineExamApi(payload);
+
+        // Lưu lại internalExamId vừa tạo để nếu bấm Lưu lần 2 sẽ gọi PUT cập nhật thay vì POST tạo trùng
+        let createdId = createResult?.data?.internalExamId || createResult?.internalExamId || null;
+        if (!createdId) {
+          const savedData = await getInternalMedicineApi(recordId);
+          createdId = savedData?.internalExamId || null;
+        }
+        if (createdId) {
+          setFormData((currentForm) => ({ ...currentForm, internalExamId: createdId }));
+        }
       }
       setMessage('Đã lưu kết quả khám lâm sàng nội khoa thành công!');
       if (showToast) showToast('Đã lưu kết quả khám nội khoa thành công!');

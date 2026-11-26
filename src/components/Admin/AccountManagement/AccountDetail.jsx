@@ -82,7 +82,7 @@ export default function AccountDetail({
                 className="text-input"
                 placeholder="Ví dụ: Nguyễn Đức Long"
                 value={formData.fullName}
-                onChange={(e) => onFormChange('fullname', e.target.value)}
+                onChange={(e) => onFormChange('fullName', e.target.value)}
                 required
               />
             </div>

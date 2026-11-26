@@ -67,8 +67,8 @@ export default function DiagnosticReportsTab({ recordId, doctorsList = [], showT
 
   // Hàm dùng chung: cập nhật đúng phiếu đang chọn trong mảng reports mà không đụng tới các phiếu khác
   const updateCurrentReport = (updater) => {
-    setReports((prev) =>
-      prev.map((item) => {
+    setReports((currentReports) =>
+      currentReports.map((item) => {
         if (item.clientKey !== selectedKey) return item;
         const cloned = item.clone();
         updater(cloned);
@@ -108,7 +108,7 @@ export default function DiagnosticReportsTab({ recordId, doctorsList = [], showT
   // Bấm "+ Thêm phiếu": tạo phiếu trắng mới nối vào đầu danh sách, không ghi đè phiếu hiện tại
   const handleCreateNewReport = (modalityType = 'ULTRASOUND') => {
     const blankReport = DiagnosticReport.createBlank(recordId, modalityType);
-    setReports((prev) => [blankReport, ...prev]);
+    setReports((currentReports) => [blankReport, ...currentReports]);
     setSelectedKey(blankReport.clientKey);
     setShowAddSection(false);
   };

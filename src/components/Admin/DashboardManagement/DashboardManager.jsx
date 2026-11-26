@@ -106,7 +106,7 @@ export default function DashboardManager() {
           <button
             type="button"
             className="btn btn-outline"
-            onClick={() => setRefreshKey((prev) => prev + 1)}
+            onClick={() => setRefreshKey((currentKey) => currentKey + 1)}
             disabled={loading}
           >
             {/* Icon mũi tên xoay tròn (làm mới) */}

@@ -50,25 +50,3 @@ export default function StaffFilter({
         </div>
     );
 }
-
-export function FilterDepartment({
-    selectedDepartment,
-    onDepartmentChange,
-    departments = [],
-}) {
-    return (
-        <>
-            <select
-                className="form-select"
-                value={selectedDepartment}
-                onChange={onDepartmentChange}>
-                <option value="ALL">Tất cả đơn vị / Khoa</option>
-                {departments.map((department) => (
-                    <option key={department.departmentId} value={department.departmentId}>
-                        {department.departmentName}
-                    </option>
-                ))}
-            </select>
-        </>
-    );
-}

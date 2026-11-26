@@ -166,8 +166,8 @@ export default function SearchDoctorList() {
 
     // Thay đổi trường trong form
     const handleFormChange = (field, value) => {
-        setFormData((prev) => ({
-            ...prev,
+        setFormData((currentForm) => ({
+            ...currentForm,
             [field]: value,
         }));
     };
@@ -213,7 +213,7 @@ export default function SearchDoctorList() {
             }
 
             handleCloseModal();
-            setRefreshKey((prev) => prev + 1);
+            setRefreshKey((currentKey) => currentKey + 1);
         } catch (err) {
             setModalError(err.message || 'Có lỗi xảy ra, vui lòng thử lại!');
         } finally {
@@ -239,7 +239,7 @@ export default function SearchDoctorList() {
             await DoctorService.deleteDoctor(deletingDoctor.doctorId);
             showToast(`Đã xóa bác sĩ "${deletingDoctor.fullName}" thành công!`);
             setDeletingDoctor(null);
-            setRefreshKey((prev) => prev + 1);
+            setRefreshKey((currentKey) => currentKey + 1);
         } catch (err) {
             showToast(err.message || 'Không thể xóa bác sĩ này');
         } finally {

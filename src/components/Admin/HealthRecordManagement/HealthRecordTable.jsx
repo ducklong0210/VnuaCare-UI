@@ -4,58 +4,19 @@
 //
 
 import { IconEye, IconEdit, IconTrash } from '../../SupportAgent/Icons.jsx';
-
-// Định dạng ngày theo chuẩn Việt Nam DD/MM/YYYY
-function formatDate(dateStr) {
-  if (!dateStr || dateStr.startsWith('0001-01-01')) return '—';
-  try {
-    const d = new Date(dateStr);
-    if (isNaN(d.getTime())) return '—';
-    const day = String(d.getDate()).padStart(2, '0');
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const year = d.getFullYear();
-    return `${day}/${month}/${year}`;
-  } catch {
-    return '—';
-  }
-}
+import { formatDate, getClassificationMeta, getStatusMeta } from '../../../utils/helpers.js';
 
 // Hiển thị nhãn phân loại sức khỏe theo Bộ Y tế (Loại I - Loại V)
 function renderClassificationBadge(classification) {
-  if (!classification) {
-    return <span className="grade-badge grade-none">Chưa xếp loại</span>;
-  }
-  const clean = classification.trim();
-  if (
-    clean.includes('Loại I') &&
-    !clean.includes('Loại II') &&
-    !clean.includes('Loại III') &&
-    !clean.includes('Loại IV') &&
-    !clean.includes('Loại V')
-  ) {
-    return <span className="grade-badge grade-1">Loại I (Rất khỏe)</span>;
-  }
-  if (clean.includes('Loại II')) return <span className="grade-badge grade-2">Loại II (Khỏe)</span>;
-  if (clean.includes('Loại III')) return <span className="grade-badge grade-3">Loại III (Trung bình)</span>;
-  if (clean.includes('Loại IV')) return <span className="grade-badge grade-4">Loại IV (Yếu)</span>;
-  if (clean.includes('Loại V')) return <span className="grade-badge grade-5">Loại V (Rất yếu)</span>;
-  return <span className="grade-badge grade-none">{clean}</span>;
+  const { label, tone } = getClassificationMeta(classification);
+  const badgeClass = tone === 'muted' ? 'grade-none' : tone;
+  return <span className={`grade-badge ${badgeClass}`}>{label}</span>;
 }
 
 // Hiển thị nhãn trạng thái hồ sơ khám
 function renderStatusBadge(status) {
-  switch (status) {
-    case 'PENDING':
-      return <span className="status-pill status-pending">Chờ khám</span>;
-    case 'IN_PROGRESS':
-      return <span className="status-pill status-in_progress">Đang khám</span>;
-    case 'COMPLETED':
-      return <span className="status-pill status-completed">Đã kết luận</span>;
-    case 'CANCELLED':
-      return <span className="status-pill status-cancelled">Đã hủy</span>;
-    default:
-      return <span className="status-pill status-pending">{status || 'Chờ khám'}</span>;
-  }
+  const { label, tone } = getStatusMeta(status);
+  return <span className={`status-pill status-${tone}`}>{label}</span>;
 }
 
 export default function HealthRecordTable({

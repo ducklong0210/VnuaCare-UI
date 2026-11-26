@@ -5,6 +5,7 @@
 
 import {
   getHealthRecordFilterApi,
+  getHealthRecordByIdApi,
   getCampaignsSelectApi,
   getDepartmentsSelectApi,
   getClassificationsApi,
@@ -19,6 +20,9 @@ import {
 export const HealthRecordService = {
   // Lấy danh sách hồ sơ khám theo bộ lọc và phân trang
   getHealthRecords: getHealthRecordFilterApi,
+
+  // Lấy chi tiết một hồ sơ khám theo mã ID
+  getHealthRecordById: getHealthRecordByIdApi,
 
   // Lấy các danh mục tra cứu (Lookups) phục vụ bộ lọc và biểu mẫu
   getCampaigns: getCampaignsSelectApi,

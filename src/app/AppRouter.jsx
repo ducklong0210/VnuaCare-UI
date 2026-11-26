@@ -13,6 +13,7 @@ import DoctorManagerPage from '../pages/doctor-manager/DoctorManagerPage.jsx';
 import UserManagerPage from '../pages/user-manager/UserManagerPage.jsx';
 import HealthRecordsPage from '../pages/health-records/HealthRecordsPage.jsx';
 import StaffManagerPage from '../pages/staff-manager/StaffManagerPage.jsx';
+import EmailManagerPage from '../pages/email-manager/EmailManagerPage.jsx';
 import SettingsAdmin from '../pages/settings/SettingsAdmin.jsx';
 import StaffPortalPage from '../pages/staff-portal/StaffPortalPage.jsx';
 import MainLayout from '../core/layouts/MainLayout.jsx';
@@ -85,6 +86,8 @@ function AppRouter() {
       return <HealthRecordsPage />;
     case 'staffs':
       return <StaffManagerPage />;
+    case 'emails':
+      return <EmailManagerPage />;
     case 'settings':
       return <SettingsAdmin />;
     case 'campaigns':

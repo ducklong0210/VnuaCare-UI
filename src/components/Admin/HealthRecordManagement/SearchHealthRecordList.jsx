@@ -5,12 +5,14 @@
 
 import { useEffect, useState } from 'react';
 import { HealthRecordService } from '../../../services/admin/HealthRecordService.js';
-import { IconPlus, IconCheck, IconClose, IconAlertTriangle } from '../../SupportAgent/Icons.jsx';
+import { IconPlus, IconCheck, IconClose, IconAlertTriangle, IconMail } from '../../SupportAgent/Icons.jsx';
 import { ModelMode } from '../../../utils/index.js';
+import { toDateInputValue } from '../../../utils/helpers.js';
 import HealthRecordFilter from './HealthRecordFilter.jsx';
 import HealthRecordTable from './HealthRecordTable.jsx';
 import HealthRecordFormModal from './HealthRecordFormModal.jsx';
 import RecordDetailModal from './RecordDetailModal.jsx';
+import HealthAlertModal from '../EmailManagement/HealthAlertModal.jsx';
 
 // Giá trị khởi tạo mặc định của form hồ sơ khám
 const INITIAL_FORM = {
@@ -32,21 +34,6 @@ const INITIAL_FORM = {
   departmentName: '', // Tên khoa / phòng
   campaignName: '', // Tên đợt khám
 };
-
-// Chuyển đổi chuỗi ngày từ API sang YYYY-MM-DD cho ô <input type="date">
-function toDateInputValue(dateStr) {
-  if (!dateStr || dateStr.startsWith('0001-01-01')) return '';
-  try {
-    const d = new Date(dateStr);
-    if (isNaN(d.getTime())) return '';
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, '0');
-    const day = String(d.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  } catch {
-    return '';
-  }
-}
 
 export default function SearchHealthRecordList() {
   // Dữ liệu danh sách hồ sơ khám và các danh mục tra cứu
@@ -90,8 +77,9 @@ export default function SearchHealthRecordList() {
   const [deletingRecord, setDeletingRecord] = useState(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
-  // State Modal 4 Tab khám chuyên môn
+  // State Modal 4 Tab khám chuyên môn và Modal gửi Email cảnh báo sức khỏe suy giảm
   const [viewingRecord, setViewingRecord] = useState(null);
+  const [showHealthAlertModal, setShowHealthAlertModal] = useState(false);
 
   // 1. Tải các danh mục tra cứu (Lookups) một lần khi mở màn hình
   useEffect(() => {
@@ -176,7 +164,7 @@ export default function SearchHealthRecordList() {
 
   // Cập nhật từng trường trong form Thêm / Sửa
   const handleFormChange = (field, value) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
+    setFormData((currentForm) => ({ ...currentForm, [field]: value }));
   };
 
   // Mở modal tạo hồ sơ mới
@@ -269,7 +257,7 @@ export default function SearchHealthRecordList() {
       }
 
       handleCloseModal();
-      setRefreshKey((prev) => prev + 1);
+      setRefreshKey((currentKey) => currentKey + 1);
     } catch (err) {
       setModalError(err.message || 'Có lỗi xảy ra, vui lòng thử lại!');
     } finally {
@@ -286,7 +274,7 @@ export default function SearchHealthRecordList() {
       await HealthRecordService.deleteHealthRecord(deletingRecord.recordId);
       showToast(`Đã xóa hồ sơ khám "${deletingRecord.sidCode}" thành công!`);
       setDeletingRecord(null);
-      setRefreshKey((prev) => prev + 1);
+      setRefreshKey((currentKey) => currentKey + 1);
     } catch (err) {
       showToast(err.message || 'Không thể xóa hồ sơ khám này');
     } finally {
@@ -323,6 +311,10 @@ export default function SearchHealthRecordList() {
           </span>
         </div>
         <div className="header-btn-group">
+          <button type="button" className="btn btn-alert-outline" onClick={() => setShowHealthAlertModal(true)}>
+            <IconMail size={15} />
+            <span>Cảnh báo SK giảm</span>
+          </button>
           <button type="button" className="btn btn-primary" onClick={handleOpenCreate}>
             <IconPlus size={16} />
             <span>Tạo hồ sơ khám</span>
@@ -446,10 +438,18 @@ export default function SearchHealthRecordList() {
           record={viewingRecord}
           onClose={() => {
             setViewingRecord(null);
-            setRefreshKey((prev) => prev + 1);
+            setRefreshKey((currentKey) => currentKey + 1);
           }}
           doctorsList={doctorsList}
           classifications={classifications}
+        />
+      )}
+      {/* Modal gửi Email cảnh báo cán bộ có sức khỏe suy giảm so với năm trước */}
+      {showHealthAlertModal && (
+        <HealthAlertModal
+          isOpen={showHealthAlertModal}
+          onClose={() => setShowHealthAlertModal(false)}
+          showToast={showToast}
         />
       )}
     </div>

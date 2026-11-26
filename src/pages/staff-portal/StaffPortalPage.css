@@ -1,0 +1,1164 @@
+/* ==============================================================================
+   STAFF PORTAL STYLESHEET — Sổ Sức Khỏe Điện Tử Cán Bộ VNUA
+   Giao diện tra cứu bệnh án cá nhân (Operate / Read Mode), độc lập khỏi khung Quản trị
+   ============================================================================== */
+
+.sp-shell {
+  min-height: 100vh;
+  background-color: #f6f8fa;
+  color: #0f172a;
+  display: flex;
+  flex-direction: column;
+}
+
+.sp-shell ::selection {
+  background-color: #ccfbf1;
+  color: #134e4a;
+}
+
+.sp-shell button:focus-visible,
+.sp-shell input:focus-visible,
+.sp-shell select:focus-visible,
+.sp-shell a:focus-visible {
+  outline: 2px solid #0f766e;
+  outline-offset: 2px;
+}
+
+.sp-tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+.sp-code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  color: #0f766e;
+  background-color: #f0fdfa;
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid #ccfbf1;
+}
+
+.sp-dot {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background-color: #cbd5e1;
+  display: inline-block;
+}
+
+/* Toast */
+.sp-toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  background-color: #0f766e;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 500;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.14);
+}
+
+/* ==============================================================================
+   1. THANH ĐIỀU HƯỚNG ĐỘC LẬP (TOPBAR)
+   ============================================================================== */
+.sp-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.sp-topbar-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  height: 64px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.sp-brand-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+}
+
+.sp-logo-img {
+  height: 36px;
+  width: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.sp-brand-divider {
+  width: 1px;
+  height: 26px;
+  background-color: #e2e8f0;
+}
+
+.sp-brand-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.sp-brand-title {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.sp-brand-sub {
+  font-size: 11px;
+  font-weight: 500;
+  color: #64748b;
+  line-height: 1.2;
+  margin-top: 2px;
+}
+
+.sp-top-nav {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  background-color: #f1f5f9;
+  border-radius: 10px;
+}
+
+.sp-nav-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 34px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 7px;
+  background: transparent;
+  color: #475569;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.sp-nav-tab:hover {
+  color: #0f172a;
+}
+
+.sp-nav-tab.active {
+  background-color: #ffffff;
+  color: #0f766e;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08);
+}
+
+.sp-topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Nút bấm chung trong Staff Portal */
+.sp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 140ms ease, border-color 140ms ease, color 140ms ease;
+}
+
+.sp-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.sp-btn-primary {
+  background-color: #0f766e;
+  color: #ffffff;
+  border: 1px solid #0f766e;
+}
+
+.sp-btn-primary:hover:not(:disabled) {
+  background-color: #115e59;
+  border-color: #115e59;
+}
+
+.sp-btn-outline {
+  background-color: #ffffff;
+  color: #334155;
+  border: 1px solid #cbd5e1;
+}
+
+.sp-btn-outline:hover:not(:disabled) {
+  background-color: #f8fafc;
+  border-color: #94a3b8;
+  color: #0f172a;
+}
+
+.sp-btn-ghost {
+  background-color: transparent;
+  color: #475569;
+  border: 1px solid transparent;
+}
+
+.sp-btn-ghost:hover {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+.sp-btn-logout {
+  background-color: #ffffff;
+  color: #b91c1c;
+  border: 1px solid #e2e8f0;
+}
+
+.sp-btn-logout:hover {
+  background-color: #fef2f2;
+  border-color: #fecaca;
+}
+
+/* ==============================================================================
+   2. VÙNG NỘI DUNG CHÍNH & THANH ĐỊNH DANH CÁN BỘ
+   ============================================================================== */
+.sp-main {
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 24px 24px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sp-identity-bar {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 18px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.sp-identity-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-width: 0;
+}
+
+.sp-avatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: #0f766e;
+  color: #ffffff;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  font-weight: 700;
+  flex-shrink: 0;
+  overflow: hidden;
+  border: 2px solid #ccfbf1;
+}
+
+.sp-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sp-identity-info h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+}
+
+.sp-identity-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 5px;
+  font-size: 13px;
+  color: #475569;
+}
+
+.sp-identity-meta strong {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+.sp-identity-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+/* Thông báo lỗi & trạng thái rỗng */
+.sp-error-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 18px;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: 10px;
+  color: #991b1b;
+  font-size: 13.5px;
+}
+
+.sp-error-banner p {
+  margin: 4px 0 0;
+  color: #7f1d1d;
+}
+
+.sp-state-sheet {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 56px 24px;
+  text-align: center;
+}
+
+.sp-state-sheet h3 {
+  margin: 0 0 8px;
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.sp-state-sheet p {
+  margin: 0 auto;
+  max-width: 540px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #475569;
+}
+
+/* ==============================================================================
+   3. BỐ CỤC 2 CỘT: DANH SÁCH ĐỢT KHÁM (TRÁI) & CHI TIẾT BỆNH ÁN (PHẢI)
+   ============================================================================== */
+.sp-workspace {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.sp-records-rail {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+  position: sticky;
+  top: 84px;
+}
+
+.sp-rail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.sp-rail-header h2 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.sp-rail-count {
+  font-size: 12px;
+  font-weight: 600;
+  color: #0f766e;
+  background-color: #f0fdfa;
+  border: 1px solid #ccfbf1;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.sp-rail-search {
+  position: relative;
+  padding: 10px 14px;
+  border-bottom: 1px solid #e2e8f0;
+  background-color: #f8fafc;
+}
+
+.sp-rail-search-icon {
+  position: absolute;
+  left: 24px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+  pointer-events: none;
+}
+
+.sp-rail-search input {
+  width: 100%;
+  height: 34px;
+  padding: 0 10px 0 32px;
+  border: 1px solid #cbd5e1;
+  border-radius: 7px;
+  font-size: 13px;
+  background-color: #ffffff;
+  color: #0f172a;
+}
+
+.sp-record-list {
+  list-style: none;
+  margin: 0;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: calc(100vh - 220px);
+  overflow-y: auto;
+}
+
+.sp-record-item {
+  width: 100%;
+  text-align: left;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background-color: transparent;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: background-color 140ms ease, border-color 140ms ease;
+}
+
+.sp-record-item:hover {
+  background-color: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+.sp-record-item.active {
+  background-color: #f0fdfa;
+  border-color: #99f6e4;
+}
+
+.sp-record-item-top {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.sp-record-campaign {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #0f172a;
+  line-height: 1.35;
+}
+
+.sp-record-date {
+  font-size: 12px;
+  color: #64748b;
+  flex-shrink: 0;
+}
+
+.sp-record-item-mid {
+  display: flex;
+  align-items: center;
+}
+
+.sp-record-item-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.sp-rail-empty {
+  padding: 20px 12px;
+  text-align: center;
+  font-size: 13px;
+  color: #64748b;
+}
+
+/* ==============================================================================
+   4. TỜ BỆNH ÁN CHI TIẾT (PHẢI)
+   ============================================================================== */
+.sp-dossier-sheet {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.sp-dossier-empty {
+  padding: 56px 24px;
+  text-align: center;
+}
+
+.sp-dossier-empty h3 {
+  margin: 0 0 6px;
+  font-size: 16px;
+  color: #0f172a;
+}
+
+.sp-dossier-empty p {
+  margin: 0;
+  font-size: 13.5px;
+  color: #64748b;
+}
+
+.sp-dossier-head {
+  padding: 22px 24px;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.sp-dossier-title-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.sp-dossier-title-row h2 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+}
+
+.sp-dossier-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+  font-size: 13px;
+  color: #475569;
+}
+
+.sp-dossier-grade-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.sp-grade-caption {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.sp-pdf-link {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #0f766e;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.sp-pdf-link:hover {
+  color: #115e59;
+}
+
+/* Badges phân loại & trạng thái */
+.sp-grade-pill,
+.sp-status-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.sp-grade-pill.compact,
+.sp-status-pill.compact {
+  padding: 2px 8px;
+  font-size: 11.5px;
+}
+
+.sp-grade-pill.tone-grade-1 { background-color: #ecfdf5; color: #047857; border: 1px solid #a7f3d0; }
+.sp-grade-pill.tone-grade-2 { background-color: #f0fdfa; color: #0f766e; border: 1px solid #99f6e4; }
+.sp-grade-pill.tone-grade-3 { background-color: #fffbeb; color: #b45309; border: 1px solid #fde68a; }
+.sp-grade-pill.tone-grade-4 { background-color: #fff7ed; color: #c2410c; border: 1px solid #fed7aa; }
+.sp-grade-pill.tone-grade-5 { background-color: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+.sp-grade-pill.tone-muted   { background-color: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; }
+
+.sp-status-pill.tone-completed   { background-color: #f0fdf4; color: #15803d; }
+.sp-status-pill.tone-in_progress { background-color: #eff6ff; color: #1d4ed8; }
+.sp-status-pill.tone-pending     { background-color: #fffbeb; color: #b45309; }
+.sp-status-pill.tone-cancelled   { background-color: #fef2f2; color: #b91c1c; }
+
+/* Kết luận tổng quát */
+.sp-summary-section {
+  padding: 20px 24px;
+  background-color: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.sp-section-heading {
+  margin: 0 0 14px;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.sp-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 24px;
+}
+
+.sp-summary-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sp-kv-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.sp-kv-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+.sp-prose-block {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #1e293b;
+  max-width: 72ch;
+  white-space: pre-line;
+}
+
+.sp-muted-note {
+  margin: 0;
+  font-size: 13.5px;
+  color: #475569;
+  line-height: 1.55;
+}
+
+/* Thanh Tab 4 chuyên môn */
+.sp-clinical-tabs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 20px;
+  border-bottom: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  overflow-x: auto;
+}
+
+.sp-clinical-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 14px 14px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: #475569;
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 140ms ease, border-color 140ms ease;
+}
+
+.sp-clinical-tab:hover {
+  color: #0f766e;
+}
+
+.sp-clinical-tab.active {
+  color: #0f766e;
+  border-bottom-color: #0f766e;
+}
+
+.sp-tab-count {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background-color: #f1f5f9;
+  color: #334155;
+}
+
+.sp-clinical-tab.active .sp-tab-count {
+  background-color: #ccfbf1;
+  color: #0f766e;
+}
+
+.sp-clinical-body {
+  padding: 24px;
+}
+
+.sp-empty-inline {
+  padding: 32px 16px;
+  text-align: center;
+  color: #64748b;
+  font-size: 13.5px;
+}
+
+.sp-empty-inline p {
+  margin: 0;
+}
+
+/* Tab 1: Lưới chỉ số sinh tồn (phẳng, hairline 1px) */
+.sp-vitals-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid #e2e8f0;
+  border-left: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.sp-vital-cell {
+  padding: 16px;
+  border-right: 1px solid #e2e8f0;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background-color: #ffffff;
+}
+
+.sp-vital-reading {
+  font-size: 22px;
+  font-weight: 700;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.sp-unit {
+  font-size: 12.5px;
+  font-weight: 500;
+  color: #64748b;
+}
+
+.sp-inline-eval {
+  font-size: 12px;
+  font-weight: 600;
+  align-self: flex-start;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.sp-inline-eval.tone-success { background-color: #ecfdf5; color: #047857; }
+.sp-inline-eval.tone-warning { background-color: #fffbeb; color: #b45309; }
+.sp-inline-eval.tone-danger  { background-color: #fef2f2; color: #b91c1c; }
+
+/* Tab 2: Danh sách Nội khoa 6 hệ cơ quan */
+.sp-def-list {
+  margin: 0;
+  border-top: 1px solid #e2e8f0;
+}
+
+.sp-def-row {
+  display: grid;
+  grid-template-columns: 210px minmax(0, 1fr);
+  gap: 16px;
+  padding: 12px 4px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.sp-def-row dt {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.sp-def-row dd {
+  margin: 0;
+  font-size: 14px;
+  color: #0f172a;
+  line-height: 1.55;
+}
+
+.sp-sub-conclusion {
+  margin-top: 20px;
+  padding-top: 16px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.sp-sub-grade {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+/* Tab 3 & 4: Danh sách chuyên khoa lẻ và phiếu CĐHA */
+.sp-exam-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.sp-exam-item {
+  padding: 18px 0;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sp-exam-item:first-child {
+  padding-top: 0;
+}
+
+.sp-exam-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.sp-exam-item-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.sp-exam-item-head h4 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.sp-report-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.sp-modality-pill {
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 3px 9px;
+  border-radius: 999px;
+}
+
+.sp-report-date {
+  font-size: 12.5px;
+  color: #64748b;
+}
+
+.sp-report-technique {
+  font-size: 13.5px;
+  color: #334155;
+}
+
+.sp-kv-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px 24px;
+  padding: 10px 14px;
+  background-color: #f8fafc;
+  border-radius: 8px;
+}
+
+.sp-kv-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sp-findings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sp-finding-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sp-finding-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.sp-finding-group ul {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #334155;
+}
+
+.sp-exam-conclusion {
+  font-size: 13.5px;
+  color: #0f172a;
+  line-height: 1.55;
+}
+
+.sp-report-footer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 12.5px;
+  color: #64748b;
+}
+
+/* ==============================================================================
+   5. TÀI KHOẢN CÁ NHÂN & ĐỔI MẬT KHẨU (VIEW 2)
+   ============================================================================== */
+.sp-account-sheet {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.sp-account-body {
+  padding: 24px;
+}
+
+.sp-alert-error {
+  padding: 10px 14px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+  background-color: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  font-size: 13px;
+}
+
+.sp-readonly-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  padding: 14px 16px;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.sp-readonly-strip > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sp-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.sp-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sp-field-full {
+  grid-column: 1 / -1;
+}
+
+.sp-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.sp-field input,
+.sp-field select {
+  height: 38px;
+  padding: 0 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 13.5px;
+  color: #0f172a;
+  background-color: #ffffff;
+}
+
+.sp-password-form {
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.sp-avatar-picker {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.sp-avatar-opt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  background-color: #ffffff;
+  cursor: pointer;
+  font-size: 11.5px;
+  color: #475569;
+  transition: border-color 140ms ease, background-color 140ms ease;
+}
+
+.sp-avatar-opt img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+}
+
+.sp-avatar-opt.selected {
+  border-color: #0f766e;
+  background-color: #f0fdfa;
+  color: #0f766e;
+  font-weight: 600;
+}
+
+.sp-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 22px;
+  padding-top: 16px;
+  border-top: 1px solid #e2e8f0;
+}
+
+/* ==============================================================================
+   6. RESPONSIVE & CHẾ ĐỘ IN BỆNH ÁN
+   ============================================================================== */
+@media (max-width: 960px) {
+  .sp-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .sp-records-rail {
+    position: static;
+  }
+
+  .sp-record-list {
+    max-height: 280px;
+  }
+
+  .sp-vitals-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .sp-topbar-inner {
+    height: auto;
+    padding: 12px 16px;
+    flex-wrap: wrap;
+  }
+
+  .sp-top-nav {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .sp-main {
+    padding: 16px 16px 36px;
+  }
+
+  .sp-identity-bar,
+  .sp-dossier-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .sp-dossier-grade-box {
+    align-items: flex-start;
+  }
+
+  .sp-summary-grid,
+  .sp-form-grid,
+  .sp-readonly-strip,
+  .sp-kv-grid,
+  .sp-def-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media print {
+  .sp-topbar,
+  .sp-identity-actions,
+  .sp-records-rail,
+  .sp-toast {
+    display: none !important;
+  }
+
+  .sp-shell {
+    background-color: #ffffff;
+  }
+
+  .sp-main {
+    padding: 0;
+    max-width: 100%;
+  }
+
+  .sp-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .sp-identity-bar,
+  .sp-dossier-sheet {
+    border-color: #cbd5e1;
+    border-radius: 0;
+  }
+}

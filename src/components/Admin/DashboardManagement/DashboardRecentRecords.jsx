@@ -4,7 +4,7 @@
 //
 
 import { RECORD_STATUS, RECORD_STATUS_LABELS } from '../../../utils/index.js';
-import { formatDate } from '../../../utils/utils.js';
+import { formatDate } from '../../../utils/helpers.js';
 
 export default function DashboardRecentRecords({ records = [], loading = false, onViewAll }) {
   // Cắt lấy tối đa năm hồ sơ đầu tiên để hiển thị gọn trên Dashboard

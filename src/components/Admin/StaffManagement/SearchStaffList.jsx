@@ -178,8 +178,8 @@ export default function SearchStaffList() {
 
     // Thay đổi trường form
     const handleFormChange = (field, value) => {
-        setFormData((prev) => ({
-            ...prev,
+        setFormData((currentForm) => ({
+            ...currentForm,
             [field]: value,
         }));
     };
@@ -241,7 +241,7 @@ export default function SearchStaffList() {
             }
 
             handleCloseModal();
-            setRefreshKey((prev) => prev + 1);
+            setRefreshKey((currentKey) => currentKey + 1);
         } catch (err) {
             setModalError(err.message || 'Có lỗi xảy ra, vui lòng thử lại!');
         } finally {
@@ -267,7 +267,7 @@ export default function SearchStaffList() {
             await StaffService.deleteStaff(deletingStaff.staffId);
             showToast(`Đã xóa cán bộ "${deletingStaff.fullName}" thành công!`);
             setDeletingStaff(null);
-            setRefreshKey((prev) => prev + 1);
+            setRefreshKey((currentKey) => currentKey + 1);
         } catch (err) {
             showToast(err.message || 'Không thể xóa cán bộ này');
         } finally {

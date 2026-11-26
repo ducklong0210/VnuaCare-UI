@@ -4,42 +4,23 @@
 //
 
 import { doctorRouter } from '../utils/api-router.js';
-import { getAuthHeaders, parseApiError, API_BASE_URL } from './httpClient.js';
+import { apiRequest } from './httpClient.js';
 import { METHODS } from '../utils/index.js';
-
 
 // Lọc và phân trang danh sách Bác sĩ
 export async function getDoctorFilterApi({ textSearch = '', specialtyId = null, pageNumber = 1, pageSize = 10 } = {}) {
-  const endpoint = `${API_BASE_URL}${doctorRouter.getFilter}`;
-
-  const response = await fetch(endpoint, {
+  const result = await apiRequest(doctorRouter.getFilter, {
     method: METHODS.POST,
-    headers: getAuthHeaders(),
-    body: JSON.stringify({
-      textSearch: textSearch,
+    body: {
+      textSearch,
       specialty: specialtyId && specialtyId !== 'ALL' ? Number(specialtyId) : 0,
-      pageNumber: pageNumber,
-      pageSize: pageSize,
+      pageNumber,
+      pageSize,
       isActive: true,
-    }),
+    },
+    defaultError: 'Lỗi khi tải danh sách bác sĩ',
   });
 
-  if (response.status === 401) {
-    throw new Error('Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại!');
-  }
-
-  if (!response.ok) {
-    let errorMessage = 'Lỗi khi tải danh sách bác sĩ';
-    try {
-      const err = await response.json();
-      errorMessage = parseApiError(err, errorMessage);
-    } catch {
-      // Bỏ qua lỗi parse JSON
-    }
-    throw new Error(errorMessage);
-  }
-
-  const result = await response.json();
   return {
     items: result?.data?.data || [],
     totalCount: result?.data?.totalCount || 0,
@@ -50,77 +31,38 @@ export async function getDoctorFilterApi({ textSearch = '', specialtyId = null, 
 
 // Lấy danh mục Chuyên khoa cho dropdown
 export async function getSpecialtiesApi() {
-  const endpoint = `${API_BASE_URL}${doctorRouter.getSpecialties}`;
-
-  const response = await fetch(endpoint, {
+  const result = await apiRequest(doctorRouter.getSpecialties, {
     method: METHODS.GET,
-    headers: getAuthHeaders(),
+    defaultError: 'Lỗi khi tải danh mục chuyên khoa',
   });
-
-  if (!response.ok) {
-    let errorMessage = 'Lỗi khi tải danh mục chuyên khoa';
-    try {
-      const err = await response.json();
-      errorMessage = parseApiError(err, errorMessage);
-    } catch {
-      // Bỏ qua lỗi parse JSON
-    }
-    throw new Error(errorMessage);
-  }
-
-  const result = await response.json();
   return result?.data || [];
 }
 
 // Thêm mới bác sĩ
 export async function createDoctorApi(data) {
-  const endpoint = `${API_BASE_URL}${doctorRouter.create}`;
-
-  const response = await fetch(endpoint, {
+  const result = await apiRequest(doctorRouter.create, {
     method: METHODS.POST,
-    headers: getAuthHeaders(),
-    body: JSON.stringify(data),
+    body: data,
+    defaultError: 'Lỗi khi thêm bác sĩ',
   });
-
-  const result = await response.json();
-  if (!response.ok) {
-    throw new Error(parseApiError(result, 'Lỗi khi thêm bác sĩ'));
-  }
-
   return result?.data ?? result;
 }
 
 // Cập nhật thông tin bác sĩ
 export async function updateDoctorApi(data) {
-  const endpoint = `${API_BASE_URL}${doctorRouter.update}`;
-
-  const response = await fetch(endpoint, {
+  const result = await apiRequest(doctorRouter.update, {
     method: METHODS.PUT,
-    headers: getAuthHeaders(),
-    body: JSON.stringify(data),
+    body: data,
+    defaultError: 'Lỗi khi cập nhật bác sĩ',
   });
-
-  const result = await response.json();
-  if (!response.ok) {
-    throw new Error(parseApiError(result, 'Lỗi khi cập nhật bác sĩ'));
-  }
-
   return result?.data ?? result;
 }
 
 // Xóa bác sĩ theo ID
 export async function deleteDoctorApi(doctorId) {
-  const endpoint = `${API_BASE_URL}${doctorRouter.delete(doctorId)}`;
-
-  const response = await fetch(endpoint, {
+  const result = await apiRequest(doctorRouter.delete(doctorId), {
     method: METHODS.DELETE,
-    headers: getAuthHeaders(),
+    defaultError: 'Lỗi khi xóa bác sĩ',
   });
-
-  const result = await response.json();
-  if (!response.ok) {
-    throw new Error(parseApiError(result, 'Lỗi khi xóa bác sĩ'));
-  }
-
   return result?.data ?? result;
 }

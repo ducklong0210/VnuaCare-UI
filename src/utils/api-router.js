@@ -68,8 +68,15 @@ export const healthRecordRouter = {
   getStaffs: '/api/v1/healthcheckuprecords/staffs',
   getDoctors: '/api/v1/healthcheckuprecords/doctors',
   getDepartments: '/api/v1/healthcheckuprecords/departments',
+  getDeclinedHealth: '/api/v1/healthcheckuprecords/declined-health',
+  sendHealthAlert: '/api/v1/healthcheckuprecords/send-health-alert',
   saveInternalMedicineExam: '/api/v1/healthcheckuprecords/internal-medicine-exam',
   getInternalMedicineExam: (recordId) => `/api/v1/healthcheckuprecords/${recordId}/internal-medicine-exam`,
+};
+
+export const emailLogRouter = {
+  getFilter: '/api/v1/emaillogs/filter',
+  getById: (id) => `/api/v1/emaillogs/${id}`,
 };
 
 export const vitalSignsRouter = {
