@@ -1,6 +1,6 @@
 :root {
   font-family: "Segoe UI", Roboto, sans-serif;
-  color: #15384a;
+  color: #0f172a;
   background: #ffffff;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -20,6 +20,12 @@ body {
   margin: 0;
   min-width: 320px;
   min-height: 100vh;
+  caret-color: #0f766e;
+}
+
+::selection {
+  background-color: #ccfbf1;
+  color: #134e4a;
 }
 
 button,
@@ -32,4 +38,22 @@ textarea {
 button,
 a {
   -webkit-tap-highlight-color: transparent;
+}
+
+a {
+  text-underline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

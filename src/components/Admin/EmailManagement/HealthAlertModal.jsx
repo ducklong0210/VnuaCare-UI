@@ -6,7 +6,7 @@
 
 import { useEffect, useState } from 'react';
 import { EmailService } from '../../../services/admin/EmailService.js';
-import { formatDateTime } from '../../../utils/helpers.js';
+import { formatDate } from '../../../utils/helpers.js';
 import { IconClose, IconMail, IconRefreshCw } from '../../SupportAgent/Icons.jsx';
 import './EmailManagement.css';
 
@@ -324,7 +324,7 @@ export default function HealthAlertModal({ isOpen, onClose, onAlertSent, showToa
                         </td>
                         <td>
                           {alreadySent ? (
-                            <span className="email-status-pill is-success">Đã gửi {formatDateTime(item.alertSentAt)}</span>
+                            <span className="email-status-pill is-success">Đã gửi {formatDate(item.alertSentAt, true)}</span>
                           ) : (
                             <span className="email-status-pill is-pending">Chưa gửi</span>
                           )}

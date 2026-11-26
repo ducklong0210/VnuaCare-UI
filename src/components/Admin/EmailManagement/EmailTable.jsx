@@ -4,7 +4,7 @@
 //
 
 import { IconEye } from '../../SupportAgent/Icons.jsx';
-import { formatDateTime } from '../../../utils/helpers.js';
+import { formatDate } from '../../../utils/helpers.js';
 
 // Quy đổi mã loại nghiệp vụ sang nhãn tiếng Việt và lớp màu hiển thị
 function getReferenceTypeMeta(referenceType) {
@@ -96,7 +96,7 @@ export default function EmailTable({ emailLogs = [], loading = false, error = nu
                         {log.referenceId > 0 ? ` #${log.referenceId}` : ''}
                       </span>
                     </td>
-                    <td>{formatDateTime(log.createdDate)}</td>
+                    <td>{formatDate(log.createdDate, true)}</td>
                     <td>
                       <span className={`email-status-pill ${isSuccess ? 'is-success' : 'is-failed'}`}>
                         {isSuccess ? 'Thành công' : 'Thất bại'}

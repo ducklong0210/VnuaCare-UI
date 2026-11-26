@@ -1,55 +1,190 @@
-/* Trang Đăng Nhập VnuaCare - Thiết kế Form trung tâm bo góc hiện đại */
+/* ==============================================================================
+   TRANG ĐĂNG NHẬP VNUACARE (LoginPage)
+   Bố cục hai cột chuẩn cổng y tế nội bộ: cột nhận diện Trạm Y tế VNUA + cột biểu mẫu
+   ============================================================================== */
 
 .login-page {
-  position: relative;
   min-height: 100vh;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 40px 20px;
-  overflow: hidden;
+  padding: 28px 20px;
   box-sizing: border-box;
-  background:
-    radial-gradient(circle at 50% 0%, rgba(15, 118, 110, 0.14) 0%, rgba(240, 253, 250, 0) 55%),
-    radial-gradient(circle at 15% 85%, rgba(13, 148, 136, 0.08) 0%, rgba(240, 253, 250, 0) 45%),
-    radial-gradient(circle at 85% 85%, rgba(16, 185, 129, 0.08) 0%, rgba(240, 253, 250, 0) 45%),
-    #f8fafc;
+  background: linear-gradient(180deg, #edf4f4 0%, #f6f8fa 100%);
 }
 
-/* Ánh sáng nền y tế dịu nhẹ */
-.login-backdrop-glow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 580px;
-  height: 580px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(20, 184, 166, 0.12) 0%, rgba(15, 118, 110, 0.04) 50%, transparent 70%);
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  filter: blur(48px);
-  z-index: 0;
-}
-
-/* Thẻ đăng nhập bo góc trung tâm */
-.login-card {
-  position: relative;
-  z-index: 1;
+/* Khung chính hai cột */
+.login-shell {
   width: 100%;
-  max-width: 440px;
-  background: #ffffff;
-  border-radius: 24px;
-  border: 1px solid rgba(226, 232, 240, 0.85);
+  max-width: 960px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.02fr);
+  background-color: #ffffff;
+  border-radius: 20px;
+  border: 1px solid #dbe4ea;
   box-shadow:
-    0 4px 6px -1px rgba(15, 23, 42, 0.04),
-    0 20px 35px -10px rgba(15, 23, 42, 0.08),
-    0 0 0 1px rgba(15, 23, 42, 0.02);
-  padding: 34px 34px 30px;
-  box-sizing: border-box;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+    0 2px 6px rgba(15, 23, 42, 0.04),
+    0 24px 48px -16px rgba(15, 23, 42, 0.12);
+  overflow: hidden;
+}
+
+/* ==============================================================================
+   1. CỘT TRÁI — NHẬN DIỆN TRẠM Y TẾ VNUA
+   ============================================================================== */
+
+.login-aside {
+  background: linear-gradient(160deg, #0f6b63 0%, #0b4f4a 100%);
+  color: #f0fdfa;
+  padding: 40px 38px 32px;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+  position: relative;
+}
+
+.login-aside-top {
+  display: flex;
+  flex-direction: column;
+}
+
+.login-vnua-lockup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(240, 253, 250, 0.16);
+}
+
+.login-vnua-emblem {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: contain;
+  background-color: #ffffff;
+  padding: 2px;
+  flex-shrink: 0;
+}
+
+.login-vnua-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.login-vnua-org {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.3;
+}
+
+.login-vnua-unit {
+  font-size: 12px;
+  color: #ccfbf1;
+  line-height: 1.35;
+}
+
+.login-aside-heading {
+  margin: 26px 0 10px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+  text-wrap: balance;
+}
+
+.login-aside-lead {
+  margin: 0 0 28px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: #ccfbf1;
+}
+
+.login-aside-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.login-aside-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.login-aside-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background-color: rgba(240, 253, 250, 0.12);
+  border: 1px solid rgba(240, 253, 250, 0.18);
+  color: #99f6e4;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.login-aside-list li > div strong {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 2px;
+}
+
+.login-aside-list li > div span {
+  display: block;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #ccf1ec;
+}
+
+.login-aside-footer {
+  padding-top: 18px;
+  border-top: 1px solid rgba(240, 253, 250, 0.16);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  color: #99f6e4;
+}
+
+.login-aside-contact {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #ffffff;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==============================================================================
+   2. CỘT PHẢI — BIỂU MẪU ĐĂNG NHẬP
+   ============================================================================== */
+
+.login-main {
+  padding: 32px 42px 34px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #ffffff;
+}
+
+.login-main-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 18px;
 }
 
 /* Nút quay lại trang chủ */
@@ -58,54 +193,60 @@
   align-items: center;
   gap: 6px;
   background: transparent;
-  border: none;
-  color: #64748b;
+  border: 1px solid transparent;
+  color: #475569;
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  padding: 4px 8px;
+  padding: 6px 10px 6px 6px;
   border-radius: 8px;
-  margin-bottom: 12px;
-  transition: all 0.15s ease;
-  align-self: flex-start;
+  margin-left: -6px;
+  transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease;
 }
 
 .login-back-home-btn:hover {
   color: #0f766e;
-  background: #f0fdfa;
+  background-color: #f0fdfa;
+  border-color: #ccfbf1;
+}
+
+.login-back-home-btn:focus-visible {
+  outline: 2px solid #0f766e;
+  outline-offset: 2px;
 }
 
 /* Header thương hiệu */
 .login-header {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  text-align: center;
-  margin-bottom: 24px;
+  align-items: flex-start;
+  text-align: left;
+  margin-bottom: 22px;
 }
 
 .login-logo-img {
-  height: 124px;
+  height: 136px;
   width: auto;
   max-width: 300px;
   object-fit: contain;
   display: block;
-  margin-bottom: 10px;
+  margin: -16px 0 -18px -13px;
 }
 
 .login-title {
-  margin: 16px 0 4px;
-  font-size: 19px;
+  margin: 0 0 6px;
+  font-size: 24px;
   font-weight: 700;
-  color: #1e293b;
-  letter-spacing: -0.01em;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
 }
 
 .login-description {
   margin: 0;
-  font-size: 13px;
-  color: #64748b;
-  line-height: 1.45;
+  font-size: 14px;
+  color: #475569;
+  line-height: 1.5;
 }
 
 /* Biểu mẫu Form */
@@ -115,27 +256,28 @@
   gap: 18px;
 }
 
-/* Thông báo lỗi */
+/* Thông báo lỗi xác thực */
 .form-error {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 14px;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 11px 14px;
   border-radius: 10px;
-  background: #fef2f2;
+  background-color: #fef2f2;
   border: 1px solid #fecaca;
-  color: #b91c1c;
-  font-size: 13px;
-  line-height: 1.4;
-  animation: fadeIn 0.2s ease-in-out;
+  color: #991b1b;
+  font-size: 13.5px;
+  line-height: 1.45;
+  animation: loginFadeIn 0.2s ease-out;
 }
 
 .form-error .error-icon {
   flex-shrink: 0;
   color: #dc2626;
+  margin-top: 2px;
 }
 
-@keyframes fadeIn {
+@keyframes loginFadeIn {
   from {
     opacity: 0;
     transform: translateY(-4px);
@@ -156,32 +298,39 @@
 
 .form-field label,
 .password-label-row label {
-  color: #334155;
-  font-size: 13px;
+  color: #1e293b;
+  font-size: 13.5px;
   font-weight: 600;
-  letter-spacing: 0.01em;
 }
 
 .password-label-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
 }
 
 .text-button {
   border: 0;
   background: transparent;
-  padding: 0;
+  padding: 2px 4px;
+  margin-right: -4px;
+  border-radius: 6px;
   color: #0f766e;
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 600;
   cursor: pointer;
-  transition: color 0.15s ease, text-decoration 0.15s ease;
+  transition: color 0.15s ease, background-color 0.15s ease;
 }
 
 .text-button:hover {
-  color: #0d9488;
+  color: #115e59;
   text-decoration: underline;
+}
+
+.text-button:focus-visible {
+  outline: 2px solid #0f766e;
+  outline-offset: 2px;
 }
 
 /* Wrapper chứa icon và input */
@@ -197,15 +346,14 @@
   top: 50%;
   left: 14px;
   transform: translateY(-50%);
-  color: #94a3b8;
+  color: #64748b;
   display: flex;
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  transition: color 0.2s ease;
+  transition: color 0.15s ease;
 }
 
-/* Đổi màu icon khi input được focus */
 .text-field-input-wrap:focus-within .text-field-icon,
 .password-input-wrap:focus-within .password-icon {
   color: #0f766e;
@@ -216,18 +364,18 @@
 .password-input-wrap input {
   width: 100%;
   height: 46px;
-  border: 1.5px solid #e2e8f0;
-  border-radius: 12px;
-  padding: 0 16px 0 42px;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 0 14px 0 42px;
   outline: none;
   font-size: 14px;
   color: #0f172a;
-  background: #f8fafc;
+  background-color: #ffffff;
   box-sizing: border-box;
   transition:
-    border-color 0.2s ease,
-    background-color 0.2s ease,
-    box-shadow 0.2s ease;
+    border-color 0.15s ease,
+    background-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .password-input-wrap input {
@@ -236,53 +384,69 @@
 
 .text-field-input-wrap input::placeholder,
 .password-input-wrap input::placeholder {
-  color: #94a3b8;
+  color: #64748b;
   font-size: 13.5px;
 }
 
-.text-field-input-wrap input:hover,
-.password-input-wrap input:hover {
-  border-color: #cbd5e1;
-  background: #ffffff;
+.text-field-input-wrap input:hover:not(:disabled),
+.password-input-wrap input:hover:not(:disabled) {
+  border-color: #94a3b8;
 }
 
 .text-field-input-wrap input:focus,
 .password-input-wrap input:focus {
-  border-color: #0d9488;
-  background: #ffffff;
-  box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.12);
+  border-color: #0f766e;
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.14);
 }
 
 .text-field-input-wrap input:disabled,
 .password-input-wrap input:disabled {
-  background: #f1f5f9;
-  color: #94a3b8;
+  background-color: #f1f5f9;
+  color: #64748b;
   cursor: not-allowed;
 }
 
 /* Nút ẩn/hiện mật khẩu */
 .password-toggle {
   position: absolute;
-  right: 8px;
+  right: 7px;
   top: 50%;
   transform: translateY(-50%);
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border: none;
   background: transparent;
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #64748b;
+  color: #475569;
   cursor: pointer;
   padding: 0;
-  transition: all 0.15s ease;
+  transition: color 0.15s ease, background-color 0.15s ease;
 }
 
 .password-toggle:hover {
   color: #0f172a;
-  background: #f1f5f9;
+  background-color: #f1f5f9;
+}
+
+.password-toggle:focus-visible {
+  outline: 2px solid #0f766e;
+  outline-offset: 1px;
+}
+
+/* Ghi chú hỗ trợ khi bấm Quên mật khẩu */
+.login-forgot-note {
+  margin: 4px 0 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background-color: #f0fdfa;
+  border: 1px solid #ccfbf1;
+  color: #134e4a;
+  font-size: 12.5px;
+  line-height: 1.5;
+  animation: loginFadeIn 0.2s ease-out;
 }
 
 /* Checkbox duy trì đăng nhập */
@@ -297,8 +461,8 @@
   align-items: center;
   gap: 9px;
   cursor: pointer;
-  color: #475569;
-  font-size: 13px;
+  color: #334155;
+  font-size: 13.5px;
   user-select: none;
 }
 
@@ -307,16 +471,20 @@
   height: 16px;
   accent-color: #0f766e;
   cursor: pointer;
-  border-radius: 4px;
   margin: 0;
+}
+
+.remember-row input:focus-visible {
+  outline: 2px solid #0f766e;
+  outline-offset: 2px;
 }
 
 /* Nút Đăng nhập chính */
 .primary-button {
-  height: 48px;
-  border: none;
-  border-radius: 12px;
-  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+  height: 46px;
+  border: 1px solid #0f766e;
+  border-radius: 10px;
+  background-color: #0f766e;
   color: #ffffff;
   font-size: 14.5px;
   font-weight: 600;
@@ -325,14 +493,15 @@
   justify-content: center;
   gap: 10px;
   cursor: pointer;
-  box-shadow: 0 8px 18px -4px rgba(15, 118, 110, 0.38);
-  transition: all 0.2s ease;
-  margin-top: 4px;
+  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.22);
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+  margin-top: 2px;
 }
 
 .primary-button:hover:not(:disabled) {
-  background: linear-gradient(135deg, #0f766e 0%, #115e59 100%);
-  box-shadow: 0 12px 22px -4px rgba(15, 118, 110, 0.45);
+  background-color: #115e59;
+  border-color: #115e59;
+  box-shadow: 0 8px 18px -2px rgba(15, 118, 110, 0.3);
   transform: translateY(-1px);
 }
 
@@ -340,18 +509,23 @@
   transform: translateY(0);
 }
 
+.primary-button:focus-visible {
+  outline: 2px solid #0f766e;
+  outline-offset: 2px;
+}
+
 .primary-button:disabled {
-  opacity: 0.7;
+  opacity: 0.72;
   cursor: not-allowed;
   box-shadow: none;
 }
 
 /* Biểu tượng xoay khi loading */
 .login-spinner {
-  animation: spin 0.8s linear infinite;
+  animation: loginSpin 0.8s linear infinite;
 }
 
-@keyframes spin {
+@keyframes loginSpin {
   from {
     transform: rotate(0deg);
   }
@@ -362,66 +536,184 @@
 
 /* Chân thẻ đăng nhập */
 .login-card-footer {
-  margin-top: 24px;
+  margin-top: 26px;
   padding-top: 18px;
-  border-top: 1px solid #f1f5f9;
+  border-top: 1px solid #e2e8f0;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   gap: 6px;
-  text-align: center;
 }
 
 .login-security-tag {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 12px;
+  gap: 7px;
+  font-size: 12.5px;
   color: #0f766e;
-  font-weight: 500;
+  font-weight: 600;
+  line-height: 1.4;
 }
 
 .login-security-tag svg {
-  color: #0d9488;
+  flex-shrink: 0;
 }
 
 .login-support-info {
-  font-size: 11.5px;
-  color: #94a3b8;
+  font-size: 12.5px;
+  color: #475569;
+  display: none;
 }
 
-/* Responsive cho màn hình di động nhỏ */
+/* ==============================================================================
+   3. RESPONSIVE CHO TABLET & DI ĐỘNG
+   ============================================================================== */
+
+@media (max-width: 980px) {
+  .login-aside {
+    padding: 34px 28px 28px;
+  }
+
+  .login-main {
+    padding: 30px 30px 28px;
+  }
+}
+
+@media (max-width: 860px) {
+  .login-page {
+    padding: 24px 16px;
+  }
+
+  .login-shell {
+    max-width: 460px;
+    grid-template-columns: 1fr;
+  }
+
+  /* Chuyển cột nhận diện thành thanh tiêu đề đơn vị VNUA gọn phía trên thẻ */
+  .login-aside {
+    padding: 16px 24px;
+    gap: 0;
+  }
+
+  .login-vnua-lockup {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .login-vnua-emblem {
+    width: 38px;
+    height: 38px;
+  }
+
+  .login-aside-heading,
+  .login-aside-lead,
+  .login-aside-list,
+  .login-aside-footer {
+    display: none;
+  }
+
+  .login-main {
+    padding: 22px 28px 26px;
+  }
+
+  .login-main-topbar {
+    margin-bottom: 12px;
+  }
+
+  .login-header {
+    align-items: center;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .login-logo-img {
+    height: 118px;
+    margin: -14px auto -16px;
+  }
+
+  .login-card-footer {
+    align-items: center;
+    text-align: center;
+    margin-top: 22px;
+    padding-top: 16px;
+  }
+
+  .login-support-info {
+    display: block;
+  }
+}
+
 @media (max-width: 480px) {
   .login-page {
-    padding: 20px 14px;
+    padding: 16px 12px;
+    align-items: center;
   }
 
-  .login-card {
-    padding: 30px 22px 24px;
-    border-radius: 20px;
+  .login-shell {
+    border-radius: 16px;
   }
 
-  .login-logo-badge {
-    width: 48px;
-    height: 48px;
-    border-radius: 14px;
+  .login-aside {
+    padding: 14px 18px;
   }
 
-  .login-logo-badge svg {
-    width: 24px;
-    height: 24px;
+  .login-vnua-emblem {
+    width: 34px;
+    height: 34px;
+  }
+
+  .login-vnua-org {
+    font-size: 13px;
+  }
+
+  .login-vnua-unit {
+    font-size: 11.5px;
+  }
+
+  .login-main {
+    padding: 18px 20px 22px;
+  }
+
+  .login-logo-img {
+    height: 108px;
+    max-width: 100%;
+    margin: -12px auto -14px;
   }
 
   .login-title {
-    font-size: 18px;
+    font-size: 20px;
   }
 
   .login-description {
-    font-size: 12.5px;
+    font-size: 13px;
+  }
+
+  .login-form {
+    gap: 15px;
   }
 
   .primary-button {
-    height: 46px;
+    height: 44px;
     font-size: 14px;
+  }
+}
+
+@media (max-width: 360px) {
+  .login-aside {
+    padding: 12px 14px;
+  }
+
+  .login-main {
+    padding: 16px 16px 20px;
+  }
+
+  .login-logo-img {
+    height: 94px;
+    margin: -10px auto -12px;
+  }
+
+  .password-label-row {
+    flex-wrap: wrap;
+    gap: 4px 12px;
   }
 }

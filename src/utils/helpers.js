@@ -3,8 +3,8 @@
 // Dùng chung cho cả phân hệ Quản trị (Admin) và Cổng Cán bộ (Staff Portal)
 //
 
-// Định dạng chuỗi ngày từ API sang chuẩn Việt Nam DD/MM/YYYY (hiển thị trên bảng)
-export function formatDate(dateStr) {
+// Định dạng chuỗi ngày  true là kèm tgian chi tiết
+export function formatDate(dateStr, includeTime = false) {
   if (!dateStr || dateStr.startsWith('0001-01-01')) {
     return '—';
   }
@@ -18,30 +18,14 @@ export function formatDate(dateStr) {
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
+
+    if (includeTime) {
+      const hours = String(date.getHours()).padStart(2, '0');
+      const minutes = String(date.getMinutes()).padStart(2, '0');
+      return `${day}/${month}/${year} ${hours}:${minutes}`;
+    }
+
     return `${day}/${month}/${year}`;
-  } catch {
-    return '—';
-  }
-}
-
-// Định dạng chuỗi ngày giờ từ API sang chuẩn Việt Nam DD/MM/YYYY HH:mm (hiển thị thời gian gửi email)
-export function formatDateTime(dateStr) {
-  if (!dateStr || dateStr.startsWith('0001-01-01')) {
-    return '—';
-  }
-
-  try {
-    const date = new Date(dateStr);
-    if (isNaN(date.getTime())) {
-      return '—';
-    }
-
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const year = date.getFullYear();
-    const hours = String(date.getHours()).padStart(2, '0');
-    const minutes = String(date.getMinutes()).padStart(2, '0');
-    return `${day}/${month}/${year} ${hours}:${minutes}`;
   } catch {
     return '—';
   }

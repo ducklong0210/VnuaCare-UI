@@ -1,11 +1,13 @@
-/* Style cho Trang chủ VnuaCare (HomePage) */
-/* Cổng Tra Cứu Thông Tin & Xem Kết Quả Khám Sức Khỏe Cán Bộ VNUA */
+/* ==============================================================================
+   TRANG CHỦ VNUACARE (HomePage)
+   Cổng Tra Cứu Thông Tin & Xem Kết Quả Khám Sức Khỏe Cán Bộ VNUA
+   ============================================================================== */
 
 .home-container {
   min-height: 100vh;
   width: 100%;
-  background-color: #f8fafc;
-  color: #1e293b;
+  background-color: #f6f8fa;
+  color: #0f172a;
   font-family: "Segoe UI", Roboto, sans-serif;
   display: flex;
   flex-direction: column;
@@ -13,44 +15,81 @@
   box-sizing: border-box;
 }
 
-/* ========================================================== */
-/* 1. THANH ĐIỀU HƯỚNG TRÊN CÙNG (NAVBAR)                     */
-/* ========================================================== */
+/* ==============================================================================
+   1. THANH ĐIỀU HƯỚNG TRÊN CÙNG (NAVBAR)
+   ============================================================================== */
 
 .home-navbar {
   position: sticky;
   top: 0;
   z-index: 100;
   width: 100%;
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(226, 232, 240, 0.85);
-  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.04);
+  background-color: rgba(255, 255, 255, 0.96);
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
 }
 
 .home-nav-inner {
-  max-width: 1140px;
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 12px 20px;
+  height: 78px;
+  padding: 0 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 24px;
 }
 
 .home-brand {
-  display: flex;
+  display: inline-flex;
   align-items: center;
+  height: 66px;
+  overflow: hidden;
+  background: transparent;
+  border: none;
+  padding: 0;
   cursor: pointer;
-  user-select: none;
+  border-radius: 8px;
+}
+
+.home-brand:focus-visible {
+  outline: 2px solid #0f766e;
+  outline-offset: 3px;
 }
 
 .home-brand-logo-img {
-  height: 46px;
+  height: 106px;
   width: auto;
   object-fit: contain;
   display: block;
+  transform: translateY(5px);
+}
+
+.home-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.home-nav-links a {
+  color: #334155;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 6px 2px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.home-nav-links a:hover {
+  color: #0f766e;
+  border-bottom-color: #0f766e;
+}
+
+.home-nav-links a:focus-visible {
+  outline: 2px solid #0f766e;
+  outline-offset: 4px;
+  border-radius: 4px;
 }
 
 .home-nav-actions {
@@ -60,118 +99,112 @@
 }
 
 .home-btn-primary {
-  height: 38px;
-  padding: 0 16px;
+  height: 40px;
+  padding: 0 18px;
   border-radius: 10px;
-  border: none;
-  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+  border: 1px solid #0f766e;
+  background-color: #0f766e;
   color: #ffffff;
   font-size: 13.5px;
   font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.25);
-  transition: all 0.2s ease;
-}
-
-.home-btn-primary:hover {
-  background: linear-gradient(135deg, #0f766e 0%, #115e59 100%);
-  box-shadow: 0 6px 16px rgba(15, 118, 110, 0.35);
-  transform: translateY(-1px);
-}
-
-/* ========================================================== */
-/* 2. BANNER GIỚI THIỆU CHÍNH (HERO SECTION)                  */
-/* ========================================================== */
-
-.home-hero {
-  position: relative;
-  overflow: hidden;
-  padding: 64px 20px 48px;
-  background:
-    radial-gradient(circle at 50% 0%, rgba(15, 118, 110, 0.12) 0%, rgba(240, 253, 250, 0) 65%),
-    #ffffff;
-  border-bottom: 1px solid #e2e8f0;
-}
-
-.home-hero-glow {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 600px;
-  height: 300px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(20, 184, 166, 0.08) 0%, transparent 70%);
-  filter: blur(50px);
-  pointer-events: none;
-}
-
-.home-hero-content {
-  position: relative;
-  z-index: 1;
-  max-width: 800px;
-  margin: 0 auto;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.home-hero-badge {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 14px;
-  border-radius: 999px;
-  background: #f0fdfa;
-  border: 1px solid #ccfbf1;
-  color: #0f766e;
-  font-size: 12.5px;
-  font-weight: 600;
-  margin-bottom: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(15, 118, 110, 0.2);
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
 }
 
-.hero-badge-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background-color: #0d9488;
-  box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.2);
+.home-btn-primary:hover {
+  background-color: #115e59;
+  border-color: #115e59;
+  box-shadow: 0 6px 14px rgba(15, 118, 110, 0.28);
+  transform: translateY(-1px);
+}
+
+.home-btn-primary:active {
+  transform: translateY(0);
+}
+
+.home-btn-primary:focus-visible {
+  outline: 2px solid #0f766e;
+  outline-offset: 2px;
+}
+
+/* ==============================================================================
+   2. BANNER GIỚI THIỆU CHÍNH (HERO SECTION)
+   ============================================================================== */
+
+.home-hero {
+  background: linear-gradient(180deg, #ffffff 0%, #f1f7f6 100%);
+  border-bottom: 1px solid #dde6ec;
+  padding: 56px 24px 64px;
+}
+
+.home-hero-grid {
+  max-width: 1180px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+  align-items: center;
+  gap: 48px;
+}
+
+.home-hero-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.home-hero-provenance {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  color: #0f766e;
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.home-provenance-emblem {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  flex-shrink: 0;
 }
 
 .home-hero-title {
   margin: 0 0 16px;
-  font-size: 38px;
+  font-size: clamp(28px, 3.4vw, 40px);
   font-weight: 800;
-  line-height: 1.25;
+  line-height: 1.2;
   letter-spacing: -0.025em;
   color: #0f172a;
+  text-wrap: balance;
 }
 
 .home-hero-desc {
-  margin: 0 0 32px;
+  margin: 0 0 28px;
   font-size: 16px;
-  line-height: 1.6;
+  line-height: 1.65;
   color: #475569;
-  max-width: 680px;
+  max-width: 54ch;
 }
 
-.home-hero-btns {
+.home-hero-actions {
   display: flex;
   align-items: center;
-  justify-content: center;
-  gap: 16px;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 32px;
 }
 
 .home-btn-hero-primary {
   height: 48px;
-  padding: 0 26px;
-  border-radius: 12px;
-  border: none;
-  background: linear-gradient(135deg, #0d9488 0%, #0f766e 100%);
+  padding: 0 24px;
+  border-radius: 10px;
+  border: 1px solid #0f766e;
+  background-color: #0f766e;
   color: #ffffff;
   font-size: 14.5px;
   font-weight: 600;
@@ -179,50 +212,259 @@
   align-items: center;
   gap: 10px;
   cursor: pointer;
-  box-shadow: 0 8px 18px -3px rgba(15, 118, 110, 0.35);
-  transition: all 0.2s ease;
+  box-shadow: 0 6px 16px -2px rgba(15, 118, 110, 0.3);
+  transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
   text-decoration: none;
 }
 
 .home-btn-hero-primary:hover {
-  background: linear-gradient(135deg, #0f766e 0%, #115e59 100%);
-  box-shadow: 0 12px 24px -3px rgba(15, 118, 110, 0.45);
-  transform: translateY(-2px);
+  background-color: #115e59;
+  border-color: #115e59;
+  box-shadow: 0 10px 22px -3px rgba(15, 118, 110, 0.38);
+  transform: translateY(-1px);
 }
 
-/* ========================================================== */
-/* 3. KHỐI NỘI DUNG CHUNG (SECTIONS)                           */
-/* ========================================================== */
+.home-btn-hero-primary:active {
+  transform: translateY(0);
+}
+
+.home-btn-hero-primary:focus-visible {
+  outline: 2px solid #0f766e;
+  outline-offset: 2px;
+}
+
+.home-btn-hero-secondary {
+  height: 48px;
+  padding: 0 20px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #1e293b;
+  font-size: 14px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+}
+
+.home-btn-hero-secondary:hover {
+  border-color: #0f766e;
+  color: #0f766e;
+  background-color: #f0fdfa;
+}
+
+.home-btn-hero-secondary:focus-visible {
+  outline: 2px solid #0f766e;
+  outline-offset: 2px;
+}
+
+/* Thông số tổng quan dạng bảng định nghĩa gọn */
+.home-hero-facts {
+  margin: 0;
+  padding-top: 22px;
+  border-top: 1px solid #d9e4e8;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.home-hero-facts dt {
+  font-size: 12px;
+  font-weight: 700;
+  color: #0f766e;
+  margin-bottom: 4px;
+}
+
+.home-hero-facts dd {
+  margin: 0;
+  font-size: 13px;
+  color: #334155;
+  line-height: 1.45;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ==============================================================================
+   2B. MINH HỌA PHIẾU SỔ SỨC KHỎE ĐIỆN TỬ (HERO PREVIEW)
+   ============================================================================== */
+
+.home-hero-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.preview-sheet {
+  background-color: #ffffff;
+  border: 1px solid #d5e0e6;
+  border-radius: 16px;
+  box-shadow:
+    0 2px 6px rgba(15, 23, 42, 0.04),
+    0 18px 36px -14px rgba(15, 23, 42, 0.12);
+  overflow: hidden;
+}
+
+.preview-sheet-head {
+  padding: 18px 20px;
+  background-color: #f8fbfb;
+  border-bottom: 1px solid #e2e8f0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.preview-sheet-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.preview-sheet-sub {
+  margin-top: 2px;
+  font-size: 12.5px;
+  color: #475569;
+  font-variant-numeric: tabular-nums;
+}
+
+.preview-status-pill {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background-color: #e6f7f5;
+  border: 1px solid #b5e7e1;
+  color: #0f766e;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.preview-vitals-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.preview-vital-cell {
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.preview-vital-cell + .preview-vital-cell {
+  border-left: 1px solid #e2e8f0;
+}
+
+.preview-vital-label {
+  font-size: 12px;
+  color: #475569;
+  font-weight: 500;
+}
+
+.preview-vital-value {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.25;
+  font-variant-numeric: tabular-nums;
+}
+
+.preview-vital-note {
+  font-size: 11.5px;
+  color: #0f766e;
+  font-weight: 600;
+}
+
+.preview-checklist {
+  padding: 12px 20px;
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.preview-check-item {
+  padding: 9px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  color: #1e293b;
+}
+
+.preview-check-item + .preview-check-item {
+  border-top: 1px dashed #e2e8f0;
+}
+
+.preview-check-state {
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: #0f766e;
+}
+
+.preview-conclusion {
+  padding: 16px 20px;
+  background-color: #f0fdfa;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.preview-conclusion-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #134e4a;
+  margin-bottom: 3px;
+}
+
+.preview-conclusion-text {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: #115e59;
+}
+
+.preview-grade-badge {
+  flex-shrink: 0;
+  padding: 6px 14px;
+  border-radius: 8px;
+  background-color: #0f766e;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.preview-caption {
+  margin: 0;
+  font-size: 12px;
+  color: #475569;
+  text-align: right;
+}
+
+/* ==============================================================================
+   3. KHỐI NỘI DUNG CHUNG (SECTIONS)
+   ============================================================================== */
 
 .home-section {
-  max-width: 1140px;
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 56px 20px;
+  padding: 64px 24px;
   width: 100%;
   box-sizing: border-box;
+  scroll-margin-top: 76px;
+}
+
+.home-section-tight {
+  padding-top: 0;
 }
 
 .home-section-header {
-  text-align: center;
-  max-width: 650px;
-  margin: 0 auto 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.section-badge {
-  display: inline-block;
-  padding: 4px 10px;
-  border-radius: 6px;
-  background: #f0fdfa;
-  border: 1px solid #ccfbf1;
-  color: #0f766e;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin-bottom: 10px;
+  max-width: 680px;
+  margin: 0 0 32px;
 }
 
 .section-title {
@@ -231,182 +473,273 @@
   font-weight: 800;
   color: #0f172a;
   letter-spacing: -0.02em;
+  line-height: 1.25;
 }
 
 .section-desc {
   margin: 0;
-  font-size: 14.5px;
-  color: #64748b;
-  line-height: 1.55;
+  font-size: 15px;
+  color: #475569;
+  line-height: 1.6;
 }
 
-/* ========================================================== */
-/* 4. LƯỚI THẺ THÔNG TIN (INFO CARDS GRID)                    */
-/* ========================================================== */
+/* ==============================================================================
+   4. LƯỚI HẠNG MỤC HỒ SƠ TRA CỨU (2×2 CLINICAL MATRIX)
+   ============================================================================== */
 
-.home-info-cards-grid {
+.home-capabilities-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 18px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
 }
 
-.info-card {
-  background: #ffffff;
-  border-radius: 18px;
-  border: 1px solid #e2e8f0;
-  padding: 24px 20px;
+.capability-item {
+  background-color: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #dbe4ea;
+  padding: 24px 26px;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.02);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  gap: 12px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
 }
 
-.info-card:hover {
-  transform: translateY(-4px);
+.capability-item:hover {
   border-color: #0f766e;
-  box-shadow: 0 12px 20px -4px rgba(15, 23, 42, 0.08);
+  box-shadow: 0 10px 22px -8px rgba(15, 23, 42, 0.1);
+  transform: translateY(-2px);
 }
 
-.info-card-icon {
-  width: 44px;
-  height: 44px;
-  border-radius: 12px;
+.capability-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.capability-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
+  background-color: #f0fdfa;
+  border: 1px solid #ccfbf1;
+  color: #0f766e;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 16px;
+  flex-shrink: 0;
 }
 
-.info-card-title {
-  margin: 0 0 8px;
-  font-size: 16px;
+.capability-title {
+  margin: 0;
+  font-size: 17px;
   font-weight: 700;
-  color: #1e293b;
+  color: #0f172a;
   line-height: 1.35;
 }
 
-.info-card-desc {
+.capability-desc {
   margin: 0;
-  font-size: 13.5px;
-  color: #64748b;
-  line-height: 1.55;
+  font-size: 14px;
+  color: #475569;
+  line-height: 1.6;
 }
 
-/* ========================================================== */
-/* 5. KHỐI HƯỚNG DẪN TRA CỨU ĐƠN GIẢN                         */
-/* ========================================================== */
+.capability-meta {
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid #eef2f6;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #0f766e;
+}
+
+/* ==============================================================================
+   5. KHỐI HƯỚNG DẪN TRA CỨU 3 BƯỚC
+   ============================================================================== */
 
 .home-guide-box {
-  background: #ffffff;
-  border-radius: 20px;
-  border: 1px solid #e2e8f0;
-  padding: 32px 30px;
-  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.02);
+  background-color: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #dbe4ea;
+  padding: 36px 34px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+}
+
+.guide-header {
+  margin-bottom: 28px;
 }
 
 .guide-title {
-  margin: 0 0 24px;
-  font-size: 18px;
+  margin: 0 0 6px;
+  font-size: 22px;
   font-weight: 700;
   color: #0f172a;
-  text-align: center;
+  letter-spacing: -0.015em;
+}
+
+.guide-subtitle {
+  margin: 0;
+  font-size: 14.5px;
+  color: #475569;
 }
 
 .guide-steps-row {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
 }
 
 .guide-step {
   display: flex;
   align-items: flex-start;
   gap: 14px;
+  position: relative;
 }
 
 .step-circle {
   flex-shrink: 0;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: #0f766e;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background-color: #0f766e;
   color: #ffffff;
   font-size: 14px;
   font-weight: 700;
+  font-variant-numeric: tabular-nums;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.guide-step strong {
+.guide-step-body strong {
   display: block;
-  font-size: 14.5px;
+  font-size: 15px;
+  font-weight: 700;
   color: #0f172a;
-  margin-bottom: 4px;
+  margin-bottom: 5px;
 }
 
-.guide-step p {
+.guide-step-body p {
   margin: 0;
-  font-size: 13px;
-  color: #64748b;
-  line-height: 1.45;
+  font-size: 13.5px;
+  color: #475569;
+  line-height: 1.55;
 }
 
-/* ========================================================== */
-/* 6. THÔNG TIN LIÊN HỆ ĐƠN GIẢN                             */
-/* ========================================================== */
+/* ==============================================================================
+   6. THÔNG TIN LIÊN HỆ TRẠM Y TẾ VNUA
+   ============================================================================== */
 
-.home-simple-contact {
-  background: #ffffff;
-  border-radius: 20px;
-  border: 1px solid #e2e8f0;
-  padding: 32px 32px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 30px;
-  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.02);
+.home-contact-band {
+  background-color: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #dbe4ea;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.65fr);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.03);
+}
+
+.contact-band-left {
+  padding: 34px 36px;
 }
 
 .contact-title-clean {
-  margin: 8px 0 6px;
-  font-size: 20px;
-  font-weight: 800;
+  margin: 0 0 8px;
+  font-size: 22px;
+  font-weight: 700;
   color: #0f172a;
+  letter-spacing: -0.015em;
 }
 
 .contact-sub-clean {
-  margin: 0 0 16px;
-  font-size: 13.5px;
-  color: #64748b;
+  margin: 0 0 20px;
+  font-size: 14.5px;
+  color: #475569;
+  line-height: 1.55;
+  max-width: 58ch;
 }
 
-.simple-contact-items {
+.contact-items-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  font-size: 13.5px;
-  color: #334155;
+  gap: 11px;
 }
 
-.simple-contact-right {
+.contact-items-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  color: #1e293b;
+  line-height: 1.5;
+}
+
+.contact-item-icon {
+  color: #0f766e;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 3px;
   flex-shrink: 0;
 }
 
-/* ========================================================== */
-/* 7. CHÂN TRANG (FOOTER)                                     */
-/* ========================================================== */
+.contact-link {
+  color: #0f766e;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.contact-link:hover {
+  text-decoration: underline;
+}
+
+.contact-link:focus-visible {
+  outline: 2px solid #0f766e;
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+.contact-band-right {
+  background-color: #f0fdfa;
+  border-left: 1px solid #d7eeea;
+  padding: 34px 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 16px;
+}
+
+.contact-hours-note {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: #134e4a;
+  font-weight: 500;
+}
+
+/* ==============================================================================
+   7. CHÂN TRANG (FOOTER)
+   ============================================================================== */
 
 .home-footer {
   margin-top: auto;
-  background: #0f172a;
-  color: #94a3b8;
+  background-color: #0f172a;
+  color: #cbd5e1;
   border-top: 1px solid #1e293b;
-  padding: 24px 20px;
+  padding: 26px 24px;
 }
 
 .home-footer-inner {
-  max-width: 1140px;
+  max-width: 1180px;
   margin: 0 auto;
   display: flex;
   align-items: center;
@@ -424,65 +757,370 @@
 .footer-copyright {
   margin: 4px 0 0;
   font-size: 12.5px;
-  color: #64748b;
-}
-
-.footer-right {
-  font-size: 12px;
   color: #94a3b8;
 }
 
-/* ========================================================== */
-/* 8. RESPONSIVE DESIGN                                       */
-/* ========================================================== */
+.footer-right {
+  font-size: 13px;
+  color: #cbd5e1;
+}
+
+/* ==============================================================================
+   8. RESPONSIVE DESIGN
+   ============================================================================== */
 
 @media (max-width: 992px) {
-  .home-hero-title {
-    font-size: 30px;
+  .home-nav-links {
+    display: none;
   }
 
-  .home-info-cards-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .home-hero {
+    padding: 40px 20px 44px;
+  }
+
+  .home-hero-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .home-hero-preview {
+    max-width: 560px;
+    width: 100%;
   }
 
   .guide-steps-row {
     grid-template-columns: 1fr;
-    gap: 16px;
+    gap: 18px;
   }
 
-  .home-simple-contact {
-    flex-direction: column;
-    align-items: flex-start;
+  .home-contact-band {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-band-right {
+    border-left: none;
+    border-top: 1px solid #d7eeea;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 720px) {
+  .home-capabilities-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
   }
 }
 
 @media (max-width: 640px) {
+  .home-nav-inner {
+    height: 66px;
+    padding: 0 16px;
+    gap: 12px;
+  }
+
+  .home-brand {
+    height: 50px;
+    flex-shrink: 1;
+    min-width: 0;
+  }
+
+  .home-brand-logo-img {
+    height: 80px;
+    transform: translateY(4px);
+  }
+
+  .home-btn-primary {
+    height: 36px;
+    padding: 0 12px;
+    font-size: 12.5px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
   .home-hero {
-    padding: 44px 16px 36px;
+    padding: 28px 16px 36px;
+  }
+
+  .home-hero-provenance {
+    font-size: 12.5px;
+    margin-bottom: 12px;
   }
 
   .home-hero-title {
-    font-size: 24px;
+    font-size: 26px;
+    margin-bottom: 12px;
   }
 
   .home-hero-desc {
     font-size: 14px;
+    margin-bottom: 22px;
   }
 
-  .home-info-cards-grid {
+  .home-hero-actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin-bottom: 22px;
+  }
+
+  .home-btn-hero-primary,
+  .home-btn-hero-secondary {
+    width: 100%;
+    height: 44px;
+    justify-content: center;
+    font-size: 14px;
+  }
+
+  /* Trên mobile hiển thị 3 thông số gọn theo dạng hàng ngang trái - phải */
+  .home-hero-facts {
     grid-template-columns: 1fr;
+    gap: 0;
+    padding-top: 12px;
   }
 
-  .section-title {
-    font-size: 22px;
+  .home-hero-facts > div {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 8px 0;
+  }
+
+  .home-hero-facts > div + div {
+    border-top: 1px dashed #d9e4e8;
+  }
+
+  .home-hero-facts dt {
+    margin-bottom: 0;
+    flex-shrink: 0;
+    font-size: 12.5px;
+  }
+
+  .home-hero-facts dd {
+    text-align: right;
+    font-size: 12.5px;
+  }
+
+  /* Giữ phiếu minh họa gọn gàng theo bố cục di động thực tế */
+  .preview-sheet-head {
+    padding: 14px 16px;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .preview-sheet-title {
+    font-size: 14px;
+  }
+
+  .preview-sheet-sub {
+    font-size: 11.5px;
+  }
+
+  .preview-status-pill {
+    padding: 3px 9px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+
+  /* Giữ 3 chỉ số BMI / Huyết áp / Nhịp tim nằm ngang 3 cột gọn thay vì xếp dọc quá dài */
+  .preview-vitals-row {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .preview-vital-cell {
+    padding: 12px 10px;
+    text-align: center;
+    align-items: center;
+  }
+
+  .preview-vital-label {
+    font-size: 11px;
+  }
+
+  .preview-vital-value {
+    font-size: 17px;
+  }
+
+  .preview-vital-note {
+    font-size: 11px;
+  }
+
+  .preview-checklist {
+    padding: 8px 16px;
+  }
+
+  .preview-check-item {
+    padding: 8px 0;
+    font-size: 12.5px;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .preview-check-state {
+    font-size: 11.5px;
+    white-space: nowrap;
+  }
+
+  .preview-conclusion {
+    padding: 14px 16px;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .preview-conclusion-text {
+    font-size: 12px;
+  }
+
+  .preview-grade-badge {
+    padding: 5px 11px;
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .preview-caption {
+    text-align: left;
+    font-size: 11.5px;
   }
 
   .home-section {
     padding: 40px 16px;
   }
 
-  .home-guide-box,
-  .home-simple-contact {
+  .home-section-tight {
+    padding-top: 0;
+  }
+
+  .home-section-header {
+    margin-bottom: 22px;
+  }
+
+  .section-title {
+    font-size: 22px;
+  }
+
+  .section-desc {
+    font-size: 14px;
+  }
+
+  .capability-item {
+    padding: 18px 16px;
+    gap: 10px;
+  }
+
+  .capability-icon {
+    width: 38px;
+    height: 38px;
+  }
+
+  .capability-title {
+    font-size: 15.5px;
+  }
+
+  .capability-desc {
+    font-size: 13.5px;
+  }
+
+  .home-guide-box {
     padding: 24px 18px;
+  }
+
+  .guide-header {
+    margin-bottom: 20px;
+  }
+
+  .guide-title {
+    font-size: 19px;
+  }
+
+  .guide-steps-row {
+    gap: 0;
+  }
+
+  .guide-step {
+    padding: 12px 0;
+  }
+
+  .guide-step:first-child {
+    padding-top: 0;
+  }
+
+  .guide-step:last-child {
+    padding-bottom: 0;
+  }
+
+  .guide-step + .guide-step {
+    border-top: 1px dashed #e2e8f0;
+  }
+
+  .contact-band-left {
+    padding: 22px 18px;
+  }
+
+  .contact-title-clean {
+    font-size: 19px;
+  }
+
+  .contact-sub-clean {
+    font-size: 13.5px;
+    margin-bottom: 16px;
+  }
+
+  .contact-items-list li {
+    font-size: 13.5px;
+  }
+
+  .contact-band-right {
+    padding: 18px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .contact-hours-note {
+    font-size: 12.5px;
+  }
+
+  .home-footer {
+    padding: 22px 16px;
+  }
+
+  .home-footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 400px) {
+  .home-nav-inner {
+    padding: 0 12px;
+    gap: 8px;
+  }
+
+  .home-brand {
+    height: 44px;
+  }
+
+  .home-brand-logo-img {
+    height: 68px;
+    transform: translateY(3px);
+  }
+
+  .home-btn-primary {
+    padding: 0 10px;
+    font-size: 12px;
+    gap: 6px;
+  }
+
+  .preview-vital-cell {
+    padding: 10px 6px;
+  }
+
+  .preview-vital-value {
+    font-size: 15.5px;
   }
 }

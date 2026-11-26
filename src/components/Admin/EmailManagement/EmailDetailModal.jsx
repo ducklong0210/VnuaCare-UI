@@ -5,7 +5,7 @@
 
 import { useEffect, useState } from 'react';
 import { EmailService } from '../../../services/admin/EmailService.js';
-import { formatDateTime } from '../../../utils/helpers.js';
+import { formatDate } from '../../../utils/helpers.js';
 import { IconClose } from '../../SupportAgent/Icons.jsx';
 
 export default function EmailDetailModal({ emailLog, onClose }) {
@@ -90,7 +90,7 @@ export default function EmailDetailModal({ emailLog, onClose }) {
 
             <div className="email-meta-item">
               <span className="email-meta-label">Thời gian gửi</span>
-              <span className="email-meta-value">{formatDateTime(activeLog.createdDate)}</span>
+              <span className="email-meta-value">{formatDate(activeLog.createdDate, true)}</span>
             </div>
 
             <div className="email-meta-item">
