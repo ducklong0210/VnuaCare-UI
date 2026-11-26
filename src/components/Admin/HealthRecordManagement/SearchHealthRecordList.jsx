@@ -90,7 +90,7 @@ export default function SearchHealthRecordList() {
   const [deletingRecord, setDeletingRecord] = useState(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
-  // State Modal 5 Tab khám chuyên môn
+  // State Modal 4 Tab khám chuyên môn
   const [viewingRecord, setViewingRecord] = useState(null);
 
   // 1. Tải các danh mục tra cứu (Lookups) một lần khi mở màn hình
@@ -440,15 +440,16 @@ export default function SearchHealthRecordList() {
         </div>
       )}
 
-      {/* Modal 5 Tab khám chuyên môn */}
+      {/* Modal 4 Tab khám chuyên môn (khi đóng tự làm mới lại bảng để cập nhật trạng thái hồ sơ mới nhất) */}
       {viewingRecord && (
         <RecordDetailModal
           record={viewingRecord}
-          onClose={() => setViewingRecord(null)}
-          onRefreshList={() => setRefreshKey((prev) => prev + 1)}
+          onClose={() => {
+            setViewingRecord(null);
+            setRefreshKey((prev) => prev + 1);
+          }}
           doctorsList={doctorsList}
           classifications={classifications}
-          statuses={statuses}
         />
       )}
     </div>

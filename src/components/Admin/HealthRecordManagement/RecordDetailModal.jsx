@@ -8,30 +8,26 @@ import VitalSignsTab from './tabs/VitalSignsTab.jsx';
 import InternalMedicineTab from './tabs/InternalMedicineTab.jsx';
 import SpecialistExamsTab from './tabs/SpecialistExamsTab.jsx';
 import DiagnosticReportsTab from './tabs/DiagnosticReportsTab.jsx';
-import GeneralConclusionTab from './tabs/GeneralConclusionTab.jsx';
 import { IconClose, IconCheck } from '../../SupportAgent/Icons.jsx';
 import './RecordDetailModal.css';
 import './tabs/RecordTabs.css';
 
-// Danh sách cấu hình 5 Tab khám chuyên môn (dễ mở rộng thêm tab mới như Xét nghiệm / Đơn thuốc)
+// Danh sách cấu hình 4 Tab khám chuyên môn (thông tin kết luận chung chỉnh trực tiếp ở form hồ sơ bên ngoài)
 const RECORD_TABS = [
   { key: 'VITAL_SIGNS', label: '1. Thể Lực & Chỉ Số Sinh Tồn' },
   { key: 'INTERNAL_MEDICINE', label: '2. Khám Nội Khoa' },
   { key: 'SPECIALIST_EXAMS', label: '3. Chuyên Khoa Lẻ (Mắt, TMH, Răng...)' },
   { key: 'DIAGNOSTIC_REPORTS', label: '4. CĐHA & Thăm Dò Chức Năng' },
-  { key: 'CONCLUSION', label: '5. Kết Luận & Xếp Loại Tổng Thể' },
 ];
 
 export default function RecordDetailModal({
   record,
   onClose,
-  onRefreshList,
   doctorsList = [],
   classifications = [],
-  statuses = [],
 }) {
-  const [activeTab, setActiveTab] = useState(RECORD_TABS[0].key);
-  const [toast, setToast] = useState('');
+  const [activeTab, setActiveTab] = useState(RECORD_TABS[0].key); // Mã tab chuyên môn đang mở
+  const [toast, setToast] = useState(''); // Thông báo nhanh góc trên cửa sổ
 
   const showToast = (msg) => {
     setToast(msg);
@@ -74,17 +70,6 @@ export default function RecordDetailModal({
         );
       case 'DIAGNOSTIC_REPORTS':
         return <DiagnosticReportsTab recordId={record.recordId} doctorsList={doctorsList} showToast={showToast} />;
-      case 'CONCLUSION':
-        return (
-          <GeneralConclusionTab
-            recordId={record.recordId}
-            doctorsList={doctorsList}
-            classifications={classifications}
-            statuses={statuses}
-            showToast={showToast}
-            onRecordUpdated={onRefreshList}
-          />
-        );
       default:
         return null;
     }

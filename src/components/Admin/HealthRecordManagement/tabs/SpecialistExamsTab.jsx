@@ -45,17 +45,16 @@ export default function SpecialistExamsTab({ recordId, doctorsList = [], classif
     }))
   );
 
-  // Chuyên khoa đang được chọn xem
-  const [activeSpecialty, setActiveSpecialty] = useState('EYE'); // Chuỗi mã chuyên khoa đang chọn (EYE, ENT, DENTAL...)
-  // Lưu danh sách kết quả của các chuyên khoa đã khám
-  const [examsMap, setExamsMap] = useState({}); // Đối tượng ánh xạ { [mãChuyênKhoa]: dữLiệuPhiếuKhám }
+  const [activeSpecialty, setActiveSpecialty] = useState('EYE'); // Mã chuyên khoa đang mở ở khung bên phải (EYE, ENT, DENTAL...)
+  const [examsMap, setExamsMap] = useState({}); // Object lưu dữ liệu từng chuyên khoa theo mã: { EYE: {...}, ENT: {...} }
+  const [unsavedCodes, setUnsavedCodes] = useState([]); // Mảng các mã chuyên khoa đã gõ sửa nhưng chưa bấm Lưu
 
   const [loading, setLoading] = useState(false); // Trạng thái đang tải dữ liệu khám chuyên khoa
   const [saving, setSaving] = useState(false); // Trạng thái đang lưu kết quả chuyên khoa
   const [message, setMessage] = useState(''); // Chuỗi thông báo thành công
   const [error, setError] = useState(''); // Chuỗi thông báo lỗi
 
-  // Tải danh mục chuyên khoa từ DB và kết quả khám của hồ sơ
+  // Tải danh mục chuyên khoa từ DB và kết quả khám của hồ sơ khi mở tab hoặc đổi hồ sơ
   useEffect(() => {
     let isCancelled = false;
 
@@ -63,6 +62,8 @@ export default function SpecialistExamsTab({ recordId, doctorsList = [], classif
       if (!recordId) return;
       setLoading(true);
       setError('');
+      setExamsMap({});
+      setUnsavedCodes([]);
 
       try {
         const [examsList, dbSpecialties] = await Promise.allSettled([
@@ -75,7 +76,7 @@ export default function SpecialistExamsTab({ recordId, doctorsList = [], classif
             const map = {};
             examsList.value.forEach((item) => {
               if (item.specialtyType) {
-                map[item.specialtyType.toUpperCase()] = item;
+                map[item.specialtyType.trim().toUpperCase()] = item;
               }
             });
             setExamsMap(map);
@@ -84,9 +85,7 @@ export default function SpecialistExamsTab({ recordId, doctorsList = [], classif
           if (dbSpecialties.status === 'fulfilled' && Array.isArray(dbSpecialties.value) && dbSpecialties.value.length > 0) {
             setSpecialtiesList((prev) =>
               prev.map((item) => {
-                const match = dbSpecialties.value.find(
-                  (s) => s.specialtyId === item.specialtyId || (s.specialtyName && s.specialtyName.toLowerCase().includes(item.name.toLowerCase()))
-                );
+                const match = dbSpecialties.value.find((s) => s.specialtyId === item.specialtyId);
                 if (match) {
                   return {
                     ...item,
@@ -117,36 +116,44 @@ export default function SpecialistExamsTab({ recordId, doctorsList = [], classif
     };
   }, [recordId]);
 
-  // Lấy dữ liệu của chuyên khoa hiện tại
+  // Lấy dữ liệu của chuyên khoa đang chọn (nếu chưa có thì tạo bản trắng từ INITIAL_EXAM)
   const currentFormData = examsMap[activeSpecialty] || {
     ...INITIAL_EXAM,
     specialtyType: activeSpecialty,
   };
 
-  // Cập nhật giá trị trường dữ liệu cho chuyên khoa đang mở
+  // Khi bác sĩ nhập liệu vào một ô, chỉ cập nhật vào đúng mã chuyên khoa đang chọn
   const handleFieldChange = (field, value) => {
+    const code = activeSpecialty;
     setExamsMap((prev) => {
-      const current = prev[activeSpecialty] || { ...INITIAL_EXAM, specialtyType: activeSpecialty };
+      const current = prev[code] || { ...INITIAL_EXAM, specialtyType: code };
       return {
         ...prev,
-        [activeSpecialty]: {
+        [code]: {
           ...current,
+          specialtyType: code,
           [field]: value,
         },
       };
     });
+
+    // Đánh dấu chuyên khoa này đang có thay đổi chưa lưu
+    setUnsavedCodes((prev) => (prev.includes(code) ? prev : [...prev, code]));
   };
 
-  // Khi chuyển đổi chuyên khoa
+  // Chuyển sang xem chuyên khoa khác ở cột bên trái
   const handleSelectSpecialty = (specCode) => {
     setActiveSpecialty(specCode);
     setMessage('');
     setError('');
   };
 
-  // Lưu kết quả của chuyên khoa đang chọn
+  // Lưu kết quả của đúng chuyên khoa đang mở (không làm mất chữ đang nhập dở ở các chuyên khoa khác)
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const savingCode = activeSpecialty;
+    const savingData = examsMap[savingCode] || { ...INITIAL_EXAM, specialtyType: savingCode };
+
     setSaving(true);
     setError('');
     setMessage('');
@@ -154,42 +161,50 @@ export default function SpecialistExamsTab({ recordId, doctorsList = [], classif
     try {
       const payload = {
         recordId: Number(recordId),
-        specialtyType: activeSpecialty,
-        specialistExamId: currentFormData.specialistExamId ? Number(currentFormData.specialistExamId) : undefined,
-        visionLeftNoGlass: (currentFormData.visionLeftNoGlass || '').trim() || null,
-        visionRightNoGlass: (currentFormData.visionRightNoGlass || '').trim() || null,
-        visionLeftGlass: (currentFormData.visionLeftGlass || '').trim() || null,
-        visionRightGlass: (currentFormData.visionRightGlass || '').trim() || null,
-        upperJaw: (currentFormData.upperJaw || '').trim() || null,
-        lowerJaw: (currentFormData.lowerJaw || '').trim() || null,
-        teethFormula: (currentFormData.teethFormula || '').trim() || null,
-        earLeftDesc: (currentFormData.earLeftDesc || '').trim() || null,
-        earRightDesc: (currentFormData.earRightDesc || '').trim() || null,
-        noseDesc: (currentFormData.noseDesc || '').trim() || null,
-        throatDesc: (currentFormData.throatDesc || '').trim() || null,
-        skinDesc: (currentFormData.skinDesc || '').trim() || null,
-        surgicalDesc: (currentFormData.surgicalDesc || '').trim() || null,
-        obstetricDesc: (currentFormData.obstetricDesc || '').trim() || null,
-        conclusion: (currentFormData.conclusion || '').trim() || null,
-        healthClass: currentFormData.healthClass || null,
-        examiningDoctorId: currentFormData.examiningDoctorId ? Number(currentFormData.examiningDoctorId) : null,
+        specialtyType: savingCode,
+        specialistExamId: savingData.specialistExamId ? Number(savingData.specialistExamId) : undefined,
+        visionLeftNoGlass: savingCode === 'EYE' ? (savingData.visionLeftNoGlass || '').trim() || null : null,
+        visionRightNoGlass: savingCode === 'EYE' ? (savingData.visionRightNoGlass || '').trim() || null : null,
+        visionLeftGlass: savingCode === 'EYE' ? (savingData.visionLeftGlass || '').trim() || null : null,
+        visionRightGlass: savingCode === 'EYE' ? (savingData.visionRightGlass || '').trim() || null : null,
+        upperJaw: savingCode === 'DENTAL' ? (savingData.upperJaw || '').trim() || null : null,
+        lowerJaw: savingCode === 'DENTAL' ? (savingData.lowerJaw || '').trim() || null : null,
+        teethFormula: savingCode === 'DENTAL' ? (savingData.teethFormula || '').trim() || null : null,
+        earLeftDesc: savingCode === 'ENT' ? (savingData.earLeftDesc || '').trim() || null : null,
+        earRightDesc: savingCode === 'ENT' ? (savingData.earRightDesc || '').trim() || null : null,
+        noseDesc: savingCode === 'ENT' ? (savingData.noseDesc || '').trim() || null : null,
+        throatDesc: savingCode === 'ENT' ? (savingData.throatDesc || '').trim() || null : null,
+        skinDesc: savingCode === 'DERMATOLOGY' ? (savingData.skinDesc || '').trim() || null : null,
+        surgicalDesc: savingCode === 'SURGERY' ? (savingData.surgicalDesc || '').trim() || null : null,
+        obstetricDesc: savingCode === 'OBSTETRICS' ? (savingData.obstetricDesc || '').trim() || null : null,
+        conclusion: (savingData.conclusion || '').trim() || null,
+        healthClass: savingData.healthClass || null,
+        examiningDoctorId: savingData.examiningDoctorId ? Number(savingData.examiningDoctorId) : null,
       };
 
-      if (currentFormData.specialistExamId) {
+      if (savingData.specialistExamId) {
         await updateSpecialistExamApi(payload);
       } else {
         await createSpecialistExamApi(payload);
       }
 
-      // Tải lại danh sách sau khi lưu thành công
+      // Tải lại danh sách mới từ DB, chỉ cập nhật chuyên khoa vừa lưu để không xóa mất nháp ở chuyên khoa khác
       const updatedList = await getSpecialistExamsApi(recordId);
-      const map = {};
-      updatedList.forEach((item) => {
-        if (item.specialtyType) {
-          map[item.specialtyType.toUpperCase()] = item;
-        }
+      const remainingUnsaved = unsavedCodes.filter((c) => c !== savingCode);
+      setUnsavedCodes(remainingUnsaved);
+
+      setExamsMap((prev) => {
+        const nextMap = { ...prev };
+        updatedList.forEach((item) => {
+          if (item.specialtyType) {
+            const code = item.specialtyType.trim().toUpperCase();
+            if (code === savingCode || !remainingUnsaved.includes(code)) {
+              nextMap[code] = item;
+            }
+          }
+        });
+        return nextMap;
       });
-      setExamsMap(map);
 
       const successText = 'Đã lưu kết quả khám chuyên khoa thành công!';
       setMessage(successText);
@@ -225,7 +240,8 @@ export default function SpecialistExamsTab({ recordId, doctorsList = [], classif
         <div className="specialty-nav-list">
           {specialtiesList.map((spec) => {
             const examData = examsMap[spec.code];
-            const isCompleted = Boolean(examData && (examData.conclusion || examData.healthClass));
+            const isUnsaved = unsavedCodes.includes(spec.code);
+            const isCompleted = Boolean(examData && examData.specialistExamId && (examData.conclusion || examData.healthClass));
             const isCurrent = activeSpecialty === spec.code;
 
             return (
@@ -237,7 +253,15 @@ export default function SpecialistExamsTab({ recordId, doctorsList = [], classif
               >
                 <div className="specialty-btn-info">
                   <span className="specialty-btn-name">{spec.name}</span>
-                  <span className={`specialty-btn-status ${isCompleted ? 'completed' : ''}`}>{isCompleted ? (examData.healthClass ? `✓ Đã khám: ${examData.healthClass}` : '✓ Đã có kết quả') : 'Chưa khám'}</span>
+                  <span className={`specialty-btn-status ${isCompleted && !isUnsaved ? 'completed' : ''}`}>
+                    {isUnsaved
+                      ? '● Chưa lưu'
+                      : isCompleted
+                        ? examData.healthClass
+                          ? `✓ Đã khám: ${examData.healthClass}`
+                          : '✓ Đã có kết quả'
+                        : 'Chưa khám'}
+                  </span>
                 </div>
               </button>
             );

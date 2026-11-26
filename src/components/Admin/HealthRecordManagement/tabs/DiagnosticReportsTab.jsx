@@ -16,38 +16,40 @@ import {
   IconTrash,
   IconAlertTriangle,
 } from '../../../SupportAgent/Icons.jsx';
+
 export default function DiagnosticReportsTab({ recordId, doctorsList = [], showToast }) {
-  const [reports, setReports] = useState([]); // Mảng các đối tượng báo cáo chuẩn đoán
-  const [selectedReport, setSelectedReport] = useState(null); // Đối tượng báo cáo chuẩn đoán đang chọn để chỉnh sửa (hoặc null)
-  const [loading, setLoading] = useState(false); // trạng thái đang tải danh sách phiếu
-  const [saving, setSaving] = useState(false); // trạng thái đang lưu phiếu
-  const [deleting, setDeleting] = useState(false); // trạng thái đang xóa phiếu
+  const [reports, setReports] = useState([]); // Danh sách toàn bộ phiếu CĐHA (gồm cả phiếu đã lưu và phiếu nháp mới thêm)
+  const [selectedKey, setSelectedKey] = useState(''); // Mã clientKey của phiếu đang được bấm chọn xem bên phải
+  const [loading, setLoading] = useState(false); // Trạng thái đang tải danh sách phiếu
+  const [saving, setSaving] = useState(false); // Trạng thái đang lưu phiếu
+  const [deleting, setDeleting] = useState(false); // Trạng thái đang xóa phiếu
+  const [error, setError] = useState(''); // Chuỗi thông báo lỗi (nếu có)
 
   // State thêm phân vùng giải phẫu mới
-  const [newSectionKey, setNewSectionKey] = useState(''); // Chuỗi mã định danh (key) của vùng thăm khám mới
-  const [newSectionTitle, setNewSectionTitle] = useState(''); // Chuỗi tên hiển thị của vùng thăm khám mới
-  const [showAddSection, setShowAddSection] = useState(false); // Trạng thái ẩn/hiện form thêm vùng mới
+  const [newSectionKey, setNewSectionKey] = useState(''); // Mã định danh (key) của vùng thăm khám mới
+  const [newSectionTitle, setNewSectionTitle] = useState(''); // Tên hiển thị của vùng thăm khám mới
+  const [showAddSection, setShowAddSection] = useState(false); // Trạng thái ẩn/hiện dòng nhập vùng mới
 
-  // Tải danh sách kết quả chẩn đoán hình ảnh từ backend
+  // Lấy ra phiếu đang chọn trực tiếp từ mảng reports (đảm bảo cột trái và form bên phải luôn đồng bộ 100%)
+  const selectedReport = reports.find((item) => item.clientKey === selectedKey) || null;
+
+  // Tải danh sách phiếu CĐHA từ Backend khi mở tab hoặc khi đổi sang hồ sơ khác
   useEffect(() => {
     let isCancelled = false;
 
     const loadReportsData = async () => {
       if (!recordId) return;
       setLoading(true);
+      setError('');
       try {
         const data = await diagnosticReportService.getReportsByRecordId(recordId);
         if (!isCancelled) {
           setReports(data);
-          if (data.length > 0) {
-            setSelectedReport(data[0].clone());
-          } else {
-            setSelectedReport(null);
-          }
+          setSelectedKey(data.length > 0 ? data[0].clientKey : '');
         }
-      } catch (error) {
-        if (!isCancelled && showToast) {
-          showToast(error.message || 'Lỗi khi tải kết quả chẩn đoán hình ảnh');
+      } catch (err) {
+        if (!isCancelled) {
+          setError(err.message || 'Lỗi khi tải kết quả chẩn đoán hình ảnh');
         }
       } finally {
         if (!isCancelled) {
@@ -61,75 +63,85 @@ export default function DiagnosticReportsTab({ recordId, doctorsList = [], showT
     return () => {
       isCancelled = true;
     };
-  }, [recordId, showToast]);
+  }, [recordId]);
 
-  // Làm mới lại danh sách khi người dùng bấm nút Tải lại
+  // Hàm dùng chung: cập nhật đúng phiếu đang chọn trong mảng reports mà không đụng tới các phiếu khác
+  const updateCurrentReport = (updater) => {
+    setReports((prev) =>
+      prev.map((item) => {
+        if (item.clientKey !== selectedKey) return item;
+        const cloned = item.clone();
+        updater(cloned);
+        return cloned;
+      })
+    );
+  };
+
+  // Làm mới lại danh sách từ CSDL khi bấm nút "Tải lại" (giữ nguyên các phiếu nháp chưa lưu)
   const handleReload = async () => {
     if (!recordId) return;
     setLoading(true);
+    setError('');
     try {
-      const data = await diagnosticReportService.getReportsByRecordId(recordId);
-      setReports(data);
-      if (data.length > 0) {
-        setSelectedReport(data[0].clone());
-      } else {
-        setSelectedReport(null);
+      const dbData = await diagnosticReportService.getReportsByRecordId(recordId);
+      const currentDrafts = reports.filter((item) => !item.reportId);
+      const merged = [...currentDrafts, ...dbData];
+      setReports(merged);
+
+      const stillExists = merged.some((item) => item.clientKey === selectedKey);
+      if (!stillExists) {
+        setSelectedKey(merged.length > 0 ? merged[0].clientKey : '');
       }
-    } catch (error) {
-      if (showToast) {
-        showToast(error.message || 'Lỗi khi tải kết quả chẩn đoán hình ảnh');
-      }
+    } catch (err) {
+      setError(err.message || 'Lỗi khi tải kết quả chẩn đoán hình ảnh');
     } finally {
       setLoading(false);
     }
   };
 
-  // Chọn phiếu để xem và chỉnh sửa
+  // Chọn một phiếu ở cột bên trái để xem/chỉnh sửa bên phải
   const handleSelectReport = (report) => {
-    setSelectedReport(report.clone());
+    setSelectedKey(report.clientKey);
     setShowAddSection(false);
   };
 
-  // Tạo phiếu chẩn đoán hình ảnh trống mới để bác sĩ tự điền
+  // Bấm "+ Thêm phiếu": tạo phiếu trắng mới nối vào đầu danh sách, không ghi đè phiếu hiện tại
   const handleCreateNewReport = (modalityType = 'ULTRASOUND') => {
     const blankReport = DiagnosticReport.createBlank(recordId, modalityType);
-    setSelectedReport(blankReport);
+    setReports((prev) => [blankReport, ...prev]);
+    setSelectedKey(blankReport.clientKey);
     setShowAddSection(false);
   };
 
-  // Cập nhật trường dữ liệu cấp cao của phiếu
+  // Cập nhật trường thông tin chung của phiếu đang chọn
   const handleFieldChange = (field, value) => {
-    if (!selectedReport) return;
-    const cloned = selectedReport.clone();
-    cloned[field] = value;
-    setSelectedReport(cloned);
+    updateCurrentReport((cloned) => {
+      cloned[field] = value;
+    });
   };
 
-  // Thêm một gạch đầu dòng vào một phân vùng
+  // Thêm một gạch đầu dòng vào phân vùng
   const handleAddBullet = (sectionKey) => {
-    if (!selectedReport) return;
-    const cloned = selectedReport.clone();
-    cloned.addBullet(sectionKey, '');
-    setSelectedReport(cloned);
+    updateCurrentReport((cloned) => {
+      cloned.addBullet(sectionKey, '');
+    });
   };
 
-  // Cập nhật nội dung một gạch đầu dòng
+  // Sửa nội dung một gạch đầu dòng
   const handleUpdateBullet = (sectionKey, index, text) => {
-    if (!selectedReport) return;
-    const cloned = selectedReport.clone();
-    cloned.updateBullet(sectionKey, index, text);
-    setSelectedReport(cloned);
+    updateCurrentReport((cloned) => {
+      cloned.updateBullet(sectionKey, index, text);
+    });
   };
 
-  // Xóa một gạch đầu dòng trong phân vùng
+  // Xóa một gạch đầu dòng
   const handleRemoveBullet = (sectionKey, index) => {
-    if (!selectedReport) return;
-    const cloned = selectedReport.clone();
-    cloned.removeBullet(sectionKey, index);
-    setSelectedReport(cloned);
+    updateCurrentReport((cloned) => {
+      cloned.removeBullet(sectionKey, index);
+    });
   };
 
-  // Thêm một phân vùng giải phẫu mới
+  // Xác nhận thêm phân vùng giải phẫu mới vào phiếu đang chọn
   const handleConfirmAddSection = () => {
     const title = newSectionTitle.trim();
     let key = newSectionKey.trim();
@@ -144,23 +156,22 @@ export default function DiagnosticReportsTab({ recordId, doctorsList = [], showT
     }
 
     if (!selectedReport) return;
-    const cloned = selectedReport.clone();
-    cloned.addSection(key, title || key);
-    setSelectedReport(cloned);
+    updateCurrentReport((cloned) => {
+      cloned.addSection(key, title || key);
+    });
     setNewSectionKey('');
     setNewSectionTitle('');
     setShowAddSection(false);
   };
 
-  // Xóa một phân vùng giải phẫu
+  // Xóa phân vùng giải phẫu khỏi phiếu đang chọn
   const handleRemoveSection = (sectionKey) => {
-    if (!selectedReport) return;
-    const cloned = selectedReport.clone();
-    cloned.removeSection(sectionKey);
-    setSelectedReport(cloned);
+    updateCurrentReport((cloned) => {
+      cloned.removeSection(sectionKey);
+    });
   };
 
-  // Lưu thông tin phiếu chẩn đoán hình ảnh
+  // Lưu phiếu đang chọn lên Backend (chỉ lưu đúng phiếu đang mở, giữ nguyên vị trí các phiếu khác)
   const handleSave = async () => {
     if (!selectedReport) return;
 
@@ -170,40 +181,56 @@ export default function DiagnosticReportsTab({ recordId, doctorsList = [], showT
       return;
     }
 
+    const savingReport = selectedReport.clone();
+    // Ghi nhớ danh sách ID đã có trước khi lưu để nhận diện đúng phiếu mới vừa sinh trong CSDL
+    const oldSavedIds = reports.filter((r) => r.reportId).map((r) => r.reportId);
+
     setSaving(true);
+    setError('');
     try {
-      await diagnosticReportService.saveReport(selectedReport);
+      await diagnosticReportService.saveReport(savingReport);
+      const updatedDbList = await diagnosticReportService.getReportsByRecordId(recordId);
+
+      // Giữ lại các phiếu nháp khác chưa bấm lưu (nếu bác sĩ tạo nhiều phiếu nháp cùng lúc)
+      const remainingDrafts = reports.filter(
+        (item) => !item.reportId && item.clientKey !== savingReport.clientKey
+      );
+      setReports([...remainingDrafts, ...updatedDbList]);
+
+      if (savingReport.reportId) {
+        // Nếu là sửa phiếu cũ: giữ nguyên khóa chọn đúng vào phiếu có reportId đó
+        setSelectedKey(`report-${savingReport.reportId}`);
+      } else {
+        // Nếu là lưu phiếu mới: trỏ khóa chọn vào đúng bản ghi mới vừa sinh ra trong CSDL
+        const newlyCreated =
+          updatedDbList.find((r) => !oldSavedIds.includes(r.reportId)) ||
+          updatedDbList[updatedDbList.length - 1];
+        if (newlyCreated) {
+          setSelectedKey(newlyCreated.clientKey);
+        }
+      }
+
       if (showToast) {
         showToast('Lưu kết quả chẩn đoán hình ảnh thành công!');
       }
-      // Tải lại danh sách để đồng bộ ID và thông tin mới nhất
-      const updatedList = await diagnosticReportService.getReportsByRecordId(recordId);
-      setReports(updatedList);
-      // Giữ focus vào phiếu vừa lưu
-      const current = updatedList.find(
-        (r) => r.reportId === selectedReport.reportId || r.examTitle === selectedReport.examTitle
-      );
-      if (current) {
-        setSelectedReport(current.clone());
-      }
-    } catch (error) {
-      if (showToast) {
-        showToast(error.message || 'Lỗi khi lưu kết quả chẩn đoán');
-      }
+    } catch (err) {
+      const msg = err.message || 'Lỗi khi lưu kết quả chẩn đoán';
+      setError(msg);
+      if (showToast) showToast(msg);
     } finally {
       setSaving(false);
     }
   };
 
-  // Xóa phiếu kết quả
+  // Xóa phiếu đã lưu hoặc hủy bỏ phiếu nháp chưa lưu
   const handleDelete = async () => {
-    if (!selectedReport?.reportId) {
-      // Nếu là phiếu mới tạo chưa lưu thì chỉ cần reset giao diện
-      if (reports.length > 0) {
-        setSelectedReport(reports[0].clone());
-      } else {
-        setSelectedReport(null);
-      }
+    if (!selectedReport) return;
+
+    // Nếu là phiếu nháp mới chưa lưu CSDL thì chỉ cần gỡ khỏi mảng trên giao diện
+    if (!selectedReport.reportId) {
+      const nextList = reports.filter((item) => item.clientKey !== selectedReport.clientKey);
+      setReports(nextList);
+      setSelectedKey(nextList.length > 0 ? nextList[0].clientKey : '');
       return;
     }
 
@@ -213,18 +240,22 @@ export default function DiagnosticReportsTab({ recordId, doctorsList = [], showT
     if (!confirmDelete) return;
 
     setDeleting(true);
+    setError('');
     try {
       await diagnosticReportService.deleteReport(selectedReport.reportId);
+      const updatedDbList = await diagnosticReportService.getReportsByRecordId(recordId);
+      const remainingDrafts = reports.filter((item) => !item.reportId);
+      const nextList = [...remainingDrafts, ...updatedDbList];
+
+      setReports(nextList);
+      setSelectedKey(nextList.length > 0 ? nextList[0].clientKey : '');
       if (showToast) {
         showToast('Đã xóa phiếu kết quả thành công!');
       }
-      const updatedList = await diagnosticReportService.getReportsByRecordId(recordId);
-      setReports(updatedList);
-      setSelectedReport(updatedList.length > 0 ? updatedList[0].clone() : null);
-    } catch (error) {
-      if (showToast) {
-        showToast(error.message || 'Lỗi khi xóa phiếu kết quả');
-      }
+    } catch (err) {
+      const msg = err.message || 'Lỗi khi xóa phiếu kết quả';
+      setError(msg);
+      if (showToast) showToast(msg);
     } finally {
       setDeleting(false);
     }
@@ -269,13 +300,14 @@ export default function DiagnosticReportsTab({ recordId, doctorsList = [], showT
               </div>
             ) : (
               reports.map((item) => {
-                const isSelected = selectedReport && selectedReport.reportId === item.reportId;
+                const isSelected = item.clientKey === selectedKey;
                 const badge = item.getModalityBadge();
-                const completed = item.isCompleted();
+                const completed = Boolean(item.reportId) && item.isCompleted();
+                const isDraft = !item.reportId;
 
                 return (
                   <button
-                    key={item.reportId || item.examTitle}
+                    key={item.clientKey}
                     type="button"
                     className={`diagnostic-report-card-btn ${isSelected ? 'active' : ''}`}
                     onClick={() => handleSelectReport(item)}
@@ -283,10 +315,10 @@ export default function DiagnosticReportsTab({ recordId, doctorsList = [], showT
                     <div className="report-card-top">
                       <span className={`modality-badge ${badge.badgeClass}`}>{badge.label}</span>
                       <span className={`report-card-status ${completed ? 'completed' : 'pending'}`}>
-                        {completed ? '✓ Đã có kết quả' : 'Chưa có kết quả'}
+                        {isDraft ? '● Mới (chưa lưu)' : completed ? '✓ Đã có kết quả' : 'Chưa có kết quả'}
                       </span>
                     </div>
-                    <div className="report-card-title">{item.examTitle}</div>
+                    <div className="report-card-title">{item.examTitle || 'Phiếu mới chưa đặt tên'}</div>
                     <div className="report-card-meta">
                       <span>{item.readingDoctorName ? `BS: ${item.readingDoctorName}` : 'Chưa phân công BS'}</span>
                     </div>
@@ -300,6 +332,7 @@ export default function DiagnosticReportsTab({ recordId, doctorsList = [], showT
 
       {/* Khung form chi tiết bên phải */}
       <div className="diagnostic-detail-panel">
+        {error && <div className="alert-tag danger mb-12">{error}</div>}
         {!selectedReport ? (
           <div style={{ padding: '60px 24px', textAlign: 'center', color: '#64748b' }}>
             <IconAlertTriangle size={36} style={{ color: '#0f766e', marginBottom: '12px' }} />
@@ -568,17 +601,21 @@ export default function DiagnosticReportsTab({ recordId, doctorsList = [], showT
             {/* Thanh công cụ lưu & xóa */}
             <div className="diagnostic-action-footer">
               <div>
-                {selectedReport.reportId && (
-                  <button
-                    type="button"
-                    className="admin-btn admin-btn-danger"
-                    onClick={handleDelete}
-                    disabled={deleting}
-                  >
-                    <IconTrash size={14} />
-                    <span>{deleting ? 'Đang xóa...' : 'Xóa phiếu này'}</span>
-                  </button>
-                )}
+                <button
+                  type="button"
+                  className="admin-btn admin-btn-danger"
+                  onClick={handleDelete}
+                  disabled={deleting}
+                >
+                  <IconTrash size={14} />
+                  <span>
+                    {selectedReport.reportId
+                      ? deleting
+                        ? 'Đang xóa...'
+                        : 'Xóa phiếu này'
+                      : 'Hủy phiếu nháp'}
+                  </span>
+                </button>
               </div>
 
               <div style={{ display: 'flex', gap: '10px' }}>

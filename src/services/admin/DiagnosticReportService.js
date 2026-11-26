@@ -13,10 +13,11 @@ import {
 import { DiagnosticReport } from '../../models/DiagnosticReport.js';
 
 export class DiagnosticReportService {
-  // Lấy danh sách phiếu chẩn đoán hình ảnh theo ID hồ sơ khám
+  // Lấy danh sách phiếu chẩn đoán hình ảnh theo ID hồ sơ khám (sắp xếp cố định theo reportId để không nhảy thứ tự sau khi lưu)
   async getReportsByRecordId(recordId, modalityType = null) {
     const dataList = await getDiagnosticReportsByRecordIdApi(recordId, modalityType);
-    return dataList.map((item) => DiagnosticReport.fromApi(item));
+    const reports = dataList.map((item) => DiagnosticReport.fromApi(item));
+    return reports.sort((a, b) => (a.reportId || 0) - (b.reportId || 0));
   }
 
   // Lấy chi tiết một phiếu kết quả chẩn đoán theo ID

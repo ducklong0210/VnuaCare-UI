@@ -96,12 +96,24 @@ export class ModalityTemplateFactory {
   }
 }
 
+// Định dạng thời gian theo giờ địa phương (YYYY-MM-DDTHH:mm) cho ô datetime-local, tránh bị lệch múi giờ UTC
+function formatLocalDateTimeInput(date = new Date()) {
+  const pad = (n) => String(n).padStart(2, '0');
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
+
+// Tạo mã khóa tạm duy nhất phía client để quản lý nhiều phiếu mới chưa lưu độc lập nhau
+function generateClientKey() {
+  return `draft-${Date.now()}-${Math.random().toString(36).slice(2, 7)}`;
+}
+
 /**
  * Domain Entity đại diện cho một Phiếu Chẩn Đoán Hình Ảnh
  */
 export class DiagnosticReport {
   constructor(data = {}) {
     this.reportId = data.reportId || null;
+    this.clientKey = data.clientKey || (this.reportId ? `report-${this.reportId}` : generateClientKey());
     this.recordId = data.recordId || 0;
     this.modalityType = (data.modalityType || 'ULTRASOUND').toUpperCase();
     this.examTitle = data.examTitle || '';
@@ -125,6 +137,7 @@ export class DiagnosticReport {
   // Khởi tạo phiếu trống hoàn toàn để bác sĩ tự do nhập mô tả
   static createBlank(recordId, modalityType = 'ULTRASOUND', examTitle = '') {
     const report = new DiagnosticReport({
+      clientKey: generateClientKey(),
       recordId: Number(recordId) || 0,
       modalityType: (modalityType || 'ULTRASOUND').toUpperCase(),
       examTitle: examTitle || '',
@@ -133,7 +146,7 @@ export class DiagnosticReport {
       imageUrls: '',
       readingDoctorId: '',
       approvingDoctorId: '',
-      performedAt: new Date().toISOString().slice(0, 16),
+      performedAt: formatLocalDateTimeInput(new Date()),
       sections: [new FindingSection('mo_ta', 'Mô tả hình ảnh & tổn thương', [''])],
     });
     return report;
@@ -263,6 +276,11 @@ export class DiagnosticReport {
       conclusion: this.conclusion ? this.conclusion.trim() : '',
     };
 
+    // Giữ nguyên giờ địa phương YYYY-MM-DDTHH:mm:ss để không bị trừ 7 tiếng (UTC) làm đảo thứ tự phiếu khi lưu
+    const normalizedPerformedAt = this.performedAt
+      ? (this.performedAt.length === 16 ? `${this.performedAt}:00` : this.performedAt)
+      : `${formatLocalDateTimeInput(new Date())}:00`;
+
     const payload = {
       recordId: Number(this.recordId),
       modalityType: (this.modalityType || 'ULTRASOUND').trim().toUpperCase(),
@@ -273,7 +291,7 @@ export class DiagnosticReport {
       imageUrls: this.imageUrls ? this.imageUrls.trim() : null,
       readingDoctorId: this.readingDoctorId ? Number(this.readingDoctorId) : null,
       approvingDoctorId: this.approvingDoctorId ? Number(this.approvingDoctorId) : null,
-      performedAt: this.performedAt ? new Date(this.performedAt).toISOString() : new Date().toISOString(),
+      performedAt: normalizedPerformedAt,
     };
 
     if (this.reportId) {
@@ -374,6 +392,7 @@ export class DiagnosticReport {
   clone() {
     const cloned = new DiagnosticReport({
       reportId: this.reportId,
+      clientKey: this.clientKey,
       recordId: this.recordId,
       modalityType: this.modalityType,
       examTitle: this.examTitle,
