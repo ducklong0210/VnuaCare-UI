@@ -264,5 +264,31 @@
   .settings-profile-banner {
     flex-direction: column;
     align-items: flex-start;
+    padding: 16px;
+  }
+
+  .settings-tabs-bar {
+    padding: 0 12px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .settings-tab-btn {
+    white-space: nowrap;
+    padding: 11px 12px;
+    font-size: 13px;
+  }
+
+  .settings-card-body {
+    padding: 16px;
+  }
+
+  .settings-form-actions {
+    flex-wrap: wrap;
+  }
+
+  .settings-form-actions .btn {
+    flex: 1 1 auto;
+    justify-content: center;
   }
 }

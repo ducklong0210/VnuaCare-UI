@@ -1,5 +1,5 @@
 //
-// Thanh menu điều hướng bên trái (Sidebar) hỗ trợ thu gọn và mở rộng
+// Thanh menu điều hướng bên trái (Sidebar) hỗ trợ thu gọn trên desktop và dạng ngăn kéo trượt trên tablet/mobile
 // Tự động lọc danh sách chức năng từ MENU_ITEMS theo đúng quyền hạn vai trò của tài khoản đang đăng nhập
 //
 
@@ -8,7 +8,7 @@ import Tabs from '../../../components/SupportAgent/Tabs.jsx';
 import { useAuth } from '../../contexts/useAuth.js';
 import { useNavigation } from '../../contexts/useNavigation.js';
 
-export default function Sidebar({ activeTab, collapsed = false, onToggle }) {
+export default function Sidebar({ activeTab, collapsed = false, onToggle, mobileOpen = false, onCloseMobile }) {
   const { user } = useAuth();
   const { activeTab: currentTab, navigate } = useNavigation();
   const active = activeTab || currentTab;
@@ -19,12 +19,24 @@ export default function Sidebar({ activeTab, collapsed = false, onToggle }) {
     (item) => !item.roles || item.roles.includes(userRole)
   );
 
+  // Khi bấm chọn 1 mục menu: điều hướng và tự đóng ngăn kéo trên mobile
+  const handleSelectMenuItem = (id) => {
+    navigate(id);
+    if (onCloseMobile) {
+      onCloseMobile();
+    }
+  };
+
   return (
-    <aside className={`left-sidebar ${collapsed ? 'collapsed' : ''}`}>
+    <aside
+      className={`left-sidebar ${collapsed ? 'collapsed' : ''} ${mobileOpen ? 'mobile-open' : ''}`}
+      aria-label="Menu điều hướng quản trị"
+    >
       <nav className="sidebar-nav">
-        {/* Hàng tiêu đề & nút thu gọn/mở rộng Sidebar */}
+        {/* Hàng tiêu đề & nút thu gọn (desktop) / nút đóng (mobile) */}
         <div className="sidebar-top-row">
-          {!collapsed && <span className="nav-section-label">CHỨC NĂNG HỆ THỐNG</span>}
+          <span className="nav-section-label">CHỨC NĂNG HỆ THỐNG</span>
+
           <button
             type="button"
             className="sidebar-toggle-btn"
@@ -49,6 +61,19 @@ export default function Sidebar({ activeTab, collapsed = false, onToggle }) {
               )}
             </svg>
           </button>
+
+          <button
+            type="button"
+            className="sidebar-mobile-close-btn"
+            onClick={onCloseMobile}
+            title="Đóng menu"
+            aria-label="Đóng menu"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
         </div>
 
         <Tabs
@@ -61,11 +86,11 @@ export default function Sidebar({ activeTab, collapsed = false, onToggle }) {
                 <button
                   type="button"
                   className={`nav-link ${isActive ? 'active' : ''}`}
-                  onClick={() => navigate(id)}
+                  onClick={() => handleSelectMenuItem(id)}
                   title={collapsed ? label : undefined}
                 >
                   <Icon className="nav-icon" size={19} />
-                  {!collapsed && <span className="nav-text">{label}</span>}
+                  <span className="nav-text">{label}</span>
                 </button>
               </li>
             );

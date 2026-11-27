@@ -135,6 +135,9 @@ export default function StaffPortalPage() {
   // Lấy thông tin hồ sơ cán bộ và 2 chữ cái viết tắt cho ảnh đại diện mặc định
   const staffProfile = profileInfo?.staffProfile || null;
   const displayName = profileInfo?.fullName || profileInfo?.fullname || staffProfile?.fullName || user?.fullName || user?.fullname || user?.username || 'Cán bộ VNUA';
+  const staffPhone = (staffProfile?.phoneNumber || '').trim();
+  const staffEmail = (profileInfo?.email || staffProfile?.email || user?.email || '').trim();
+  const staffAddress = (staffProfile?.address || staffProfile?.adrress || '').trim();
   const nameParts = displayName.split(' ').filter(Boolean);
   const initials = nameParts.map((part) => part[0]).slice(-2).join('').toUpperCase();
 
@@ -193,7 +196,7 @@ export default function StaffPortalPage() {
               onClick={() => setActiveView('ACCOUNT')}
             >
               <IconSettings size={16} />
-              <span>Tài khoản cá nhân</span>
+              <span>Đổi mật khẩu</span>
             </button>
           </nav>
 
@@ -247,6 +250,24 @@ export default function StaffPortalPage() {
                   <>
                     <span className="sp-dot" aria-hidden="true" />
                     <span className="sp-tabular">NS: {formatDate(staffProfile.dateOfBirth)}</span>
+                  </>
+                )}
+              </div>
+
+              <div className="sp-identity-contact-row">
+                <span className="sp-tabular">
+                  SĐT: <strong>{staffPhone || 'Chưa cập nhật'}</strong>
+                </span>
+                <span className="sp-dot" aria-hidden="true" />
+                <span>
+                  Email: <strong>{staffEmail || 'Chưa cập nhật'}</strong>
+                </span>
+                {staffAddress && (
+                  <>
+                    <span className="sp-dot" aria-hidden="true" />
+                    <span>
+                      Địa chỉ: <strong>{staffAddress}</strong>
+                    </span>
                   </>
                 )}
               </div>
@@ -380,14 +401,9 @@ export default function StaffPortalPage() {
           )
         )}
 
-        {/* VIEW 2: THÔNG TIN CÁ NHÂN & ĐỔI MẬT KHẨU */}
+        {/* VIEW 2: ĐỔI MẬT KHẨU TÀI KHOẢN */}
         {activeView === 'ACCOUNT' && (
-          <StaffAccountSection
-            key={`${profileInfo ? 'loaded' : 'loading'}-${refreshKey}`}
-            profileInfo={profileInfo}
-            onProfileUpdated={() => setRefreshKey((currentKey) => currentKey + 1)}
-            showToast={showToast}
-          />
+          <StaffAccountSection showToast={showToast} />
         )}
       </main>
     </div>

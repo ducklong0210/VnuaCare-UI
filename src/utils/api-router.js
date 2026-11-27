@@ -109,3 +109,11 @@ export const diagnosticReportRouter = {
   filter: '/api/v1/diagnosticreports/filter',
 };
 
+export const labTestRouter = {
+  getIndicators: '/api/v1/labtests/indicators',
+  getByRecordId: (recordId) => `/api/v1/labtests/${recordId}`,
+  createOrder: '/api/v1/labtests/orders/add',
+  saveResults: '/api/v1/labtests/results/save',
+  deleteOrder: (orderId) => `/api/v1/labtests/orders/${orderId}`,
+};
+

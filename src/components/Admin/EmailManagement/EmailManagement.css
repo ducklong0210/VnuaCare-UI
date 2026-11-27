@@ -373,8 +373,47 @@
     grid-template-columns: 1fr;
   }
 
+  .email-pagination-wrapper {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
   .health-alert-toolbar {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .health-alert-toolbar-left {
+    width: 100%;
+  }
+
+  .health-alert-toolbar-left .form-select {
+    flex: 1 1 100%;
+  }
+
+  .email-html-frame {
+    height: 300px;
+  }
+}
+
+@media (max-width: 640px) {
+  .email-date-group {
+    flex: 1 1 calc(50% - 4px);
+    min-width: 0;
+  }
+
+  .email-date-input {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .email-detail-modal-card,
+  .health-alert-modal-card {
+    max-height: 92dvh;
+  }
+
+  .health-alert-result-stats {
+    gap: 8px 14px;
   }
 }

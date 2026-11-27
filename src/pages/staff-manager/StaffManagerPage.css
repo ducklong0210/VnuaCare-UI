@@ -317,3 +317,22 @@
 .staff-delete-confirm-btn:hover {
   background-color: #b91c1c;
 }
+
+@media (max-width: 768px) {
+  .staff-pagination-wrapper {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 600px) {
+  .staff-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .staff-avatar-picker-body {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

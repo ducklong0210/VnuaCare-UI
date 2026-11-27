@@ -140,3 +140,17 @@
   background-color: #b91c1c;
 }
 
+@media (max-width: 768px) {
+  .doctor-pagination-wrapper {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 600px) {
+  .doctor-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+

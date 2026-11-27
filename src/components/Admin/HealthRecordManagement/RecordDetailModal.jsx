@@ -8,16 +8,18 @@ import VitalSignsTab from './tabs/VitalSignsTab.jsx';
 import InternalMedicineTab from './tabs/InternalMedicineTab.jsx';
 import SpecialistExamsTab from './tabs/SpecialistExamsTab.jsx';
 import DiagnosticReportsTab from './tabs/DiagnosticReportsTab.jsx';
+import LabTestsTab from './tabs/LabTestsTab.jsx';
 import { IconClose, IconCheck } from '../../SupportAgent/Icons.jsx';
 import './RecordDetailModal.css';
 import './tabs/RecordTabs.css';
 
-// Danh sách cấu hình 4 Tab khám chuyên môn (thông tin kết luận chung chỉnh trực tiếp ở form hồ sơ bên ngoài)
+// Danh sách cấu hình 5 Tab khám chuyên môn (thông tin kết luận chung chỉnh trực tiếp ở form hồ sơ bên ngoài)
 const RECORD_TABS = [
   { key: 'VITAL_SIGNS', label: '1. Thể Lực & Chỉ Số Sinh Tồn' },
   { key: 'INTERNAL_MEDICINE', label: '2. Khám Nội Khoa' },
   { key: 'SPECIALIST_EXAMS', label: '3. Chuyên Khoa Lẻ (Mắt, TMH, Răng...)' },
   { key: 'DIAGNOSTIC_REPORTS', label: '4. CĐHA & Thăm Dò Chức Năng' },
+  { key: 'LAB_TESTS', label: '5. Xét Nghiệm (Máu, Nước tiểu)' },
 ];
 
 export default function RecordDetailModal({
@@ -70,6 +72,8 @@ export default function RecordDetailModal({
         );
       case 'DIAGNOSTIC_REPORTS':
         return <DiagnosticReportsTab recordId={record.recordId} doctorsList={doctorsList} showToast={showToast} />;
+      case 'LAB_TESTS':
+        return <LabTestsTab recordId={record.recordId} showToast={showToast} />;
       default:
         return null;
     }

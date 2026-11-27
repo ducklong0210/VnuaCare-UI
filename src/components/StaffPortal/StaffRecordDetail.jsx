@@ -6,6 +6,12 @@
 import { useState } from 'react';
 import { CLINICAL_SPECIALTIES_CONFIG } from '../../models/SpecialistExam.js';
 import { MODALITY_CONFIG } from '../../models/DiagnosticReport.js';
+import {
+  normalizeSampleType,
+  getLabFlagMeta,
+  groupLabResultsByCategory,
+  countAbnormalResults,
+} from '../../models/LabTest.js';
 import { evaluateBmi, evaluateBloodPressure, formatDate, getClassificationMeta, getStatusMeta } from '../../utils/helpers.js';
 
 const CLINICAL_TABS = [
@@ -13,6 +19,7 @@ const CLINICAL_TABS = [
   { key: 'INTERNAL_MEDICINE', label: 'Khám Nội khoa' },
   { key: 'SPECIALIST_EXAMS', label: 'Chuyên khoa lẻ' },
   { key: 'DIAGNOSTIC_REPORTS', label: 'CĐHA & Thăm dò' },
+  { key: 'LAB_TESTS', label: 'Xét nghiệm' },
 ];
 
 function getSpecialtyDisplayName(code) {
@@ -110,6 +117,8 @@ export default function StaffRecordDetail({ selectedRecord, detailBundle, loadin
   const internalMedicine = detailBundle?.internalMedicine || null;
   const specialistExams = detailBundle?.specialistExams || [];
   const diagnosticReports = detailBundle?.diagnosticReports || [];
+  const labTests = detailBundle?.labTests || [];
+  const totalLabIndicators = labTests.reduce((sum, order) => sum + (order.results?.length || 0), 0);
 
   const classMeta = getClassificationMeta(mergedRecord.healthClassification);
   const statusMeta = getStatusMeta(mergedRecord.status);
@@ -223,6 +232,8 @@ export default function StaffRecordDetail({ selectedRecord, detailBundle, loadin
             countBadge = specialistExams.length;
           } else if (tab.key === 'DIAGNOSTIC_REPORTS' && diagnosticReports.length > 0) {
             countBadge = diagnosticReports.length;
+          } else if (tab.key === 'LAB_TESTS' && totalLabIndicators > 0) {
+            countBadge = totalLabIndicators;
           }
 
           return (
@@ -477,6 +488,97 @@ export default function StaffRecordDetail({ selectedRecord, detailBundle, loadin
               ) : (
                 <div className="sp-empty-inline">
                   <p>Chưa có phiếu Chẩn đoán hình ảnh &amp; Thăm dò chức năng nào cho đợt khám này.</p>
+                </div>
+              )
+            )}
+
+            {/* TAB 5: XÉT NGHIỆM CẬN LÂM SÀNG (MÁU, NƯỚC TIỂU) */}
+            {activeTab === 'LAB_TESTS' && (
+              labTests.length > 0 ? (
+                <div className="sp-exam-list">
+                  {labTests.map((order) => {
+                    const sampleLabel = normalizeSampleType(order.sampleType);
+                    const abnCount = countAbnormalResults(order.results);
+                    const groups = groupLabResultsByCategory(order.results || []);
+
+                    return (
+                      <div key={order.orderId} className="sp-exam-item">
+                        <div className="sp-exam-item-head">
+                          <div className="sp-report-title-row">
+                            <span
+                              className="sp-modality-pill"
+                              style={{
+                                color: sampleLabel.includes('TIỂU') ? '#b45309' : '#b91c1c',
+                                backgroundColor: sampleLabel.includes('TIỂU') ? '#fef3c7' : '#fee2e2',
+                              }}
+                            >
+                              {sampleLabel}
+                            </span>
+                            <h4>
+                              Phiếu xét nghiệm #{order.orderId}
+                              {order.sampleBarcode ? ` (Mã mẫu: ${order.sampleBarcode})` : ''}
+                            </h4>
+                          </div>
+                          {abnCount > 0 ? (
+                            <span className="sp-inline-eval tone-danger">{abnCount} chỉ số cần lưu ý</span>
+                          ) : (
+                            <span className="sp-inline-eval tone-success">Các chỉ số trong ngưỡng chuẩn</span>
+                          )}
+                        </div>
+
+                        {groups.length === 0 ? (
+                          <p className="sp-muted-note">Phiếu chưa có kết quả chỉ số chi tiết.</p>
+                        ) : (
+                          groups.map((grp) => (
+                            <div key={grp.categoryGroup} className="sp-lab-group">
+                              <div className="sp-lab-group-title">{grp.meta.label}</div>
+                              <div className="sp-lab-table-wrap">
+                                <table className="sp-lab-table">
+                                  <thead>
+                                    <tr>
+                                      <th>Mã</th>
+                                      <th>Chỉ số</th>
+                                      <th className="sp-num-col">Kết quả</th>
+                                      <th>Đơn vị</th>
+                                      <th>Tham chiếu</th>
+                                      <th>Đánh giá</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {grp.items.map((item) => {
+                                      const flag = getLabFlagMeta(item.flag);
+                                      const isAbn = flag.code !== 'NORMAL';
+                                      return (
+                                        <tr
+                                          key={item.resultId || item.indicatorId}
+                                          className={isAbn ? `sp-lab-row-${flag.tone}` : ''}
+                                        >
+                                          <td className="sp-lab-code">{item.indicatorCode}</td>
+                                          <td>{item.indicatorName}</td>
+                                          <td className={`sp-num-col sp-tabular ${isAbn ? `sp-lab-val-${flag.tone}` : ''}`}>
+                                            <strong>{item.resultValue}</strong>
+                                          </td>
+                                          <td className="sp-lab-muted">{item.unit || '—'}</td>
+                                          <td className="sp-lab-muted sp-tabular">{item.refTextRange || '—'}</td>
+                                          <td>
+                                            <span className={`sp-lab-flag tone-${flag.tone}`}>{flag.label}</span>
+                                          </td>
+                                        </tr>
+                                      );
+                                    })}
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <div className="sp-empty-inline">
+                  <p>Chưa có kết quả Xét nghiệm cận lâm sàng (Máu, Nước tiểu) cho đợt khám này.</p>
                 </div>
               )
             )}

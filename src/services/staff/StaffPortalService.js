@@ -3,11 +3,12 @@
 // Tải hồ sơ cá nhân, danh sách bệnh án thuộc đúng cán bộ đang đăng nhập và chi tiết 4 chuyên khoa ở chế độ chỉ đọc
 //
 
-import { getMyProfileApi, updateMyProfileApi, changePasswordApi } from '../../api/userApi.js';
+import { getMyProfileApi, changePasswordApi } from '../../api/userApi.js';
 import { getHealthRecordFilterApi, getHealthRecordByIdApi } from '../../api/recordApi.js';
 import { getVitalSignsApi } from '../../api/vitalSignsApi.js';
 import { getInternalMedicineApi } from '../../api/internalMedicineApi.js';
 import { getSpecialistExamsApi } from '../../api/specialistExamApi.js';
+import { getLabTestsByRecordIdApi } from '../../api/labTestApi.js';
 import { diagnosticReportService } from '../admin/DiagnosticReportService.js';
 
 // Kiểm tra một hồ sơ khám có đúng là của cán bộ đang đăng nhập hay không
@@ -34,9 +35,6 @@ function belongsToCurrentStaff(record, staffProfile) {
 export const StaffPortalService = {
   // Lấy thông tin tài khoản và hồ sơ cán bộ đang đăng nhập
   getMyProfile: getMyProfileApi,
-
-  // Cập nhật thông tin liên hệ cá nhân của cán bộ
-  updateMyProfile: updateMyProfileApi,
 
   // Đổi mật khẩu đăng nhập cá nhân
   changePassword: changePasswordApi,
@@ -80,14 +78,15 @@ export const StaffPortalService = {
     return ownRecords;
   },
 
-  // Tải đồng thời đầy đủ 5 phần của một tờ bệnh án (Tổng quan, Sinh tồn, Nội khoa, Chuyên khoa lẻ, CĐHA)
+  // Tải đồng thời đầy đủ 6 phần của một tờ bệnh án (Tổng quan, Sinh tồn, Nội khoa, Chuyên khoa lẻ, CĐHA, Xét nghiệm)
   async getRecordFullDetail(recordId) {
-    const [detailRes, vitalRes, internalRes, specialistRes, diagnosticRes] = await Promise.allSettled([
+    const [detailRes, vitalRes, internalRes, specialistRes, diagnosticRes, labRes] = await Promise.allSettled([
       getHealthRecordByIdApi(recordId),
       getVitalSignsApi(recordId),
       getInternalMedicineApi(recordId),
       getSpecialistExamsApi(recordId),
       diagnosticReportService.getReportsByRecordId(recordId),
+      getLabTestsByRecordIdApi(recordId),
     ]);
 
     // Lấy kết quả của từng phần (phần nào chưa có dữ liệu thì để null hoặc mảng rỗng)
@@ -98,6 +97,8 @@ export const StaffPortalService = {
       specialistRes.status === 'fulfilled' && Array.isArray(specialistRes.value) ? specialistRes.value : [];
     const diagnosticReports =
       diagnosticRes.status === 'fulfilled' && Array.isArray(diagnosticRes.value) ? diagnosticRes.value : [];
+    const labTests =
+      labRes.status === 'fulfilled' && Array.isArray(labRes.value) ? labRes.value : [];
 
     return {
       recordDetail: recordDetail,
@@ -105,6 +106,7 @@ export const StaffPortalService = {
       internalMedicine: internalMedicine,
       specialistExams: specialistExams,
       diagnosticReports: diagnosticReports,
+      labTests: labTests,
     };
   },
 };

@@ -257,3 +257,26 @@
   border-color: #0d9488;
   box-shadow: 0 0 0 2px rgba(13, 148, 136, 0.15);
 }
+
+@media (max-width: 768px) {
+  .record-pagination-wrapper {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .record-modal-card {
+    width: 100%;
+  }
+
+  .record-modal-body {
+    padding: 14px;
+    max-height: 78dvh;
+  }
+}
+
+@media (max-width: 600px) {
+  .record-form-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,6 +1,6 @@
 //
 // Khung bố cục chính (Master Layout) dùng chung cho tất cả các trang quản trị
-// Kết hợp Header cố định trên cùng, Sidebar thu gọn được bên trái, vùng nội dung chính và Footer
+// Kết hợp Header cố định trên cùng, Sidebar thu gọn được (trên desktop) / ngăn kéo trượt (trên mobile), vùng nội dung chính và Footer
 //
 
 import { useState } from 'react';
@@ -11,10 +11,13 @@ import './MainLayout.css';
 import '../../styles/admin.css';
 
 export default function MainLayout({ children, activeTab }) {
-  // Trạng thái thu gọn/mở rộng Sidebar (lưu vào localStorage để giữ nguyên khi chuyển trang)
+  // Trạng thái thu gọn/mở rộng Sidebar trên desktop (lưu vào localStorage để giữ nguyên khi chuyển trang)
   const [sidebarCollapsed, setSidebarCollapsed] = useState(
     () => localStorage.getItem('sidebarCollapsed') === 'true'
   );
+
+  // Trạng thái đóng/mở ngăn kéo menu trên tablet và điện thoại
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleToggleSidebar = () => {
     setSidebarCollapsed((currentCollapsed) => {
@@ -24,18 +27,40 @@ export default function MainLayout({ children, activeTab }) {
     });
   };
 
+  const handleToggleMobileMenu = () => {
+    setMobileMenuOpen((currentOpen) => !currentOpen);
+  };
+
+  const handleCloseMobileMenu = () => {
+    setMobileMenuOpen(false);
+  };
+
   return (
     <div className="app-layout">
       {/* 1. HEADER Ở TRÊN CÙNG (100% CHIỀU RỘNG) */}
-      <Header />
+      <Header
+        mobileMenuOpen={mobileMenuOpen}
+        onToggleMobileMenu={handleToggleMobileMenu}
+      />
 
       {/* 2. THÂN WEBSITE: BÊN TRÁI LÀ NAV, BÊN PHẢI LÀ NỘI DUNG */}
       <div className="app-body">
+        {/* Lớp phủ mờ khi mở menu trượt trên tablet/mobile */}
+        {mobileMenuOpen && (
+          <div
+            className="sidebar-mobile-backdrop"
+            onClick={handleCloseMobileMenu}
+            aria-hidden="true"
+          />
+        )}
+
         {/* Thanh Menu điều hướng bên trái (Nav) */}
         <Sidebar
           activeTab={activeTab}
           collapsed={sidebarCollapsed}
           onToggle={handleToggleSidebar}
+          mobileOpen={mobileMenuOpen}
+          onCloseMobile={handleCloseMobileMenu}
         />
 
         {/* Vùng hiển thị nội dung chính của từng trang */}

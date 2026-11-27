@@ -117,6 +117,8 @@
   padding: 0 16px;
   gap: 8px;
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  flex-shrink: 0;
 }
 
 .record-tab-btn {
@@ -164,5 +166,50 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* Responsive cho Modal chi tiết phiếu khám trên Tablet & Mobile */
+@media (max-width: 768px) {
+  .record-detail-modal-card {
+    width: 100%;
+    height: 94dvh;
+  }
+
+  .record-detail-header {
+    padding: 12px 14px;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .patient-info-row {
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .patient-avatar-box {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+
+  .patient-details h3 {
+    font-size: 15px;
+  }
+
+  .patient-details-meta {
+    font-size: 12px;
+    column-gap: 6px;
+  }
+
+  .record-tabs-bar {
+    padding: 0 10px;
+    gap: 4px;
+  }
+
+  .record-tab-btn {
+    padding: 10px 10px;
+    font-size: 12.5px;
+    gap: 6px;
   }
 }
